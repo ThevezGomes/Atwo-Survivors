@@ -5,9 +5,12 @@ import sys
 class Game:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((700, 480))
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+
         self.clock = pygame.time.Clock()
         self.running = True
+        self.paused = False
+
         self.font_title = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 54)
         self.font_text = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 32)
 
@@ -30,7 +33,33 @@ class Game:
         # Criar uma superfície escura semi-transparente
         self.dark_overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
         self.dark_overlay.fill((0, 0, 0, 180))  # Escure a tela de fundo
-        
+
+    def new(self):
+        self.playing = True
+
+    def draw(self):
+        self.screen.fill((0, 0, 0))
+        self.clock.tick(60)
+
+        pygame.display.update()
+
+    def update(self):
+        pass
+
+    def run(self):
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False  # Define running como False para encerrar o loop principal
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.paused = not self.paused  # Alterna o estado de pausa
+                        if self.paused:
+                            self.pause_menu()  # Chama o menu de pausa
+                
+            self.update()
+            self.draw()
+            self.clock.tick(60)  # Controle de FPS
 
     def intro_screen(self):
         intro = True
@@ -67,6 +96,7 @@ class Game:
             play_button.update(mouse_pos)
             if play_button.is_pressed(mouse_pos, mouse_pressed):
                 intro = False
+                self.new()
             
             quit_button.update(mouse_pos)
             if quit_button.is_pressed(mouse_pos, mouse_pressed):
@@ -95,8 +125,72 @@ class Game:
             # Atualiza a tela
             self.clock.tick(60)
             pygame.display.flip()
+
+    def blur(self, surface):
+        # Aplica  um efeito de blur na tela
+        blur_overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
+        blur_overlay.fill((0, 0, 0, 180))  # Opacidade a 180
+        surface.blit(blur_overlay, (0, 0))
+
+    def pause_menu(self):
+        # Congela o jogo e exibe o menu de pausa
+        paused_surface = self.screen.copy()  # Captura o estado atual do jogo
+        self.blur(paused_surface)
         
+        # Carregar e centralizar o fundo do menu
+        menu_background = pygame.image.load('assets\img\SimplePanel01.png').convert_alpha()
+        menu_background = pygame.transform.scale(menu_background, (400, 400))
+        menu_rect = menu_background.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
+        
+        # Configuração do título do menu
+        title_font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 40)
+        title_text = title_font.render("Menu de Pausa", True, pygame.Color('white'))
+        title_rect = title_text.get_rect(center=(menu_rect.centerx, menu_rect.top + 70))
+        
+        # Criação dos botões "Retomar" e "Sair" usando a classe Button
+        button_width, button_height = 200, 65
+        button_spacing = 20
+        
+        resume_button = Button(menu_rect.centerx - button_width // 2, menu_rect.top + 150, button_width, button_height, pygame.Color('white'), 'Retomar', 24)
+        exit_button = Button(menu_rect.centerx - button_width // 2, resume_button.rect.bottom + button_spacing, button_width, button_height, pygame.Color('white'), 'Sair', 24)
+        
+        # Loop de pausa
+        while self.paused:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.paused = False  # Retomar o jogo
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if resume_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.paused = False  # Retomar o jogo
+                    elif exit_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.running = False
+                        pygame.quit()
+                        sys.exit()
+
+            # Desenha a tela de pausa
+            self.screen.blit(paused_surface, (0, 0))
+            self.screen.blit(menu_background, menu_rect.topleft) # Desenha o fundo do menu
+            self.screen.blit(title_text, title_rect) # Desenha o título
+            
+            # Atualiza e desenha os botões
+            resume_button.update(pygame.mouse.get_pos())
+            exit_button.update(pygame.mouse.get_pos())
+            resume_button.draw(self.screen)
+            exit_button.draw(self.screen)
+
+            pygame.display.flip()
+            self.clock.tick(60)
+
 g = Game()
 g.intro_screen()
+g.new()
+while g.running:
+    g.run()
+    
 pygame.quit()
 sys.exit()
