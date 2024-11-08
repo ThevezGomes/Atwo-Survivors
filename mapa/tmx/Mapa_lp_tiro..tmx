@@ -39,24 +39,24 @@
 </data>
  </layer>
  <objectgroup id="3" name="OBJETOS" offsetx="10" offsety="-12">
-  <object id="112" gid="244" x="30.3333" y="144.667" width="85.3333" height="101.667"/>
-  <object id="115" gid="244" x="967.333" y="156.5" width="85.3333" height="101.667"/>
-  <object id="116" gid="244" x="88" y="879.166" width="85.3333" height="101.667"/>
-  <object id="117" gid="244" x="982" y="881.833" width="85.3333" height="101.667"/>
-  <object id="118" gid="244" x="430.667" y="248.5" width="85.3333" height="101.667"/>
-  <object id="119" gid="244" x="124.667" y="507.166" width="85.3333" height="101.667"/>
-  <object id="120" gid="244" x="511.333" y="925.166" width="85.3333" height="101.667"/>
-  <object id="121" gid="244" x="780.667" y="457.166" width="85.3333" height="101.667"/>
-  <object id="122" gid="244" x="428.667" y="621.167" width="85.3333" height="101.667"/>
-  <object id="129" gid="243" x="927" y="765.333" width="39" height="16"/>
-  <object id="130" gid="243" x="629.667" y="732" width="39" height="16"/>
-  <object id="132" gid="243" x="988.333" y="285.333" width="39" height="16"/>
-  <object id="133" gid="243" x="91" y="613.333" width="39" height="16"/>
-  <object id="134" gid="243" x="232.333" y="97.3333" width="39" height="16"/>
-  <object id="135" gid="243" x="307" y="898.667" width="39" height="16"/>
-  <object id="136" gid="225" x="86.3132" y="289.202" width="74" height="18" rotation="358.131"/>
-  <object id="140" gid="242" x="632" y="418" width="33" height="11"/>
-  <object id="141" gid="243" x="716" y="68" width="39" height="16"/>
-  <object id="142" gid="239" x="773" y="198.333" width="39.3333" height="44.6667"/>
+  <object id="112" type="Vegetacao" gid="244" x="30.3333" y="144.667" width="85.3333" height="101.667"/>
+  <object id="115" type="Vegetacao" gid="244" x="967.333" y="156.5" width="85.3333" height="101.667"/>
+  <object id="116" type="Vegetacao" gid="244" x="88" y="879.166" width="85.3333" height="101.667"/>
+  <object id="117" type="Vegetacao" gid="244" x="982" y="881.833" width="85.3333" height="101.667"/>
+  <object id="118" type="Vegetacao" gid="244" x="430.667" y="248.5" width="85.3333" height="101.667"/>
+  <object id="119" type="Vegetacao" gid="244" x="124.667" y="507.166" width="85.3333" height="101.667"/>
+  <object id="120" type="Vegetacao" gid="244" x="511.333" y="925.166" width="85.3333" height="101.667"/>
+  <object id="121" type="Vegetacao" gid="244" x="780.667" y="457.166" width="85.3333" height="101.667"/>
+  <object id="122" type="Vegetacao" gid="244" x="428.667" y="621.167" width="85.3333" height="101.667"/>
+  <object id="129" type="Pedras" gid="243" x="927" y="765.333" width="39" height="16"/>
+  <object id="130" type="Pedras" gid="243" x="629.667" y="732" width="39" height="16"/>
+  <object id="132" type="Pedras" gid="243" x="988.333" y="285.333" width="39" height="16"/>
+  <object id="133" type="Pedras" gid="243" x="91" y="613.333" width="39" height="16"/>
+  <object id="134" type="Pedras" gid="243" x="232.333" y="97.3333" width="39" height="16"/>
+  <object id="135" type="Pedras" gid="243" x="307" y="898.667" width="39" height="16"/>
+  <object id="136" type="Pedras" gid="225" x="86.3132" y="289.202" width="74" height="18" rotation="358.131"/>
+  <object id="140" type="Pedras" gid="242" x="632" y="418" width="33" height="11"/>
+  <object id="141" type="Pedras" gid="243" x="716" y="68" width="39" height="16"/>
+  <object id="142" type="Vegetacao" gid="239" x="773" y="198.333" width="39.3333" height="44.6667"/>
  </objectgroup>
 </map>
