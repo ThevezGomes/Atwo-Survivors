@@ -1,5 +1,5 @@
 import pygame
-from sprites import *
+from ui import *
 import sys
 
 class Game:
@@ -34,11 +34,25 @@ class Game:
         self.dark_overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
         self.dark_overlay.fill((0, 0, 0, 180))  # Escure a tela de fundo
 
+        #Criação do inventário (posição, tamanho do slot e número de slots)
+        self.inventory = Inventory(x=50, y=self.screen.get_height() - 100, slot_size=50, max_slots=5)
+        self.inventory.add_item("Espada", "assets\img\sword1.png")
+        self.inventory.add_item("Espada", "assets\img\sword1.png")
+        self.inventory.add_item("Poção", "assets/img/staff36.png")
+
+        #Criação do hub de habilidades (posição, tamanho do slot e número de slots)
+        self.skills_hub = Skills_hub(x=10, y=10, slot_size=40, max_slots=5)
+        self.skills_hub.add_item("Resistencia", "assets\img\Sorceress Green Skill 07.png")
+        self.skills_hub.add_item("Resistencia", "assets\img\Sorceress Green Skill 07.png")
+        self.skills_hub.add_item("Cura", "assets\img\Sorceress Icon 10.png")
+
     def new(self):
         self.playing = True
 
     def draw(self):
         self.screen.fill((0, 0, 0))
+        self.inventory.draw(self.screen) # Adciona o inventario a tela do jogo
+        self.skills_hub.draw(self.screen)
         self.clock.tick(60)
 
         pygame.display.update()
@@ -56,6 +70,7 @@ class Game:
                         self.paused = not self.paused  # Alterna o estado de pausa
                         if self.paused:
                             self.pause_menu()  # Chama o menu de pausa
+                    self.inventory.selection_event(event)
                 
             self.update()
             self.draw()
