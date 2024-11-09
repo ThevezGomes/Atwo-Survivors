@@ -1,9 +1,9 @@
 import pygame
 
 class Button:
-    def __init__(self, x, y, width, height, fg, content, fontsize, image_path='assets\img\GenericButton.png', image_path_hover='assets\img\GenericButtonActive.png'):
+    def __init__(self, x, y, width, height, fg, content, fontsize, image_path='../assets\img\GenericButton.png', image_path_hover='../assets\img\GenericButtonActive.png'):
         # Define a fonte e outras variáveis
-        self.font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', fontsize)  # Fonte do texto
+        self.font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', fontsize)  # Fonte do texto
         self.content = content
         self.fg = fg
         self.image_path = image_path  # Caminho para a imagem normal
@@ -54,7 +54,7 @@ class hub:
         self.items = []  # Lista para armazenar os itens do inventário
 
         # Imagem do slot (pode ser um fundo para os itens)
-        self.slot_image = pygame.image.load('assets/img/HotbarSkillBackground1.png')
+        self.slot_image = pygame.image.load('../assets/img/HotbarSkillBackground1.png')
         self.slot_image = pygame.transform.scale(self.slot_image, (slot_size, slot_size))
 
         # Define o layout ('horizontal' ou 'vertical')
