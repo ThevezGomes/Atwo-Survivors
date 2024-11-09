@@ -1,4 +1,5 @@
 import pygame
+from abc import ABC, abstractmethod
 
 class Button:
     def __init__(self, x, y, width, height, fg, content, fontsize, image_path='assets\img\GenericButton.png', image_path_hover='assets\img\GenericButtonActive.png'):
@@ -119,3 +120,67 @@ class Inventory(hub):
 class Skills_hub(hub):
     def __init__(self, x, y, slot_size, max_slots):
         super().__init__(x, y, slot_size, max_slots, type_hub='skills_hub')
+
+class Bar(ABC):
+    def __init__(self, max, border_color, background_color, color, width, height, x, y):
+        self.max = max
+        self.amount = max
+        self.border_color = border_color
+        self.background_color = background_color
+        self.color = color
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
+
+    @abstractmethod
+    def draw(self, screen):
+        pass
+
+class HealthBar(Bar):
+    def __init__(self, max, border_color, background_color, color, width, height, x, y):
+        super().__init__(max, border_color, background_color, color, width, height, x, y)
+
+    def draw(self, screen):
+        filled = self.width * (self.amount / self.max)
+
+        # Desenha a borda (ajustando as coordenadas para a borda)
+        pygame.draw.rect(screen, self.border_color, pygame.Rect(self.x - 3, self.y - 3, self.width + 6, self.height + 6))
+        # Desenha o fundo da barra
+        background_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+        background_surface.fill(self.background_color)  # Cor de fundo com alpha
+        screen.blit(background_surface, (self.x, self.y))
+        # Desenha a parte preenchida da barra
+        pygame.draw.rect(screen, self.color, pygame.Rect(self.x + (self.width - filled), self.y, filled, self.height))
+
+class ExperienceBar(Bar):
+    def __init__(self, max, border_color, background_color, color, width, height, x, y, level):
+        super().__init__(max, border_color, background_color, color, width, height, x, y)
+        self.level = level
+        self.amount = 0  # Inicia a quantidade de experiência em 0
+
+    def draw(self, screen):
+        filled = self.amount / self.max  # Calcula o preenchimento da barra de experiência
+
+        # Desenha a borda (ajustando as coordenadas para a borda)
+        pygame.draw.rect(screen, self.border_color, pygame.Rect(self.x-(self.width/2) - 3, self.y - 3, self.width + 6, self.height + 6))
+        # Desenha o fundo da barra
+        background_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+        background_surface.fill(self.background_color)  # Cor de fundo com alpha
+        screen.blit(background_surface, (self.x-(self.width/2), self.y))
+        # Desenha a parte preenchida da barra
+        pygame.draw.rect(screen, self.color, pygame.Rect(self.x-(self.width/2), self.y, self.width * filled, self.height)) 
+
+        # Exibe o nível atual
+        font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 24)
+        level_text = font.render(f'Lvl: {self.level}', True, (255, 255, 255))
+        
+        # Calcula a posição para centralizar o texto
+        text_width = level_text.get_width()
+        text_x = self.x - (text_width / 2)  # Subtrai a metade da largura do texto da posição central da barra
+        
+        # Calcula a posição para centralizar o texto verticalmente
+        text_y = self.y + (self.height / 2) - (level_text.get_height() / 2)  # Posição vertical centralizada
+
+        # Posiciona o texto centralizado na barra de experiência
+        screen.blit(level_text, (text_x, text_y))

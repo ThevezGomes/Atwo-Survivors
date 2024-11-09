@@ -46,6 +46,14 @@ class Game:
         self.skills_hub.add_item("Resistencia", "assets\img\Sorceress Green Skill 07.png")
         self.skills_hub.add_item("Cura", "assets\img\Sorceress Icon 10.png")
 
+        # Barra de vida
+        self.health_bar = HealthBar(max=100, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
+        self.health_bar.amount -= 25  # Exemplo de perda de vida
+
+        # Barra de experiência
+        self.experience_bar = ExperienceBar(max=100, border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=10, level= 3)
+        self.experience_bar.amount += 60
+
     def new(self):
         self.playing = True
 
@@ -53,6 +61,8 @@ class Game:
         self.screen.fill((0, 0, 0))
         self.inventory.draw(self.screen) # Adciona o inventario a tela do jogo
         self.skills_hub.draw(self.screen)
+        self.health_bar.draw(self.screen) # Adciona a barra de vida na tela
+        self.experience_bar.draw(self.screen) # Adciona a barra de experiência na tela
         self.clock.tick(60)
 
         pygame.display.update()
