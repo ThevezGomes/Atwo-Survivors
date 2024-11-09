@@ -23,6 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.animation_loop = 1
         
         self.image = self.game.main_character_spritesheet.get_sprite(12, 7, 22, 32)
+        self.image = pygame.transform.scale(self.image, config.size)
         
         self.rect = self.image.get_rect()
         self.rect.x = self.x
@@ -43,15 +44,23 @@ class Player(pygame.sprite.Sprite):
     def movement(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+            #for sprite in self.game.all_sprites:
+                #sprite.rect.x += config.player_speed
             self.x_change -= config.player_speed
             self.facing = "left"
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+            #for sprite in self.game.all_sprites:
+                #sprite.rect.x -= config.player_speed
             self.x_change += config.player_speed
             self.facing = "right"
         if keys[pygame.K_w] or keys[pygame.K_UP]:
+            #for sprite in self.game.all_sprites:
+                #sprite.rect.y += config.player_speed
             self.y_change -= config.player_speed
             self.facing = "up"
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+            #for sprite in self.game.all_sprites:
+                #sprite.rect.y -= config.player_speed
             self.y_change += config.player_speed
             self.facing = "down"
             
@@ -61,16 +70,24 @@ class Player(pygame.sprite.Sprite):
             if hits:
                 if self.x_change > 0:
                     self.rect.x = hits[0].rect.left - self.rect.width
+                    for sprite in self.game.all_sprites:
+                        sprite.rect.x += config.player_speed
                 if self.x_change < 0:
                     self.rect.x = hits[0].rect.right
+                    for sprite in self.game.all_sprites:
+                        sprite.rect.x -= config.player_speed
         
         if direction == "y":
             hits = pygame.sprite.spritecollide(self, self.game.blocks, False)
             if hits:
                 if self.y_change > 0:
                     self.rect.y = hits[0].rect.top - self.rect.height
+                    for sprite in self.game.all_sprites:
+                        sprite.rect.y += config.player_speed
                 if self.y_change < 0:
                     self.rect.y = hits[0].rect.bottom
+                    for sprite in self.game.all_sprites:
+                        sprite.rect.x -= config.player_speed
                     
     def animate(self):
          walk_down_animations = [self.game.main_character_spritesheet_walk_down.get_sprite(12, 7, 22, 32),
@@ -112,8 +129,10 @@ class Player(pygame.sprite.Sprite):
          if self.facing == "down":
              if self.y_change == 0:
                  self.image = walk_down_animations[0]
+                 self.image = pygame.transform.scale(self.image, config.size)
              else:
                  self.image = walk_down_animations[math.floor(self.animation_loop)]
+                 self.image = pygame.transform.scale(self.image, config.size)
                  self.animation_loop += 0.2
                  if self.animation_loop >= 7:
                      self.animation_loop = 1
@@ -121,8 +140,10 @@ class Player(pygame.sprite.Sprite):
          if self.facing == "up":
              if self.y_change == 0:
                  self.image = walk_up_animations[0]
+                 self.image = pygame.transform.scale(self.image, config.size)
              else:
                  self.image = walk_up_animations[math.floor(self.animation_loop)]
+                 self.image = pygame.transform.scale(self.image, config.size)
                  self.animation_loop += 0.2
                  if self.animation_loop >= 7:
                      self.animation_loop = 1
@@ -130,8 +151,10 @@ class Player(pygame.sprite.Sprite):
          if self.facing == "right":
              if self.x_change == 0:
                  self.image = walk_right_animations[0]
+                 self.image = pygame.transform.scale(self.image, config.size)
              else:
                  self.image = walk_right_animations[math.floor(self.animation_loop)]
+                 self.image = pygame.transform.scale(self.image, config.size)
                  self.animation_loop += 0.2
                  if self.animation_loop >= 7:
                      self.animation_loop = 1
@@ -139,8 +162,10 @@ class Player(pygame.sprite.Sprite):
          if self.facing == "left":
              if self.x_change == 0:
                  self.image = walk_left_animations[0]
+                 self.image = pygame.transform.scale(self.image, config.size)
              else:
                  self.image = walk_left_animations[math.floor(self.animation_loop)]
+                 self.image = pygame.transform.scale(self.image, config.size)
                  self.animation_loop += 0.2
                  if self.animation_loop >= 7:
                      self.animation_loop = 1

@@ -62,7 +62,7 @@ class Game:
         self.enemies = pygame.sprite.LayeredUpdates()
         self.attacks = pygame.sprite.LayeredUpdates()
         
-        self.player = Player(self, 8, 4) 
+        self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2) 
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -216,3 +216,4 @@ class Game:
 
             pygame.display.flip()
             self.clock.tick(60)
+           
