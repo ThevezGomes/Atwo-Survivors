@@ -1,6 +1,7 @@
 import pygame
 from ui import *
 from main_character import *
+from sprites import *
 import sys
 
 class Game:
@@ -11,6 +12,13 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
         self.paused = False
+        
+        self.main_character_spritesheet = Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
+        
+        self.main_character_spritesheet_walk_down = Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
+        self.main_character_spritesheet_walk_up = Spritesheet("../assets/warrior_sprites/Up/Png/WarriorUpWalk.png")
+        self.main_character_spritesheet_walk_left = Spritesheet("../assets/warrior_sprites/Left/Png/WarriorLeftWalk.png")
+        self.main_character_spritesheet_walk_right = Spritesheet("../assets/warrior_sprites/Right/Png/WarriorRightWalk.png")
 
         self.font_title = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 54)
         self.font_text = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 32)
@@ -54,7 +62,7 @@ class Game:
         self.enemies = pygame.sprite.LayeredUpdates()
         self.attacks = pygame.sprite.LayeredUpdates()
         
-        self.player = Player(self, 1, 2) 
+        self.player = Player(self, 8, 4) 
 
     def draw(self):
         self.screen.fill((0, 0, 0))
