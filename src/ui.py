@@ -184,3 +184,45 @@ class ExperienceBar(Bar):
 
         # Posiciona o texto centralizado na barra de experiência
         screen.blit(level_text, (text_x, text_y))
+
+class TimeGame:
+    def __init__(self, x, y):
+        self.font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 32)
+        self.x = x
+        self.y = y
+        self.events = {}
+        self.time_paused = False
+        self.elapsed_time = 0  # Tempo acumulado de pausa
+
+    def start(self):
+        self.start_time = pygame.time.get_ticks()
+
+    def add_event(self, time_seconds, func):
+        self.events[time_seconds * 1000] = func
+
+    def pause(self):
+        self.elapsed_time += pygame.time.get_ticks() - self.start_time  # Adiciona o tempo decorrido antes da pausa
+        self.time_paused = True
+
+    def resume(self):
+        self.start_time = pygame.time.get_ticks()  # Reinicia o tempo de início para considerar o tempo restante
+        self.time_paused = False
+
+    def update(self, screen):
+        if not self.time_paused:
+            current_time = pygame.time.get_ticks()
+            total_elapsed = current_time - self.start_time + self.elapsed_time  # Inclui o tempo pausado
+            
+            # Atualiza o timer na tela
+            minutes = total_elapsed // 60000
+            seconds = (total_elapsed % 60000) // 1000
+            timer_text = self.font.render(f'{minutes:02}:{seconds:02}', True, (255, 255, 255))
+            text_size = timer_text.get_size()
+            timer_x = self.x - (text_size[0]/2)
+            screen.blit(timer_text, (timer_x, self.y))
+
+            # Checa e dispara eventos de tempo
+            for event_time, func in list(self.events.items()):
+                if total_elapsed >= event_time:
+                    func()
+                    del self.events[event_time]

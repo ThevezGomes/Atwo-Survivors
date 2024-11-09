@@ -51,8 +51,12 @@ class Game:
         self.health_bar.amount -= 25  # Exemplo de perda de vida
 
         # Barra de experiência
-        self.experience_bar = ExperienceBar(max=100, border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=10, level= 3)
+        self.experience_bar = ExperienceBar(max=100, border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=45, level= 3)
         self.experience_bar.amount += 60
+
+        #Timer do jogo
+        self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
+        #self.game_timer.add_event(5, self.spawn_boss)
 
     def new(self):
         self.playing = True
@@ -63,6 +67,7 @@ class Game:
         self.skills_hub.draw(self.screen)
         self.health_bar.draw(self.screen) # Adciona a barra de vida na tela
         self.experience_bar.draw(self.screen) # Adciona a barra de experiência na tela
+        self.game_timer.update(self.screen) # Adciona o timer ao jogo
         self.clock.tick(60)
 
         pygame.display.update()
@@ -79,7 +84,9 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         self.paused = not self.paused  # Alterna o estado de pausa
                         if self.paused:
+                            self.game_timer.pause() # Pausa o relogio
                             self.pause_menu()  # Chama o menu de pausa
+                            self.game_timer.resume() # Retorna o relogio
                     self.inventory.selection_event(event)
                 
             self.update()
@@ -121,7 +128,8 @@ class Game:
             play_button.update(mouse_pos)
             if play_button.is_pressed(mouse_pos, mouse_pressed):
                 intro = False
-                self.new()
+                self.new() # Inicia o jogo
+                self.game_timer.start() # Inicia o timer do jogo
             
             quit_button.update(mouse_pos)
             if quit_button.is_pressed(mouse_pos, mouse_pressed):
