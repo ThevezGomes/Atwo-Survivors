@@ -172,7 +172,7 @@ class ExperienceBar(Bar):
         pygame.draw.rect(screen, self.color, pygame.Rect(self.x-(self.width/2), self.y, self.width * filled, self.height)) 
 
         # Exibe o nível atual
-        font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 24)
+        font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 24)
         level_text = font.render(f'Lvl: {self.level}', True, (255, 255, 255))
         
         # Calcula a posição para centralizar o texto
@@ -187,7 +187,7 @@ class ExperienceBar(Bar):
 
 class TimeGame:
     def __init__(self, x, y):
-        self.font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 32)
+        self.font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 32)
         self.x = x
         self.y = y
         self.events = {}
