@@ -34,6 +34,18 @@ class Player(pg.sprite.Sprite):
         if keys[pg.K_DOWN]:
             self.rect.y += self.speed
 
+        joystick = pg.joystick.Joystick(0)
+        joystick.init()
+
+        x_axis = joystick.get_axis(0)  # Eixo horizontal (esquerda/direita)
+        y_axis = joystick.get_axis(1)  # Eixo vertical (cima/baixo)
+
+        # Movimento do jogador com base no eixo analógico
+        if abs(x_axis) > 0.1:  # Ajuste o limiar para a sensibilidade
+            self.rect.x += x_axis * self.speed
+        if abs(y_axis) > 0.1:  # Ajuste o limiar para a sensibilidade
+            self.rect.y += y_axis * self.speed
+
         # Checa colisão e retorna à posição original se colidir
         if pg.sprite.spritecollide(self, self.collidable_sprites, False):
             self.rect.topleft = original_position
