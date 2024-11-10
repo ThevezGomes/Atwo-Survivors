@@ -14,7 +14,7 @@ screen = pg.display.set_mode((1280, 720))
 pg.display.set_caption("Mapa Tiled com Pygame")
 
 # Constrói o caminho para voltar uma pasta, entrar na pasta 'tmx' e abrir o arquivo .tmx
-tmx_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'tmx', 'Mapalp.tmx')
+tmx_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'tmx', 'File.tmx')
 
 # Carrega os dados do mapa
 try:
@@ -36,7 +36,7 @@ for layer in tmx_data.visible_layers:
 # Para objetos como Vegetação e Pedras
 for obj in tmx_data.objects:
     pos = (obj.x, obj.y)
-    if obj.type in ("Vegetacao", "Pedras"):
+    if obj.type in ("Vegetacao", "Pedra", "Lapide"):
         Tile(pos=pos, surf=obj.image, groups=sprite_group)
 
 clock = pg.time.Clock()
