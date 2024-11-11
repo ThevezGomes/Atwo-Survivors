@@ -8,6 +8,9 @@ block_layer = 1
 # Variavel que define a velocidade do jogador
 player_speed = 7
 
+# Variavel que define a velocidade base dos inimigos
+enemie_speed = 5
+
 # Cor vermelha em rgb
 red = (255, 0 , 0)
 

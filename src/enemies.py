@@ -5,7 +5,7 @@ import math
 import random
 import config
 
-class Enemie(pygame.sprite.Sprite):
+class Enemy(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
 
         # Invocação
