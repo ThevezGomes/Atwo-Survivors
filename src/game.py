@@ -1,6 +1,7 @@
 import pygame
 from ui import *
 from main_character import *
+from enemies import Enemy
 from sprites import *
 import sys
 
@@ -68,8 +69,7 @@ class Game:
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
         #self.game_timer.add_event(5, self.spawn_boss)
 
-        # Entidades no jogo
-        self.entities = set()
+        
 
     def new(self):
         self.playing = True
@@ -81,7 +81,9 @@ class Game:
         self.attacks = pygame.sprite.LayeredUpdates()
 
         # Cria o jogador na posicao central da tela
-        self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2) 
+        self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
+
+        self.enemy1 = Enemy(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
 
     def draw(self):
         self.screen.fill((0, 0, 0))

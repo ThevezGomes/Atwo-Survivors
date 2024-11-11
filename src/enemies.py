@@ -5,7 +5,7 @@ import math
 import random
 import config
 from main_character import Player
-from enemy_ai import AI
+import enemy_ai as ai
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -15,48 +15,40 @@ class Enemy(pygame.sprite.Sprite):
         self._layer = config.enemy_layer
         self.groups = self.game.all_sprites, self.game.enemies
 
+        
         pygame.sprite.Sprite.__init__(self, self.groups)
 
         # Configurações básicas de posição e escala
         self.x = x * config.tilesize
         self.y = y * config.tilesize
-        self.width = config.tilesize
-        self.height = config.tilesize
+        self.width = 32 *config.tilesize
+        self.height = 32 * config.tilesize
 
         # Mudança de posição
         self.x_change = 0
         self.y_change = 0
 
         # Forma a aparência do inimigo (Animação há de ser implementada ainda)
-        self.image = pygame.Surface((self.x, self.y), 0, 0, "Red")
+        self.image = pygame.Surface((self.width, self.height))
+        self.image.fill(config.red)
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
 
-        # Atributos básicos de perseguição e IA
-        self.fov = config.enemy_fov
-        self.target = None
-        self.targeted_entity = None
-
-        self.game.entities.add(self)
 
 
-    def movement(self):
+    def update(self):
 
-        AI.enemy_pursue(self.game, self)
+        self.x_change, self.y_change = ai.enemy_pursue(self)
 
-        # Implementar IA que vai programar movimento dos inimigos
+        # Implementa IA que vai programar movimento dos inimigos
+
         self.rect.x += self.x_change
         self.rect.y += self.y_change
 
         self.x_change = 0
         self.y_change = 0
-
-        pass
-
-    def update(self):
-        self.movement()
 
     def ataque(self):
         pass
