@@ -19,3 +19,10 @@ class Enemie(pygame.sprite.Sprite):
         self.height = config.tilesize
 
         self.image = pygame.Surface((self.x, self.y), 0, 0, "Red")
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+    def update(self):
+        pass
