@@ -12,7 +12,8 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
         self.paused = False
-        
+
+        #Adiciona sprites do personagem principal
         self.main_character_spritesheet = Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
         
         self.main_character_spritesheet_walk_down = Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
@@ -69,11 +70,14 @@ class Game:
 
     def new(self):
         self.playing = True
+
+        # Define grupos de sprites com propriedades que serao utilizadas
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.blocks = pygame.sprite.LayeredUpdates()
         self.enemies = pygame.sprite.LayeredUpdates()
         self.attacks = pygame.sprite.LayeredUpdates()
-        
+
+        # Cria o jogador na posicao central da tela
         self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2) 
 
     def draw(self):
@@ -89,6 +93,7 @@ class Game:
         pygame.display.update()
 
     def update(self):
+        #Atualiza todos os sprites e suas propriedades
         self.all_sprites.update()
 
     def run(self):
