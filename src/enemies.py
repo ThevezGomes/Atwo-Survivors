@@ -5,6 +5,7 @@ import math
 import random
 import config
 from main_character import Player
+from enemy_ai import AI
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -38,32 +39,12 @@ class Enemy(pygame.sprite.Sprite):
         self.target = None
         self.targeted_entity = None
 
-    def ai_radius_detection(self):
-        detected_entities = []
-    
-        return detected_entities
-    
-    def ai_player_detection(self):
-        for s in self.ai_radius_detection():
-            if isinstance(s, Player):
-                self.target = s
+        self.game.entities.add(self)
 
-
-    def ai_persue(self): # Função para programar movimento do inimigo em direção ao personagem
-
-        player = self.target
-
-        delta_x = player.rect.x - self.rect.x
-        delta_y = player.rect.y - self.rect.y
-        squared_vector_norm = delta_x ** 2 + delta_y **2
-        constant = config.enemy_speed / squared_vector_norm
-
-        self.x_change = constant * delta_x
-        self.y_change = constant * delta_y
 
     def movement(self):
-        self.ai_player_detection()
-        self.ai_persue()
+
+        AI.enemy_pursue(self.game, self)
 
         # Implementar IA que vai programar movimento dos inimigos
         self.rect.x += self.x_change

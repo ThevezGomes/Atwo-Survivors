@@ -68,6 +68,9 @@ class Game:
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
         #self.game_timer.add_event(5, self.spawn_boss)
 
+        # Entidades no jogo
+        self.entities = set()
+
     def new(self):
         self.playing = True
 
