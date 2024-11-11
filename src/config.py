@@ -2,14 +2,18 @@
 tilesize = 1
 
 # Variavel que define as camadas dos objetos
-player_layer = 2
+player_layer = 3
+enemy_layer = 2
 block_layer = 1
 
 # Variavel que define a velocidade do jogador
 player_speed = 7
 
 # Variavel que define a velocidade base dos inimigos
-enemie_speed = 5
+enemy_speed = 5
+
+# Campo de visão do inimigo
+enemy_fov = 600
 
 # Cor vermelha em rgb
 red = (255, 0 , 0)
