@@ -93,41 +93,33 @@ class Enemy(pygame.sprite.Sprite):
 
     
     def animate(self):
-        walk_down_animations = [ self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(12, 7, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(61, 7, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(109, 6, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(157, 6, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(204, 7, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(251, 7, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(299, 6, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(347, 6, 22, 32)]
+        walk_down_animations = [ self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(  8, 12, 25, 29),
+                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite( 55, 11, 25, 29),
+                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(104, 10, 25, 29),
+                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(152, 11, 25, 29),
+                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(198, 11, 25, 29),
+                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(246, 11, 25, 29)]
          
-        walk_up_animations = [ self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(13, 7, 22, 32),
-                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(60, 7, 22, 32),
-                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(108, 6, 22, 32),
-                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(156, 6, 22, 32),
-                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(205, 7, 22, 32),
-                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(255, 7, 22, 32),
-                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(303, 6, 22, 32),
-                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(351, 6, 22, 32)]
+        walk_up_animations = [ self.game.enemy_skeleton_spritesheet_walk_up.get_sprite( 15, 11, 25, 30),
+                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite( 63, 11, 24, 30),
+                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(111, 10, 23, 30),
+                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(159, 11, 25, 30),
+                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(208, 11, 24, 30),
+                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(256, 11, 24, 30)]
          
-        walk_right_animations = [ self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(12, 9, 22, 32),
-                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(60, 9, 22, 32),
-                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(109, 9, 22, 32),
-                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(157, 9, 22, 32),
-                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(204, 9, 22, 32),
-                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(251, 9, 22, 32),
-                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(299, 9, 22, 32),
-                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(347, 9, 22, 32)]
+        walk_right_animations = [ self.game.enemy_skeleton_spritesheet_walk_right.get_sprite( 15, 11, 22, 31),
+                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite( 62, 11, 22, 31),
+                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(109, 10, 22, 31),
+                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(159, 11, 22, 31),
+                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(207, 11, 22, 31),
+                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(256, 10, 22, 31)]
          
-        walk_left_animations = [ self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(15, 9, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(64, 9, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(113, 9, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(161, 9, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(207, 9, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(254, 9, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(302, 9, 22, 32),
-                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(350, 9, 22, 32)]
+        walk_left_animations = [ self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(  8, 11, 29, 30),
+                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite( 54, 11, 29, 30),
+                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(102, 10, 29, 30),
+                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(152, 11, 29, 30),
+                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(202, 11, 29, 30),
+                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(250, 10, 29, 30)]
 
         # Para cada direcao que o personagem olha, ajusta a animacao correspondente e o tamanho da imagem
         if self.facing == "down":
@@ -140,7 +132,7 @@ class Enemy(pygame.sprite.Sprite):
                  self.image = pygame.transform.scale(self.image, config.size)
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
-                 if self.animation_loop >= 7:
+                 if self.animation_loop >= 5:
                      self.animation_loop = 1
             
         if self.facing == "up":
@@ -153,7 +145,7 @@ class Enemy(pygame.sprite.Sprite):
                  self.image = pygame.transform.scale(self.image, config.size)
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
-                 if self.animation_loop >= 7:
+                 if self.animation_loop >= 5:
                      self.animation_loop = 1
                      
         if self.facing == "right":
@@ -166,7 +158,7 @@ class Enemy(pygame.sprite.Sprite):
                  self.image = pygame.transform.scale(self.image, config.size)
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
-                 if self.animation_loop >= 7:
+                 if self.animation_loop >= 5:
                      self.animation_loop = 1
                      
         if self.facing == "left":
@@ -179,7 +171,7 @@ class Enemy(pygame.sprite.Sprite):
                  self.image = pygame.transform.scale(self.image, config.size)
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
-                 if self.animation_loop >= 7:
+                 if self.animation_loop >= 5:
                      self.animation_loop = 1
 
         
