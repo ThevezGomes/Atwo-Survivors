@@ -4,56 +4,63 @@ from main_character import Player
 import config
 import math
 
-def target_detector(enemy): # Detecta o alvo a partir das entidades em jogo
-    player = enemy.game.player
+class Enemy_AI:
 
-    if distance_vector(enemy, player) <= config.enemy_fov:
-            return player
-    else: return None
+    def __init__(self, enemy):
+        self.enemy = enemy
+        self.game = enemy.game
+        self.player = self.game.player
+        self.seach_distance = config.enemy_fov
+        self.facing = "down"
 
-def get_deltas(enemy, player):
-    delta_x = player.rect.x - enemy.rect.x
-    delta_y = player.rect.y - enemy.rect.y
-     
-    return delta_x, delta_y
+    def enemy_pursue(self):
 
+        target = self.target_detector()
+        vector_module = self.distance_vector(target)
 
-def distance_vector(enemy, player): # Retorna a distância entre o inimigo e uma determinada entidade
+        if vector_module > 1 :
+            constant = self.enemy.speed / vector_module
+        else: constant = 0
 
-    if player == None: return (0,0), 0
+        delta_x, delta_y = self.get_deltas(target)
 
-    delta_x = get_deltas(enemy,player)[0]
-    delta_y = get_deltas(enemy,player)[1]
-    vector_norm = math.sqrt(delta_x ** 2 + delta_y **2)
+        x_change = constant * delta_x
+        y_change = constant * delta_y
 
-    print("coordenadas inimigo",enemy.rect.x, enemy.rect.y)
-    print("coordenadas jogador",player.rect.x, player.rect.y)
-    print("vetor distância",delta_x, delta_y)
-    print("-----------------------------")
+        if abs(x_change)> abs(y_change):
+            if x_change > 0: self.facing = "right"
+            else: self.facing = "left"
+        else:
+            if y_change > 0: self.facing = "down"
+            else: self.facing = "up"
 
-    return vector_norm 
+        return x_change, y_change
+    
 
-def enemy_pursue(enemy):
+    def target_detector(self): # Verifica se o player está próximo para liberar perseguição
 
-    game = enemy.game
-    target = target_detector(enemy)
-    vector_module = distance_vector(enemy, target)
-    print("vector_module:", vector_module)
+        if self.distance_vector(self.player) <= self.seach_distance:
+                return self.player
+        else: return None
 
-    if vector_module > 1 :
-        constant = config.enemy_speed / vector_module
-    else: constant = 0
+    def get_deltas(self, player): # Calcula a distância entre o inimigo e uma entidade
+        delta_x = player.rect.x - self.enemy.rect.x
+        delta_y = player.rect.y - self.enemy.rect.y
 
-    print("constant", constant)
-
-    x_change = constant * get_deltas(enemy, target)[0]
-    y_change = constant * get_deltas(enemy, target)[1]
-
-    print("delta_x",get_deltas(enemy, target)[0])
-    print("delta_y",get_deltas(enemy, target)[1])
+        return delta_x, delta_y
 
 
-    return x_change, y_change
+    def distance_vector(self, target): # Retorna a distância entre o inimigo e uma determinada entidade
+
+        if not isinstance(target, Player): return (0,0), 0
+
+        delta_x, delta_y = self.get_deltas(target)
+        vector_norm = math.sqrt(delta_x ** 2 + delta_y **2)
+
+        return vector_norm 
+
+
+
 
 
 

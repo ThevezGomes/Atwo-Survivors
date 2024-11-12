@@ -5,17 +5,22 @@ import math
 import random
 import config
 from main_character import Player
-import enemy_ai as ai
+from enemy_ai import Enemy_AI
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, game, x, y):
+    def __init__(self, game, kind, x, y):
 
         # Invocação
         self.game = game
         self._layer = config.enemy_layer
         self.groups = self.game.all_sprites, self.game.enemies
+        self.kind = kind
+        self.speed = config.enemy_speed[self.kind]
 
-        
+        # Invocar IA
+
+        self.ai = Enemy_AI(self)
+  
         pygame.sprite.Sprite.__init__(self, self.groups)
 
         # Configurações básicas de posição e escala
@@ -23,29 +28,32 @@ class Enemy(pygame.sprite.Sprite):
         self.y = y * config.tilesize
         self.width = 32 *config.tilesize
         self.height = 32 * config.tilesize
+        self.facing = self.ai.facing
+        self.animation_loop = 1
+
 
         # Mudança de posição
         self.x_change = 0
         self.y_change = 0
 
         # Forma a aparência do inimigo (Animação há de ser implementada ainda)
-        self.image = pygame.Surface((self.width, self.height))
-        self.image.fill(config.red)
+        self.image = self.game.enemy_skeleton_spritesheet.get_sprite(12, 7, 22, 32)
+        self.image = pygame.transform.scale(self.image, config.size)
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
 
-
-
     def update(self):
 
-        self.x_change, self.y_change = ai.enemy_pursue(self)
-
-        # Implementa IA que vai programar movimento dos inimigos
+        self.x_change, self.y_change = self.ai.enemy_pursue()
+        self.facing = self.ai.facing
+        self.animate()
 
         self.rect.x += self.x_change
+        self.collide_blocks("x")
         self.rect.y += self.y_change
+        self.collide_blocks("y")
 
         self.x_change = 0
         self.y_change = 0
@@ -84,6 +92,96 @@ class Enemy(pygame.sprite.Sprite):
                         sprite.rect.x -= config.player_speed
 
     
+    def animate(self):
+        walk_down_animations = [ self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(12, 7, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(61, 7, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(109, 6, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(157, 6, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(204, 7, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(251, 7, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(299, 6, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_down.get_sprite(347, 6, 22, 32)]
+         
+        walk_up_animations = [ self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(13, 7, 22, 32),
+                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(60, 7, 22, 32),
+                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(108, 6, 22, 32),
+                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(156, 6, 22, 32),
+                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(205, 7, 22, 32),
+                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(255, 7, 22, 32),
+                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(303, 6, 22, 32),
+                               self.game.enemy_skeleton_spritesheet_walk_up.get_sprite(351, 6, 22, 32)]
+         
+        walk_right_animations = [ self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(12, 9, 22, 32),
+                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(60, 9, 22, 32),
+                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(109, 9, 22, 32),
+                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(157, 9, 22, 32),
+                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(204, 9, 22, 32),
+                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(251, 9, 22, 32),
+                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(299, 9, 22, 32),
+                                  self.game.enemy_skeleton_spritesheet_walk_right.get_sprite(347, 9, 22, 32)]
+         
+        walk_left_animations = [ self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(15, 9, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(64, 9, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(113, 9, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(161, 9, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(207, 9, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(254, 9, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(302, 9, 22, 32),
+                                 self.game.enemy_skeleton_spritesheet_walk_left.get_sprite(350, 9, 22, 32)]
 
+        # Para cada direcao que o personagem olha, ajusta a animacao correspondente e o tamanho da imagem
+        if self.facing == "down":
+             if self.y_change == 0:
+                 self.image = walk_down_animations[0]
+                 self.image = pygame.transform.scale(self.image, config.size)
+             else:
+                 # Cria o loop de animacao
+                 self.image = walk_down_animations[math.floor(self.animation_loop)]
+                 self.image = pygame.transform.scale(self.image, config.size)
+                 # Ajusta a velocidade com que o loop ocorre nessa direcao
+                 self.animation_loop += 0.2
+                 if self.animation_loop >= 7:
+                     self.animation_loop = 1
+            
+        if self.facing == "up":
+             if self.y_change == 0:
+                 self.image = walk_up_animations[0]
+                 self.image = pygame.transform.scale(self.image, config.size)
+             else:
+                 # Cria o loop de animacao
+                 self.image = walk_up_animations[math.floor(self.animation_loop)]
+                 self.image = pygame.transform.scale(self.image, config.size)
+                 # Ajusta a velocidade com que o loop ocorre nessa direcao
+                 self.animation_loop += 0.2
+                 if self.animation_loop >= 7:
+                     self.animation_loop = 1
+                     
+        if self.facing == "right":
+             if self.x_change == 0:
+                 self.image = walk_right_animations[0]
+                 self.image = pygame.transform.scale(self.image, config.size)
+             else:
+                 # Cria o loop de animacao
+                 self.image = walk_right_animations[math.floor(self.animation_loop)]
+                 self.image = pygame.transform.scale(self.image, config.size)
+                 # Ajusta a velocidade com que o loop ocorre nessa direcao
+                 self.animation_loop += 0.2
+                 if self.animation_loop >= 7:
+                     self.animation_loop = 1
+                     
+        if self.facing == "left":
+             if self.x_change == 0:
+                 self.image = walk_left_animations[0]
+                 self.image = pygame.transform.scale(self.image, config.size)
+             else:
+                 # Cria o loop de animacao
+                 self.image = walk_left_animations[math.floor(self.animation_loop)]
+                 self.image = pygame.transform.scale(self.image, config.size)
+                 # Ajusta a velocidade com que o loop ocorre nessa direcao
+                 self.animation_loop += 0.2
+                 if self.animation_loop >= 7:
+                     self.animation_loop = 1
+
+        
 
 

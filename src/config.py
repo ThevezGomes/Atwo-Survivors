@@ -10,7 +10,9 @@ block_layer = 1
 player_speed = 7
 
 # Variavel que define a velocidade base dos inimigos
-enemy_speed = 5
+enemy_speed = {
+    "skeleton" : 5
+}
 
 # Campo de visão do inimigo
 enemy_fov = 600
