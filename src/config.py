@@ -15,7 +15,7 @@ enemy_speed = {
 }
 
 # Campo de visão do inimigo
-enemy_fov = 200
+enemy_fov = 400
 
 # Cor vermelha em rgb
 red = (255, 0 , 0)

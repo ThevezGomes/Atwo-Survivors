@@ -2,6 +2,7 @@
 from game import *
 from main_character import Player
 import config
+import enemy_config
 import math
 
 class Enemy_AI:
@@ -10,7 +11,7 @@ class Enemy_AI:
         self.enemy = enemy
         self.game = enemy.game
         self.player = self.game.player
-        self.seach_distance = config.enemy_fov
+        self.seach_distance = enemy_config.enemy_fov
         self.facing = "down"
 
     def enemy_pursue(self):
