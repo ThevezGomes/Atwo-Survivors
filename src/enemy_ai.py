@@ -52,7 +52,7 @@ class Enemy_AI:
 
     def distance_vector(self, target): # Retorna a distância entre o inimigo e uma determinada entidade
 
-        if not isinstance(target, Player): return (0,0), 0
+        if not isinstance(target, Player): return 0
 
         delta_x, delta_y = self.get_deltas(target)
         vector_norm = math.sqrt(delta_x ** 2 + delta_y **2)
