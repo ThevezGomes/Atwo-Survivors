@@ -61,10 +61,10 @@ class hub:
         # Define o layout ('horizontal' ou 'vertical')
         self.type_hub = type_hub
 
-    def add_item(self, item_name, item_image_path, max_level=5):
+    def add_item(self, item_n, max_level=5):
         # Verifica se o item já está no inventário
         for item in self.items:
-            if item['name'] == item_name:
+            if item['name'] == item_n.name:
                 # Se o item já está no inventário, aumenta o nível até o limite
                 if item['level'] < max_level:
                     item['level'] += 1
@@ -72,9 +72,9 @@ class hub:
 
         # Se o item não está no inventário e há espaço, adiciona
         if len(self.items) < self.max_slots:
-            item_image = pygame.image.load(item_image_path)
+            item_image = pygame.image.load(item_n.sprite)
             item_image = pygame.transform.scale(item_image, (self.slot_size - 10, self.slot_size - 10))
-            self.items.append({'name': item_name, 'image': item_image, 'level': 1, 'max_level': max_level})
+            self.items.append({'name': item_n.name, 'image': item_image, 'level': 1, 'max_level': max_level})
 
     def draw(self, screen):
         # Desenha cada slot do inventário

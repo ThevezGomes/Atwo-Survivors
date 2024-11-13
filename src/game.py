@@ -47,15 +47,20 @@ class Game:
 
         #Criação do inventário (posição, tamanho do slot e número de slots)
         self.inventory = Inventory(x=50, y=self.screen.get_height() - 100, slot_size=50, max_slots=5)
-        self.inventory.add_item("Espada", "assets\img\sword1.png")
-        self.inventory.add_item("Espada", "assets\img\sword1.png")
-        self.inventory.add_item("Poção", "assets/img/staff36.png")
+        self.espada = Item("Espada", "Uma espada afiada.", "assets\img\sword1.png")
+        self.inventory.add_item(self.espada)
+        self.inventory.add_item(self.espada)
+        self.pocao = Item("Poção", "Cura 5 de vida", "assets/img/staff36.png")
+        self.inventory.add_item(self.pocao)
+        self.escudo = Item("Escudo", "Um escudo resistente.", "assets\img\Sorceress Green Skill 07.png")
 
         #Criação do hub de habilidades (posição, tamanho do slot e número de slots)
         self.skills_hub = Skills_hub(x=10, y=10, slot_size=40, max_slots=5)
-        self.skills_hub.add_item("Resistencia", "assets\img\Sorceress Green Skill 07.png")
-        self.skills_hub.add_item("Resistencia", "assets\img\Sorceress Green Skill 07.png")
-        self.skills_hub.add_item("Cura", "assets\img\Sorceress Icon 10.png")
+        self.resistencia = Ability("Resistencia", "Aumenta 50% na resistencia", "assets\img\Sorceress Green Skill 07.png")
+        self.skills_hub.add_item(self.resistencia)
+        self.skills_hub.add_item(self.resistencia)
+        self.cura = Ability("Cura", "Cura 5 de vida ada 5s", "assets\img\Sorceress Icon 10.png")
+        self.skills_hub.add_item(self.cura)
 
         # Barra de vida
         self.health_bar = HealthBar(max=100, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
@@ -69,15 +74,15 @@ class Game:
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
         #self.game_timer.add_event(5, self.spawn_boss)
 
-   # def spawn_boss(self):
-   #     self.item1 = Item("Espada", "Uma espada afiada.", "assets\img\sword1.png")
-   #     self.item2 = Item("Escudo", "Um escudo resistente.", "assets\img\Sorceress Green Skill 07.png")
-   #     self.item3 = Ability("Escudo", "Um escudo resistente.", "assets\img\Sorceress Green Skill 07.png")
+    #def spawn_boss(self):
+    #    self.item1 = self.espada
+    #    self.item2 = self.escudo
+    #    self.item3 = self.cura
 
         # Lista de itens
-   #     self.itens = [self.item1, self.item2, self.item3]
+    #    self.itens = [self.item1, self.item2, self.item3]
 
-   #     self.level_up = True
+    #    self.level_up = True
 
     def new(self):
         self.playing = True
@@ -292,21 +297,21 @@ class Game:
                     if item1.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         self.level_up = False  # Retomar o jogo
                         if isinstance(itens[0], Item):
-                            self.inventory.add_item(itens[0].name, itens[0].sprite)
+                            self.inventory.add_item(itens[0])
                         if isinstance(itens[0], Ability):
-                            self.skills_hub.add_item(itens[0].name, itens[0].sprite)
+                            self.skills_hub.add_item(itens[0])
                     elif item2.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         self.level_up = False  # Retomar o jogo
                         if isinstance(itens[1], Item):
-                            self.inventory.add_item(itens[1].name, itens[1].sprite)
+                            self.inventory.add_item(itens[1])
                         if isinstance(itens[1], Ability):
-                            self.skills_hub.add_item(itens[1].name, itens[1].sprite)
+                            self.skills_hub.add_item(itens[1])
                     elif item3.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         self.level_up = False  # Retomar o jogo
                         if isinstance(itens[2], Item):
-                            self.inventory.add_item(itens[2].name, itens[2].sprite)
+                            self.inventory.add_item(itens[2])
                         if isinstance(itens[2], Ability):
-                            self.skills_hub.add_item(itens[2].name, itens[2].sprite)
+                            self.skills_hub.add_item(itens[2])
 
             # Desenha a tela de pausa
             self.screen.blit(paused_surface, (0, 0))
