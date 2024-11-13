@@ -1,6 +1,7 @@
 import pygame
 from ui import *
 from main_character import *
+from enemies import Enemy
 from sprites import *
 import sys
 
@@ -20,6 +21,12 @@ class Game:
         self.main_character_spritesheet_walk_up = Spritesheet("../assets/warrior_sprites/Up/Png/WarriorUpWalk.png")
         self.main_character_spritesheet_walk_left = Spritesheet("../assets/warrior_sprites/Left/Png/WarriorLeftWalk.png")
         self.main_character_spritesheet_walk_right = Spritesheet("../assets/warrior_sprites/Right/Png/WarriorRightWalk.png")
+
+        self.enemy_skeleton_spritesheet = Spritesheet("../assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png")
+        self.enemy_skeleton_spritesheet_walk_down = Spritesheet("../assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png")
+        self.enemy_skeleton_spritesheet_walk_up = Spritesheet("../assets/enemy_sprites/skeleton/Up/Png/SkeletonWithSwordUpWalk.png")
+        self.enemy_skeleton_spritesheet_walk_left = Spritesheet("../assets/enemy_sprites/skeleton/Left/Png/SkeletonWithSwordLefttRun.png")
+        self.enemy_skeleton_spritesheet_walk_right = Spritesheet("../assets/enemy_sprites/skeleton/Right/Png/SkeletonWithSwordRightRun.png")
 
         self.font_title = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 54)
         self.font_text = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 32)
@@ -68,6 +75,8 @@ class Game:
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
         #self.game_timer.add_event(5, self.spawn_boss)
 
+        
+
     def new(self):
         self.playing = True
 
@@ -78,7 +87,9 @@ class Game:
         self.attacks = pygame.sprite.LayeredUpdates()
 
         # Cria o jogador na posicao central da tela
-        self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2) 
+        self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
+
+        self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
 
     def draw(self):
         self.screen.fill((0, 0, 0))

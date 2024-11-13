@@ -34,6 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+        
 
     # Atualiza todas as propriedades do jogador, como movimento, animacao, mudanca de posicao e colisao
     def update(self):
