@@ -16,6 +16,8 @@ class Enemy_AI:
     def enemy_pursue(self):
 
         target = self.target_detector()
+        if not isinstance(target, Player):
+            return 0, 0
         vector_module = self.distance_vector(target)
 
         if vector_module > 1 :
@@ -39,7 +41,7 @@ class Enemy_AI:
 
     def target_detector(self): # Verifica se o player está próximo para liberar perseguição
 
-        if self.distance_vector(self.player) <= self.seach_distance:
+        if self.distance_vector(self.player) <= self.seach_distance and self.distance_vector(self.player) > 40:
                 return self.player
         else: return None
 
@@ -52,8 +54,9 @@ class Enemy_AI:
 
     def distance_vector(self, target): # Retorna a distância entre o inimigo e uma determinada entidade
 
-        if not isinstance(target, Player): return 0
-
+        if not isinstance(target, Player):
+            return 0
+        
         delta_x, delta_y = self.get_deltas(target)
         vector_norm = math.sqrt(delta_x ** 2 + delta_y **2)
 
