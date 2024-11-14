@@ -46,7 +46,7 @@ class Button:
         # Verifica se o botão foi clicado
         return self.rect.collidepoint(pos) and pressed[0]
     
-class hub:
+class Hub:
     def __init__(self, x, y, slot_size, max_slots, type_hub):
         self.x = x  # Posição horizontal do inventário
         self.y = y  # Posição vertical do inventário
@@ -61,20 +61,20 @@ class hub:
         # Define o layout ('horizontal' ou 'vertical')
         self.type_hub = type_hub
 
-    def add_item(self, item_n, max_level=5):
+    def add_item(self, item_n):
         # Verifica se o item já está no inventário
         for item in self.items:
-            if item['name'] == item_n.name:
+            if item[0].name == item_n.name:
                 # Se o item já está no inventário, aumenta o nível até o limite
-                if item['level'] < max_level:
-                    item['level'] += 1
+                if item[0].level < item_n.max_level:
+                    item[0].level += 1
                 return
 
         # Se o item não está no inventário e há espaço, adiciona
         if len(self.items) < self.max_slots:
             item_image = pygame.image.load(item_n.sprite)
             item_image = pygame.transform.scale(item_image, (self.slot_size - 10, self.slot_size - 10))
-            self.items.append({'name': item_n.name, 'image': item_image, 'level': 1, 'max_level': max_level})
+            self.items.append([item_n, item_image])
 
     def draw(self, screen):
         # Desenha cada slot do inventário
@@ -83,7 +83,7 @@ class hub:
             if self.type_hub == 'inventory':
                 slot_x = self.x + i * (self.slot_size + 5)
                 slot_y = self.y
-            if self.type_hub == 'skills_hub':
+            elif self.type_hub == 'skills_hub':
                 slot_x = self.x
                 slot_y = self.y + i * (self.slot_size + 5)
 
@@ -91,20 +91,20 @@ class hub:
 
             # Se houver um item neste slot, desenha ele e seu nível
             if i < len(self.items):
-                item_x = slot_x + (self.slot_size - self.items[i]['image'].get_width()) // 2
-                item_y = slot_y + (self.slot_size - self.items[i]['image'].get_height()) // 2
-                screen.blit(self.items[i]['image'], (item_x, item_y))
+                item_x = slot_x + (self.slot_size - self.items[i][1].get_width()) // 2
+                item_y = slot_y + (self.slot_size - self.items[i][1].get_height()) // 2
+                screen.blit(self.items[i][1], (item_x, item_y))
 
                 # Exibir o nível do item
                 font = pygame.font.Font(None, 24)
-                level_text = font.render(f"Nv. {self.items[i]['level']}", True, pygame.Color('white'))
+                level_text = font.render(f"Nv. {self.items[i][0].level}", True, pygame.Color('white'))
                 screen.blit(level_text, (item_x, item_y - 10))
 
             if self.type_hub == 'inventory':
                 if i == self.selected_item_index:
                     pygame.draw.rect(screen, pygame.Color('yellow'), (slot_x, slot_y, self.slot_size, self.slot_size), 3)
 
-class Inventory(hub):
+class Inventory(Hub):
     def __init__(self, x, y, slot_size, max_slots):
         super().__init__(x, y, slot_size, max_slots, type_hub="inventory")
         self.selected_item_index = 0
@@ -117,7 +117,7 @@ class Inventory(hub):
                 if 0 <= slot_num < self.max_slots:
                     self.selected_item_index = slot_num if slot_num < len(self.items) else None
 
-class Skills_hub(hub):
+class Skills_hub(Hub):
     def __init__(self, x, y, slot_size, max_slots):
         super().__init__(x, y, slot_size, max_slots, type_hub='skills_hub')
 
