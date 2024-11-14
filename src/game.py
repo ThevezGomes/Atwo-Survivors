@@ -14,6 +14,7 @@ class Game:
         self.running = True
         self.paused = False
         self.level_up = False
+        self.restart =False
         
         self.main_character_spritesheet = Spritesheet("assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
         
@@ -72,17 +73,17 @@ class Game:
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
-        #self.game_timer.add_event(5, self.spawn_boss)
+        self.game_timer.add_event(5, self.spawn_boss)
 
-    #def spawn_boss(self):
-    #    self.item1 = self.espada
-    #    self.item2 = self.escudo
-    #    self.item3 = self.cura
+    def spawn_boss(self):
+        self.item1 = self.espada
+        self.item2 = self.escudo
+        self.item3 = self.cura
 
         # Lista de itens
-    #    self.itens = [self.item1, self.item2, self.item3]
+        self.itens = [self.item1, self.item2, self.item3]
 
-    #    self.level_up = True
+        self.level_up = True
 
     def new(self):
         self.playing = True
@@ -109,26 +110,25 @@ class Game:
         self.all_sprites.update()
 
     def run(self):
-        while self.running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False  # Define running como False para encerrar o loop principal
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        self.paused = not self.paused  # Alterna o estado de pausa
-                        if self.paused:
-                            self.game_timer.pause() # Pausa o relogio
-                            self.pause_menu()  # Chama o menu de pausa
-                            self.game_timer.resume() # Retorna o relogio
-                    self.inventory.selection_event(event)
-            if self.level_up == True:
-                    self.game_timer.pause() 
-                    self.level_up_menu(self.itens)
-                    self.game_timer.resume()
-                
-            self.update()
-            self.draw()
-            self.clock.tick(60)  # Controle de FPS
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False  # Define running como False para encerrar o loop principal
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.paused = not self.paused  # Alterna o estado de pausa
+                    if self.paused:
+                        self.game_timer.pause() # Pausa o relogio
+                        self.pause_menu()  # Chama o menu de pausa
+                        self.game_timer.resume() # Retorna o relogio
+                self.inventory.selection_event(event)
+        if self.level_up == True:
+                self.game_timer.pause() 
+                self.level_up_menu(self.itens)
+                self.game_timer.resume()
+            
+        self.update()
+        self.draw()
+        self.clock.tick(60)  # Controle de FPS
 
     def intro_screen(self):
         intro = True
@@ -151,7 +151,7 @@ class Game:
         # Cria o botao Play centralizado
         play_button = Button(button_x, button_y, button_width, button_height, pygame.Color('white'), 'Jogar', 32)
         quit_button = Button(button_x, button_y + button_height + 20, button_width, button_height, pygame.Color('white'), 'Sair', 32)
-    
+
         while intro:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -221,8 +221,9 @@ class Game:
         button_width, button_height = 200, 65
         button_spacing = 20
         
-        resume_button = Button(menu_rect.centerx - button_width // 2, menu_rect.top + 150, button_width, button_height, pygame.Color('white'), 'Retomar', 24)
-        exit_button = Button(menu_rect.centerx - button_width // 2, resume_button.rect.bottom + button_spacing, button_width, button_height, pygame.Color('white'), 'Sair', 24)
+        resume_button = Button(menu_rect.centerx - button_width // 2, menu_rect.top + 120, button_width, button_height, pygame.Color('white'), 'Retomar', 24)
+        restart_button = Button(menu_rect.centerx - button_width // 2, resume_button.rect.bottom + button_spacing, button_width, button_height, pygame.Color('white'), 'Resetar', 24)
+        exit_button = Button(menu_rect.centerx - button_width // 2, restart_button.rect.bottom + button_spacing, button_width, button_height, pygame.Color('white'), 'Sair', 24)
         
         # Loop de pausa
         while self.paused:
@@ -237,6 +238,9 @@ class Game:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if resume_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         self.paused = False  # Retomar o jogo
+                    if restart_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.paused = False  # Retomar o jogo
+                        self.restart = True
                     elif exit_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         self.running = False
                         pygame.quit()
@@ -249,8 +253,10 @@ class Game:
             
             # Atualiza e desenha os botões
             resume_button.update(pygame.mouse.get_pos())
+            restart_button.update(pygame.mouse.get_pos())
             exit_button.update(pygame.mouse.get_pos())
             resume_button.draw(self.screen)
+            restart_button.draw(self.screen)
             exit_button.draw(self.screen)
 
             pygame.display.flip()
