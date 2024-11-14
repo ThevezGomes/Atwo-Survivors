@@ -235,8 +235,8 @@ class SelectionItem:
         self.font_description = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', fontsize -5) 
         self.item = item
         self.fg = fg
-        self.image_path = 'assets\img\old-paper.png'  # Caminho para a imagem normal
-        self.image_path_hover = 'assets\img\old-paper.png'  # Caminho para a imagem de hover
+        self.image_path = 'assets\img\old-paper-sprite.png'  # Caminho para a imagem normal
+        self.image_path_hover = 'assets\img\old-paper-sprite.png'  # Caminho para a imagem de hover
 
         # Rect do botão
         self.rect = pygame.Rect(x, y, width, height)
@@ -286,64 +286,6 @@ class SelectionItem:
             self.current_image = self.image_hover  # Muda para a imagem de hover
         else:
             self.current_image = self.image  # Muda para a imagem normal
-
-    def is_pressed(self, pos, pressed):
-        # Verifica se o botão foi clicado
-        return self.rect.collidepoint(pos) and pressed[0]
-
-class SelectionItems:
-    def __init__(self, x, y, width, height, fg, fontsize, item):
-        # Define a fonte e outras variáveis
-        self.font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', fontsize)  # Fonte do texto
-        self.fg = fg
-        self.item = item
-
-        # Rect do botão
-        self.rect = pygame.Rect(x, y, width, height)
-
-        # Carregar o sprite do item
-        self.sprite_item = pygame.image.load(self.item.sprite)
-        self.sprite_item = pygame.transform.scale(self.sprite_item, (50, 50))  # Ajuste do tamanho do sprite
-
-        # Definir as dimensões do retângulo da caixa
-        self.padding = 10  # Espaçamento dentro da caixa
-        self.box_width = width - 2 * self.padding  # Largura da caixa com base no botão
-        self.box_height = 180  # Altura da caixa, ajustada conforme necessário
-
-        # Retângulo da caixa que contém o sprite, nome e descrição
-        self.box_rect = pygame.Rect(x + self.padding, y + self.padding, self.box_width, self.box_height)
-
-        # Variáveis para controle da cor de fundo
-        self.default_color = (0, 0, 0)  # Cor preta para o fundo padrão
-        self.hover_color = (100, 100, 100)  # Cor cinza para quando o mouse passa por cima
-        self.current_color = self.default_color  # Inicialmente a cor é a cor padrão
-
-    def draw(self, screen):
-        # Desenhar o fundo da caixa com a cor atual
-        pygame.draw.rect(screen, self.current_color, self.box_rect)  # Caixa com cor de fundo
-        pygame.draw.rect(screen, (255, 255, 255), self.box_rect, 3)  # Borda branca
-
-        # Desenhar o sprite do item no topo da caixa
-        sprite_rect = self.sprite_item.get_rect(center=(self.box_rect.centerx, self.box_rect.top + 20))  # Ajuste da posição do sprite
-        screen.blit(self.sprite_item, sprite_rect)
-
-        # Renderiza o nome do item logo abaixo do sprite
-        name_text = self.font.render(self.item.name, True, self.fg)
-        name_rect = name_text.get_rect(center=(self.box_rect.centerx, self.box_rect.top + 80))  # Ajuste da posição do nome
-        screen.blit(name_text, name_rect)
-
-        # Renderiza a descrição do item abaixo do nome
-        desc_font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 20)  # Fonte menor para a descrição
-        desc_text = desc_font.render(self.item.description, True, self.fg)
-        desc_rect = desc_text.get_rect(center=(self.box_rect.centerx, self.box_rect.top + 120))  # Ajuste da posição da descrição
-        screen.blit(desc_text, desc_rect)
-
-    def update(self, mouse_pos):
-        # Altera a cor de fundo da caixa se o mouse estiver sobre ela
-        if self.box_rect.collidepoint(mouse_pos):
-            self.current_color = self.hover_color  # Muda para a cor de hover
-        else:
-            self.current_color = self.default_color  # Retorna para a cor padrão
 
     def is_pressed(self, pos, pressed):
         # Verifica se o botão foi clicado

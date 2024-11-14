@@ -332,29 +332,24 @@ class Game:
         # Congela o jogo e exibe o menu de pausa
         paused_surface = self.screen.copy()  # Captura o estado atual do jogo
         self.blur(paused_surface, 180)
-        
-        # Carregar e centralizar o fundo do menu
-        menu_background = pygame.image.load('assets\img\SimplePanel01.png').convert_alpha()
-        menu_background = pygame.transform.scale(menu_background, (750, 400))
-        menu_rect = menu_background.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
-        
+
         # Configuração do título do menu
         title_font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 40)
         title_text = title_font.render("Menu de Pausa", True, pygame.Color('white'))
-        title_rect = title_text.get_rect(center=(menu_rect.centerx, menu_rect.top + 70))
-        
-        # Criação dos botões "Retomar" e "Sair" usando a classe SelectionItem
+        title_rect = title_text.get_rect(center=(self.screen.get_width() // 2, 100))  # Centraliza no topo da tela
+
+        # Configuração dos botões "Retomar" e "Sair"
         button_width, button_height = 200, 300
-        button_spacing = 20  # Espaçamento entre os itens, se necessário
+        button_spacing = 20  # Espaçamento entre os itens
 
-        # Definindo a coordenada Y para todos os itens, mantendo-os na mesma linha
-        y_pos = menu_rect.top + 150  # Posição Y inicial
+        # Define a coordenada Y para todos os itens, mantendo-os na mesma linha
+        y_pos = 250  # Ajuste para a posição Y desejada
 
-        # Definindo a coordenada X para o item do meio
-        x_pos = menu_rect.centerx 
+        # Coordenada X para centralizar os botões na tela
+        x_center = self.screen.get_width() // 2
 
         # Criando os itens, posicionando-os lado a lado
-        item2 = SelectionItem(x_pos - (button_width/2), y_pos, button_width, button_height, pygame.Color('black'), itens[1], 24)
+        item2 = SelectionItem(x_center - (button_width / 2), y_pos, button_width, button_height, pygame.Color('black'), itens[1], 24)
         item1 = SelectionItem(item2.rect.left - button_spacing - button_width, y_pos, button_width, button_height, pygame.Color('black'), itens[0], 24)
         item3 = SelectionItem(item2.rect.right + button_spacing, y_pos, button_width, button_height, pygame.Color('black'), itens[2], 24)
         
@@ -387,7 +382,6 @@ class Game:
 
             # Desenha a tela de pausa
             self.screen.blit(paused_surface, (0, 0))
-            self.screen.blit(menu_background, menu_rect.topleft) # Desenha o fundo do menu
             self.screen.blit(title_text, title_rect) # Desenha o título
             
             # Atualiza e desenha os botões
