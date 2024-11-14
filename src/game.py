@@ -62,6 +62,7 @@ class Game:
         self.skills_hub.add_item(self.resistencia)
         self.cura = Ability("Cura", "Cura 5 de vida ada 5s", "assets\img\Sorceress Icon 10.png")
         self.skills_hub.add_item(self.cura)
+        self.vida = Ability("Vida", "Cura 5 de vida ada 5s", "assets\img\Sorceress Icon 10.png")
 
         # Barra de vida
         self.health_bar = HealthBar(max=100, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
@@ -73,17 +74,21 @@ class Game:
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
-        self.game_timer.add_event(5, self.spawn_boss)
+        self.game_timer.add_event(5, self.itemdrop)
+        self.game_timer.add_event(7, self.morte)
 
-    def spawn_boss(self):
+    def itemdrop(self):
         self.item1 = self.espada
         self.item2 = self.escudo
-        self.item3 = self.cura
+        self.item3 = self.vida
 
         # Lista de itens
         self.itens = [self.item1, self.item2, self.item3]
 
         self.level_up = True
+
+    def morte(self):
+        self.health_bar.amount -= 100
 
     def new(self):
         self.playing = True
@@ -125,9 +130,14 @@ class Game:
                 self.game_timer.pause() 
                 self.level_up_menu(self.itens)
                 self.game_timer.resume()
+        
+        if self.health_bar.amount <= 0:
+            self.draw()
+            self.game_over()
             
         self.update()
         self.draw()
+
         self.clock.tick(60)  # Controle de FPS
 
     def intro_screen(self):
@@ -196,16 +206,72 @@ class Game:
             self.clock.tick(60)
             pygame.display.flip()
 
-    def blur(self, surface):
+    def game_over(self):
+        over = True
+
+        paused_surface = self.screen.copy()  # Captura o estado atual do jogo
+        self.blur(paused_surface, 200)
+
+        # Dimensoes da tela
+        screen_width, screen_height = self.screen.get_size()
+
+        title = self.font_title.render('Fim de jogo', True, pygame.Color('white'))
+        title_rect = title.get_rect(center=(screen_width // 2, ((screen_height - title.get_height()) // 2) -50))
+
+        # Dimensoes do botão
+        button_width, button_height = 200, 75
+
+        # Calcula as posição y para centralizar o botao
+        button_y = ((screen_height - button_height) // 2 ) +50 # Ajuste para um pouco abaixo do titulo
+
+        # Cria o botao Play centralizado
+        restart_button = Button(screen_width//2 - button_width -10, button_y, button_width, button_height, pygame.Color('white'), 'Resetar', 32)
+        quit_button = Button(screen_width//2 +10, button_y, button_width, button_height, pygame.Color('white'), 'Sair', 32)
+
+        while over:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    over = False
+                    self.running = False
+
+            mouse_pos = pygame.mouse.get_pos()
+            mouse_pressed = pygame.mouse.get_pressed()
+
+            # Atualiza o botão e verifica se foi clicado
+            restart_button.update(mouse_pos)
+            if restart_button.is_pressed(mouse_pos, mouse_pressed):
+                over = False
+                self.restart = True
+            
+            quit_button.update(mouse_pos)
+            if quit_button.is_pressed(mouse_pos, mouse_pressed):
+                over = False
+                self.running = False
+            
+            # Desenha o fundo, título e botão
+            self.screen.blit(paused_surface, (0, 0))
+            self.screen.blit(title, title_rect)
+
+            # Atualiza e desenha os botões
+            restart_button.update(pygame.mouse.get_pos())
+            quit_button.update(pygame.mouse.get_pos())
+            restart_button.draw(self.screen)
+            quit_button.draw(self.screen)
+
+            # Atualiza a tela
+            self.clock.tick(60)
+            pygame.display.flip()
+
+    def blur(self, surface, n):
         # Aplica  um efeito de blur na tela
         blur_overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
-        blur_overlay.fill((0, 0, 0, 180))  # Opacidade a 180
+        blur_overlay.fill((0, 0, 0, n))  # Opacidade a 180
         surface.blit(blur_overlay, (0, 0))
 
     def pause_menu(self):
         # Congela o jogo e exibe o menu de pausa
         paused_surface = self.screen.copy()  # Captura o estado atual do jogo
-        self.blur(paused_surface)
+        self.blur(paused_surface, 180)
         
         # Carregar e centralizar o fundo do menu
         menu_background = pygame.image.load('assets\img\SimplePanel01.png').convert_alpha()
@@ -265,7 +331,7 @@ class Game:
     def level_up_menu(self, itens):
         # Congela o jogo e exibe o menu de pausa
         paused_surface = self.screen.copy()  # Captura o estado atual do jogo
-        self.blur(paused_surface)
+        self.blur(paused_surface, 180)
         
         # Carregar e centralizar o fundo do menu
         menu_background = pygame.image.load('assets\img\SimplePanel01.png').convert_alpha()
