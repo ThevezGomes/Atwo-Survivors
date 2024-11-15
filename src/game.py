@@ -100,6 +100,12 @@ class Game:
         # Adiciona objetos específicos como colidíveis
         for obj in self.tmx_data.objects:
             pos = (obj.x , obj.y )
+            
+            if obj.type == 'Poligono':
+                if obj.name == 'rect':
+                    rect = pygame.Rect(obj.x, obj.y ,obj.width, obj.height)
+                    pygame.draw.rect(self.screen, 'yellow', rect)
+
             if obj.type in ("Vegetacao", "Pedras", "Lapide", "Cerca", "Poligono"):
                 if obj.image:
                     tile = Tile(pos, obj.image, [self.all_sprites, self.collidable_sprites])
@@ -108,7 +114,7 @@ class Game:
                     self.collidable_sprites.add(tile)  # Garante que esses objetos sejam colidíveis
                 else:
                     print(f"Objeto {obj.name} ({obj.type}) em {pos} está sem imagem!")  # Debug
-                   
+
     def new(self):
         self.playing = True
 
@@ -135,6 +141,7 @@ class Game:
         self.experience_bar.draw(self.screen) # Adciona a barra de experiência na tela
         self.game_timer.update(self.screen) # Adciona o timer ao jogo
         self.clock.tick(60)
+
 
         pygame.display.update()
 

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="38">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
  <tileset firstgid="1" source="../tsx/Land.tsx"/>
- <tileset firstgid="225" source="../tsx/Objetos.tsx"/>
- <layer id="1" name="Grama" width="100" height="100">
+ <layer id="1" name="Camada de Blocos 1" width="100" height="100">
   <data encoding="csv">
 35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,
 35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,
@@ -106,33 +105,4 @@
 35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35
 </data>
  </layer>
- <objectgroup id="2" name="Objetos">
-  <object id="1" type="Vegetacao" gid="234" x="694.545" y="781.174" width="82" height="101.667"/>
-  <object id="10" type="Vegetacao" gid="234" x="1755" y="961.167" width="82" height="101.667"/>
-  <object id="11" type="Vegetacao" gid="234" x="1243" y="1377.17" width="82" height="101.667"/>
-  <object id="12" type="Vegetacao" gid="234" x="2151" y="1597.17" width="82" height="101.667"/>
-  <object id="13" type="Vegetacao" gid="234" x="1119" y="1893.17" width="82" height="101.667"/>
-  <object id="16" type="Vegetacao" gid="234" x="1683" y="2321.17" width="82" height="101.667"/>
-  <object id="17" type="Vegetacao" gid="234" x="1059" y="2501.17" width="82" height="101.667"/>
-  <object id="18" type="Vegetacao" gid="234" x="2311" y="2497.17" width="82" height="101.667"/>
-  <object id="19" type="Vegetacao" gid="234" x="1699" y="1485.17" width="82" height="101.667"/>
-  <object id="20" type="Vegetacao" gid="234" x="2251" y="397.167" width="82" height="101.667"/>
-  <object id="21" type="Vegetacao" gid="234" x="1331" y="257.167" width="82" height="101.667"/>
-  <object id="22" type="Vegetacao" gid="234" x="1251" y="757.167" width="82" height="101.667"/>
-  <object id="23" type="Vegetacao" gid="234" x="2475" y="2725.17" width="82" height="101.667"/>
-  <object id="24" type="Vegetacao" gid="234" x="1255" y="2713.17" width="82" height="101.667"/>
-  <object id="25" type="Pedras" gid="240" x="2279" y="813" width="95" height="34"/>
-  <object id="26" type="Pedras" gid="240" x="2104.5" y="1215" width="95" height="34"/>
-  <object id="27" type="Pedras" gid="240" x="774.5" y="1529" width="95" height="34"/>
-  <object id="28" type="Pedras" gid="240" x="1126.5" y="973" width="95" height="34"/>
-  <object id="29" type="Pedras" gid="240" x="1812.5" y="1889" width="95" height="34"/>
-  <object id="30" type="Pedras" gid="240" x="2254.5" y="2019" width="95" height="34"/>
-  <object id="31" type="Pedras" gid="240" x="1800.5" y="2555" width="95" height="34"/>
-  <object id="32" type="Pedras" gid="240" x="1324.5" y="2101" width="95" height="34"/>
-  <object id="33" type="Pedras" gid="240" x="1426.5" y="1639" width="95" height="34"/>
-  <object id="34" type="Poligono" x="328.667" y="276" width="2625.45" height="22.6667"/>
-  <object id="35" type="Poligono" x="328.548" y="276.105" width="2602" height="22.6667" rotation="89.9955"/>
-  <object id="36" type="Poligono" x="306" y="2855.49" width="2648" height="22.6667"/>
-  <object id="37" type="Poligono" x="2953.85" y="276.123" width="2602" height="22.6667" rotation="89.9955"/>
- </objectgroup>
 </map>

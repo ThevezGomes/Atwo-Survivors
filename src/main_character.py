@@ -130,6 +130,7 @@ class Player(pygame.sprite.Sprite):
                     # Ajusta a camera para nao ser modificada na colisao
                     for sprite in self.game.all_sprites:
                         sprite.rect.y -= config.player_speed
+        
                     
     def animate(self):
         # Colecao de todas as imagens de animacao do personagem principal
