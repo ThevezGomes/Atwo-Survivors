@@ -55,23 +55,23 @@ class Player(pygame.sprite.Sprite):
         # PRECISA DESCOMENTAR AS PROXIMAS LINHAS DE CODIGO, FAZEM A CAMERA SEGUIR O JOGADOR
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-            #for sprite in self.game.all_sprites:
-                #sprite.rect.x += config.player_speed
+            for sprite in self.game.all_sprites:
+                sprite.rect.x += config.player_speed
             self.x_change -= config.player_speed
             self.facing = "left"
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-            #for sprite in self.game.all_sprites:
-                #sprite.rect.x -= config.player_speed
+            for sprite in self.game.all_sprites:
+                sprite.rect.x -= config.player_speed
             self.x_change += config.player_speed
             self.facing = "right"
         if keys[pygame.K_w] or keys[pygame.K_UP]:
-            #for sprite in self.game.all_sprites:
-                #sprite.rect.y += config.player_speed
+            for sprite in self.game.all_sprites:
+                sprite.rect.y += config.player_speed
             self.y_change -= config.player_speed
             self.facing = "up"
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-            #for sprite in self.game.all_sprites:
-                #sprite.rect.y -= config.player_speed
+            for sprite in self.game.all_sprites:
+                sprite.rect.y -= config.player_speed
             self.y_change += config.player_speed
             self.facing = "down"
         

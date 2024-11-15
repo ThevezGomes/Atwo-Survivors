@@ -18,7 +18,7 @@ class Game:
         self.paused = False
 
         # Carrega o mapa .tmx
-        self.tmx_data = load_pygame("assets/Tiled/tmx/Defmap.tmx")
+        self.tmx_data = load_pygame("assets/Tiled/tmx/Map1.tmx")
 
         #Adiciona sprites do personagem principal
         self.main_character_spritesheet = Spritesheet("assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
