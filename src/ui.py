@@ -2,9 +2,9 @@ import pygame
 from abc import ABC, abstractmethod
 
 class Button:
-    def __init__(self, x, y, width, height, fg, content, fontsize, image_path='assets\img\GenericButton.png', image_path_hover='assets\img\GenericButtonActive.png'):
+    def __init__(self, x, y, width, height, fg, content, fontsize, image_path='../assets\img\GenericButton.png', image_path_hover='../assets\img\GenericButtonActive.png'):
         # Define a fonte e outras variáveis
-        self.font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', fontsize)  # Fonte do texto
+        self.font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', fontsize)  # Fonte do texto
         self.content = content
         self.fg = fg
         self.image_path = image_path  # Caminho para a imagem normal
@@ -55,7 +55,7 @@ class Hub:
         self.items = []  # Lista para armazenar os itens do inventário
 
         # Imagem do slot (pode ser um fundo para os itens)
-        self.slot_image = pygame.image.load('assets/img/HotbarSkillBackground1.png')
+        self.slot_image = pygame.image.load('../assets/img/HotbarSkillBackground1.png')
         self.slot_image = pygame.transform.scale(self.slot_image, (slot_size, slot_size))
 
         # Define o layout ('horizontal' ou 'vertical')
@@ -172,7 +172,7 @@ class ExperienceBar(Bar):
         pygame.draw.rect(screen, self.color, pygame.Rect(self.x-(self.width/2), self.y, self.width * filled, self.height)) 
 
         # Exibe o nível atual
-        font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 24)
+        font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 24)
         level_text = font.render(f'Lvl: {self.level}', True, (255, 255, 255))
         
         # Calcula a posição para centralizar o texto
@@ -187,7 +187,7 @@ class ExperienceBar(Bar):
 
 class TimeGame:
     def __init__(self, x, y):
-        self.font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 32)
+        self.font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 32)
         self.x = x
         self.y = y
         self.events = {}
@@ -231,12 +231,12 @@ class TimeGame:
 class SelectionItem:
     def __init__(self, x, y, width, height, fg, item, fontsize):
         # Define a fonte e outras variáveis
-        self.font_name = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', fontsize)  # Fonte do texto
-        self.font_description = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', fontsize -5) 
+        self.font_name = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', fontsize)  # Fonte do texto
+        self.font_description = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', fontsize -5) 
         self.item = item
         self.fg = fg
-        self.image_path = 'assets\img\old-paper-sprite.png'  # Caminho para a imagem normal
-        self.image_path_hover = 'assets\img\old-paper-sprite.png'  # Caminho para a imagem de hover
+        self.image_path = '../assets\img\old-paper-sprite.png'  # Caminho para a imagem normal
+        self.image_path_hover = '../assets\img\old-paper-sprite.png'  # Caminho para a imagem de hover
 
         # Rect do botão
         self.rect = pygame.Rect(x, y, width, height)
