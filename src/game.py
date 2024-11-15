@@ -106,7 +106,7 @@ class Game:
                     rect = pygame.Rect(obj.x, obj.y ,obj.width, obj.height)
                     pygame.draw.rect(self.screen, 'yellow', rect)
 
-            if obj.type in ("Vegetacao", "Pedras", "Lapide", "Cerca", "Poligono"):
+            if obj.type in ("Vegetacao", "Pedras", "Lapide", "Cerca", "Poligono", "Montanha"):
                 if obj.image:
                     tile = Tile(pos, obj.image, [self.all_sprites, self.collidable_sprites])
                     tile.scale(obj.width, obj.height)
@@ -127,13 +127,31 @@ class Game:
         #Carrega os tiles e define colisões com base nas camadas
         self.load_map()
 
+        # Calcula o centro do mapa
+        map_width = self.tmx_data.width * self.tmx_data.tilewidth
+        map_height = self.tmx_data.height * self.tmx_data.tileheight
+        center_x = map_width // 2
+        center_y = map_height // 2
+
+        # Cria o jogador no centro do mapa
+        self.player = Player(self, center_x, center_y)
+
         # Cria o jogador na posicao central da tela
-        self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
+        #Para funcionar normal, só tirar o comentario abaixo e comentar o de cima
+        #self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
 
         self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
 
     def draw(self):
         self.screen.fill((0, 0, 0))
+        
+        #coloquei como se houvesse uma classe para o player, mas não existe
+        #camera_offset_x = self.player.rect.centerx - self.screen.get_width() // 2
+        #camera_offset_y = self.player.rect.centery - self.screen.get_height() // 2
+
+        #for sprite in self.all_sprites:
+            #self.screen.blit(sprite.image, (sprite.rect.x - camera_offset_x, sprite.rect.y - camera_offset_y))
+
         self.all_sprites.draw(self.screen)
         self.inventory.draw(self.screen) # Adciona o inventario a tela do jogo
         self.skills_hub.draw(self.screen)
