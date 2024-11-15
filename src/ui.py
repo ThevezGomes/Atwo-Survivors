@@ -245,41 +245,51 @@ class SelectionItem:
         self.image = pygame.image.load(self.image_path)  # Carregar a imagem normal
         self.image = pygame.transform.scale(self.image, (width, height))  # Redimensionar a imagem para o tamanho do botão
 
+        #Não esta sendo usado !!
         self.image_hover = pygame.image.load(self.image_path_hover)  # Carregar a imagem de hover
         self.image_hover = pygame.transform.scale(self.image_hover, (width, height))  # Redimensionar a imagem de hover
-        #self.Game.blur(self.image_hover)
 
         self.current_image = self.image  # Inicializa com a imagem normal
 
         self.item_icon = pygame.image.load(self.item.sprite)  # Carregar a imagem normal
-        self.item_icon = pygame.transform.scale(self.item_icon, (width/2, width/2))  # Redimensionar a imagem para o tamanho do botão
+        self.item_icon = pygame.transform.scale(self.item_icon, (width/3, width/3))  # Redimensionar a imagem para o tamanho do botão
 
     def draw(self, screen):
         # Desenhar o botão com a imagem selecionada
         screen.blit(self.current_image, self.rect.topleft)
 
-        icon_rect = self.item_icon.get_rect()
-        icon_rect.centerx = self.rect.centerx  # Centraliza horizontalmente
-        icon_rect.centery = self.rect.top + 15  # Centraliza verticalmente
+        # Calcular o espaço total necessário para os elementos (ícone, texto do nome, e descrição)
+        name = self.font_name.render(self.item.name, True, self.fg)
+        description = self.font_description.render(self.item.description, True, self.fg)
 
+        # Obtem os tamanhos dos elementos
+        icon_height = self.item_icon.get_rect().height
+        name_height = name.get_rect().height
+        description_height = description.get_rect().height
+        total_height = icon_height + name_height + description_height + 30  # Inclui espaçamento entre os elementos
+
+        # Calcular o ponto inicial para centralização vertical
+        start_y = self.rect.top + (self.rect.height - total_height) // 2
+
+        # Posicionar o ícone
+        icon_rect = self.item_icon.get_rect()
+        icon_rect.centerx = self.rect.centerx
+        icon_rect.top = start_y
         screen.blit(self.item_icon, icon_rect)
 
-        # Renderiza o texto centralizado no botão
-        name = self.font_name.render(self.item.name, True, self.fg)
-        name_rect = name.get_rect()  # Pega o retângulo do texto sem centralizar
-        name_rect.centerx = self.rect.centerx  # Centraliza horizontalmente
-        name_rect.centery = self.rect.top + 15  # Centraliza verticalmente
+        # Posicionar o nome
+        name_rect = name.get_rect()
+        name_rect.centerx = self.rect.centerx
+        name_rect.top = icon_rect.bottom + 10  # Espaçamento entre ícone e nome
         screen.blit(name, name_rect)
 
-        #Descrição
-        description = self.font_description.render(self.item.description, True, self.fg)
+        # Posicionar a descrição
         description_rect = description.get_rect()
-        description_rect.centerx = self.rect.centerx  # Centraliza horizontalmente
-        description_rect.centery = name_rect.centery + name_rect.height + 15  # Centraliza verticalmente
-
+        description_rect.centerx = self.rect.centerx
+        description_rect.top = name_rect.bottom + 10  # Espaçamento entre nome e descrição
         screen.blit(description, description_rect)
 
-
+    #Não esta sendo usado!!!
     def update(self, mouse_pos):
         # Altera a imagem do botão se o mouse estiver sobre ele
         if self.rect.collidepoint(mouse_pos):

@@ -74,18 +74,19 @@ class Game:
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
-        self.game_timer.add_event(5, self.itemdrop)
-        self.game_timer.add_event(7, self.morte)
+        #self.game_timer.add_event(5, self.itemdrop)
+        #self.game_timer.add_event(7, self.morte)
 
-    def itemdrop(self):
-        self.item1 = self.espada
-        self.item2 = self.escudo
-        self.item3 = self.vida
+    #Teste de eventos
+    #def itemdrop(self):
+    #    self.item1 = self.espada
+    #    self.item2 = self.escudo
+    #    self.item3 = self.vida
 
         # Lista de itens
-        self.itens = [self.item1, self.item2, self.item3]
+    #    self.itens = [self.item1, self.item2, self.item3]
 
-        self.level_up = True
+    #    self.level_up = True
 
     def morte(self):
         self.health_bar.amount -= 100
@@ -329,18 +330,18 @@ class Game:
             self.clock.tick(60)
            
     def level_up_menu(self, itens):
-        # Congela o jogo e exibe o menu de pausa
+        # Congela o jogo e exibe o menu de level up
         paused_surface = self.screen.copy()  # Captura o estado atual do jogo
         self.blur(paused_surface, 180)
 
-        # Configuração do título do menu
-        title_font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 40)
-        title_text = title_font.render("Menu de Pausa", True, pygame.Color('white'))
-        title_rect = title_text.get_rect(center=(self.screen.get_width() // 2, 100))  # Centraliza no topo da tela
-
-        # Configuração dos botões "Retomar" e "Sair"
+        # Configuração dos botões de escolha
         button_width, button_height = 200, 300
         button_spacing = 20  # Espaçamento entre os itens
+
+        # Configuração do título
+        title_font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 40)
+        title_text = title_font.render("Escolha um:", True, pygame.Color('white'))
+        title_rect = title_text.get_rect(center=(self.screen.get_width() // 2, (self.screen.get_height() // 2) - (button_height // 2) - 30))  # Centraliza no topo da tela
 
         # Define a coordenada Y para todos os itens, mantendo-os na mesma linha
         y_pos = 250  # Ajuste para a posição Y desejada
