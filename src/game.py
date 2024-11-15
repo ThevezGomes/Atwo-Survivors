@@ -18,31 +18,31 @@ class Game:
         self.paused = False
 
         # Carrega o mapa .tmx
-        self.tmx_data = load_pygame("../assets/Tiled/tmx/Mapa_teste_tamanho.tmx")
+        self.tmx_data = load_pygame("assets/Tiled/tmx/Defmap.tmx")
 
         #Adiciona sprites do personagem principal
-        self.main_character_spritesheet = Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
+        self.main_character_spritesheet = Spritesheet("assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
         
-        self.main_character_spritesheet_walk_down = Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
-        self.main_character_spritesheet_walk_up = Spritesheet("../assets/warrior_sprites/Up/Png/WarriorUpWalk.png")
-        self.main_character_spritesheet_walk_left = Spritesheet("../assets/warrior_sprites/Left/Png/WarriorLeftWalk.png")
-        self.main_character_spritesheet_walk_right = Spritesheet("../assets/warrior_sprites/Right/Png/WarriorRightWalk.png")
+        self.main_character_spritesheet_walk_down = Spritesheet("assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
+        self.main_character_spritesheet_walk_up = Spritesheet("assets/warrior_sprites/Up/Png/WarriorUpWalk.png")
+        self.main_character_spritesheet_walk_left = Spritesheet("assets/warrior_sprites/Left/Png/WarriorLeftWalk.png")
+        self.main_character_spritesheet_walk_right = Spritesheet("assets/warrior_sprites/Right/Png/WarriorRightWalk.png")
 
-        self.enemy_skeleton_spritesheet = Spritesheet("../assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png")
-        self.enemy_skeleton_spritesheet_walk_down = Spritesheet("../assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png")
-        self.enemy_skeleton_spritesheet_walk_up = Spritesheet("../assets/enemy_sprites/skeleton/Up/Png/SkeletonWithSwordUpWalk.png")
-        self.enemy_skeleton_spritesheet_walk_left = Spritesheet("../assets/enemy_sprites/skeleton/Left/Png/SkeletonWithSwordLefttRun.png")
-        self.enemy_skeleton_spritesheet_walk_right = Spritesheet("../assets/enemy_sprites/skeleton/Right/Png/SkeletonWithSwordRightRun.png")
+        self.enemy_skeleton_spritesheet = Spritesheet("assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png")
+        self.enemy_skeleton_spritesheet_walk_down = Spritesheet("assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png")
+        self.enemy_skeleton_spritesheet_walk_up = Spritesheet("assets/enemy_sprites/skeleton/Up/Png/SkeletonWithSwordUpWalk.png")
+        self.enemy_skeleton_spritesheet_walk_left = Spritesheet("assets/enemy_sprites/skeleton/Left/Png/SkeletonWithSwordLefttRun.png")
+        self.enemy_skeleton_spritesheet_walk_right = Spritesheet("assets/enemy_sprites/skeleton/Right/Png/SkeletonWithSwordRightRun.png")
 
-        self.font_title = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 54)
-        self.font_text = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 32)
+        self.font_title = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 54)
+        self.font_text = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 32)
 
         #Imagens da tela inicial
-        self.intro_background = pygame.image.load('../assets/img/Loginscreen.png').convert()
+        self.intro_background = pygame.image.load('assets/img/Loginscreen.png').convert()
         target_height = self.screen.get_height()
         scaled_width = int(self.intro_background.get_width() * (target_height / self.intro_background.get_height()))
         self.intro_background = pygame.transform.scale(self.intro_background, (scaled_width, target_height))
-        self.character = pygame.image.load('../assets/img/Warrior.png').convert_alpha()
+        self.character = pygame.image.load('assets/img/Warrior.png').convert_alpha()
 
         self.height_character = 88
         self.width_character = (self.height_character/22)*32
@@ -59,15 +59,15 @@ class Game:
 
         #Criação do inventário (posição, tamanho do slot e número de slots)
         self.inventory = Inventory(x=50, y=self.screen.get_height() - 100, slot_size=50, max_slots=5)
-        self.inventory.add_item("Espada", "../assets\img\sword1.png")
-        self.inventory.add_item("Espada", "../assets\img\sword1.png")
-        self.inventory.add_item("Poção", "../assets/img/staff36.png")
+        self.inventory.add_item("Espada", "assets\img\sword1.png")
+        self.inventory.add_item("Espada", "assets\img\sword1.png")
+        self.inventory.add_item("Poção", "assets/img/staff36.png")
 
         #Criação do hub de habilidades (posição, tamanho do slot e número de slots)
         self.skills_hub = Skills_hub(x=10, y=10, slot_size=40, max_slots=5)
-        self.skills_hub.add_item("Resistencia", "../assets\img\Sorceress Green Skill 07.png")
-        self.skills_hub.add_item("Resistencia", "../assets\img\Sorceress Green Skill 07.png")
-        self.skills_hub.add_item("Cura", "../assets\img\Sorceress Icon 10.png")
+        self.skills_hub.add_item("Resistencia", "assets\img\Sorceress Green Skill 07.png")
+        self.skills_hub.add_item("Resistencia", "assets\img\Sorceress Green Skill 07.png")
+        self.skills_hub.add_item("Cura", "assets\img\Sorceress Icon 10.png")
 
         # Barra de vida
         self.health_bar = HealthBar(max=100, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
@@ -238,12 +238,12 @@ class Game:
         self.blur(paused_surface)
         
         # Carregar e centralizar o fundo do menu
-        menu_background = pygame.image.load('../assets\img\SimplePanel01.png').convert_alpha()
+        menu_background = pygame.image.load('assets\img\SimplePanel01.png').convert_alpha()
         menu_background = pygame.transform.scale(menu_background, (400, 400))
         menu_rect = menu_background.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
         
         # Configuração do título do menu
-        title_font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 40)
+        title_font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 40)
         title_text = title_font.render("Menu de Pausa", True, pygame.Color('white'))
         title_rect = title_text.get_rect(center=(menu_rect.centerx, menu_rect.top + 70))
         
