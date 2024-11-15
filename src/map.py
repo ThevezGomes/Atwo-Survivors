@@ -12,3 +12,12 @@ class Tile(pg.sprite.Sprite):
     def scale(self, width, height):
         self.image = pg.transform.scale(self.image, (width, height))
         self.rect = self.image.get_rect(topleft=self.rect.topleft)
+
+"""class Block(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+
+        self.game = game
+        self._layer = BLOCK_LAYER
+        self.groups = self.game.all_sprites, self.game.blocks
+
+"""
