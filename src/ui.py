@@ -1,9 +1,10 @@
 import pygame
+from abc import ABC, abstractmethod
 
 class Button:
-    def __init__(self, x, y, width, height, fg, content, fontsize, image_path='assets\img\GenericButton.png', image_path_hover='assets\img\GenericButtonActive.png'):
+    def __init__(self, x, y, width, height, fg, content, fontsize, image_path='../assets\img\GenericButton.png', image_path_hover='../assets\img\GenericButtonActive.png'):
         # Define a fonte e outras variáveis
-        self.font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', fontsize)  # Fonte do texto
+        self.font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', fontsize)  # Fonte do texto
         self.content = content
         self.fg = fg
         self.image_path = image_path  # Caminho para a imagem normal
@@ -54,7 +55,7 @@ class hub:
         self.items = []  # Lista para armazenar os itens do inventário
 
         # Imagem do slot (pode ser um fundo para os itens)
-        self.slot_image = pygame.image.load('assets/img/HotbarSkillBackground1.png')
+        self.slot_image = pygame.image.load('../assets/img/HotbarSkillBackground1.png')
         self.slot_image = pygame.transform.scale(self.slot_image, (slot_size, slot_size))
 
         # Define o layout ('horizontal' ou 'vertical')
@@ -119,3 +120,109 @@ class Inventory(hub):
 class Skills_hub(hub):
     def __init__(self, x, y, slot_size, max_slots):
         super().__init__(x, y, slot_size, max_slots, type_hub='skills_hub')
+
+class Bar(ABC):
+    def __init__(self, max, border_color, background_color, color, width, height, x, y):
+        self.max = max
+        self.amount = max
+        self.border_color = border_color
+        self.background_color = background_color
+        self.color = color
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
+
+    @abstractmethod
+    def draw(self, screen):
+        pass
+
+class HealthBar(Bar):
+    def __init__(self, max, border_color, background_color, color, width, height, x, y):
+        super().__init__(max, border_color, background_color, color, width, height, x, y)
+
+    def draw(self, screen):
+        filled = self.width * (self.amount / self.max)
+
+        # Desenha a borda (ajustando as coordenadas para a borda)
+        pygame.draw.rect(screen, self.border_color, pygame.Rect(self.x - 3, self.y - 3, self.width + 6, self.height + 6))
+        # Desenha o fundo da barra
+        background_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+        background_surface.fill(self.background_color)  # Cor de fundo com alpha
+        screen.blit(background_surface, (self.x, self.y))
+        # Desenha a parte preenchida da barra
+        pygame.draw.rect(screen, self.color, pygame.Rect(self.x + (self.width - filled), self.y, filled, self.height))
+
+class ExperienceBar(Bar):
+    def __init__(self, max, border_color, background_color, color, width, height, x, y, level):
+        super().__init__(max, border_color, background_color, color, width, height, x, y)
+        self.level = level
+        self.amount = 0  # Inicia a quantidade de experiência em 0
+
+    def draw(self, screen):
+        filled = self.amount / self.max  # Calcula o preenchimento da barra de experiência
+
+        # Desenha a borda (ajustando as coordenadas para a borda)
+        pygame.draw.rect(screen, self.border_color, pygame.Rect(self.x-(self.width/2) - 3, self.y - 3, self.width + 6, self.height + 6))
+        # Desenha o fundo da barra
+        background_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+        background_surface.fill(self.background_color)  # Cor de fundo com alpha
+        screen.blit(background_surface, (self.x-(self.width/2), self.y))
+        # Desenha a parte preenchida da barra
+        pygame.draw.rect(screen, self.color, pygame.Rect(self.x-(self.width/2), self.y, self.width * filled, self.height)) 
+
+        # Exibe o nível atual
+        font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 24)
+        level_text = font.render(f'Lvl: {self.level}', True, (255, 255, 255))
+        
+        # Calcula a posição para centralizar o texto
+        text_width = level_text.get_width()
+        text_x = self.x - (text_width / 2)  # Subtrai a metade da largura do texto da posição central da barra
+        
+        # Calcula a posição para centralizar o texto verticalmente
+        text_y = self.y + (self.height / 2) - (level_text.get_height() / 2)  # Posição vertical centralizada
+
+        # Posiciona o texto centralizado na barra de experiência
+        screen.blit(level_text, (text_x, text_y))
+
+class TimeGame:
+    def __init__(self, x, y):
+        self.font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 32)
+        self.x = x
+        self.y = y
+        self.events = {}
+        self.time_paused = False
+        self.elapsed_time = 0  # Tempo acumulado de pausa
+
+    def start(self):
+        self.start_time = pygame.time.get_ticks()
+
+    def add_event(self, time_seconds, func):
+        self.events[time_seconds * 1000] = func
+
+    def pause(self):
+        self.elapsed_time += pygame.time.get_ticks() - self.start_time  # Adiciona o tempo decorrido antes da pausa
+        self.time_paused = True
+
+    def resume(self):
+        self.start_time = pygame.time.get_ticks()  # Reinicia o tempo de início para considerar o tempo restante
+        self.time_paused = False
+
+    def update(self, screen):
+        if not self.time_paused:
+            current_time = pygame.time.get_ticks()
+            total_elapsed = current_time - self.start_time + self.elapsed_time  # Inclui o tempo pausado
+            
+            # Atualiza o timer na tela
+            minutes = total_elapsed // 60000
+            seconds = (total_elapsed % 60000) // 1000
+            timer_text = self.font.render(f'{minutes:02}:{seconds:02}', True, (255, 255, 255))
+            text_size = timer_text.get_size()
+            timer_x = self.x - (text_size[0]/2)
+            screen.blit(timer_text, (timer_x, self.y))
+
+            # Checa e dispara eventos de tempo
+            for event_time, func in list(self.events.items()):
+                if total_elapsed >= event_time:
+                    func()
+                    del self.events[event_time]
