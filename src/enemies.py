@@ -1,19 +1,19 @@
 """Inimigos do jogo"""
-
 import pygame
 import math
 import random
 import config
-import enemy_config
 from main_character import Player
 from enemy_ai import Enemy_AI
+import sprites
+import repositorio_sprites as rs
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, game, kind, x, y):
 
         # Invocação
         self.game = game
-        self._layer = config.enemy_layer
+        self._layer = config.layers["enemy_layer"]
         self.groups = self.game.all_sprites, self.game.enemies
         self.kind = kind
         self.speed = config.enemy_speed[self.kind]
@@ -27,7 +27,7 @@ class Enemy(pygame.sprite.Sprite):
         # Configurações básicas de posição e escala
         self.x = x * config.tilesize
         self.y = y * config.tilesize
-        self.width = 32 *config.tilesize
+        self.width = 32 * config.tilesize
         self.height = 32 * config.tilesize
         self.facing = self.ai.facing
         self.animation_loop = 1
@@ -38,7 +38,8 @@ class Enemy(pygame.sprite.Sprite):
         self.y_change = 0
 
         # Forma a aparência do inimigo (Animação há de ser implementada ainda)
-        self.image = self.game.enemy_skeleton_spritesheet.get_sprite(12, 7, 22, 32)
+        self.keys_animations = list(self.game.sprites.enemy_animations[self.kind].keys())
+        self.image = self.game.sprites.enemy_animations[self.kind][self.keys_animations[0]][0]
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
@@ -57,7 +58,7 @@ class Enemy(pygame.sprite.Sprite):
         self.x_change = 0
         self.y_change = 0
 
-    def ataque(self):
+    def attack(self):
         pass
 
     def collide_blocks(self, direction):
@@ -93,7 +94,7 @@ class Enemy(pygame.sprite.Sprite):
     
     def animate(self):
 
-        [self.walk_down_animations, self.walk_up_animations, self.walk_right_animations, self.walk_left_animations]  = enemy_config.get_enemy_sprites(self)
+        [self.walk_down_animations, self.walk_up_animations, self.walk_right_animations, self.walk_left_animations]  = self.game.sprites.enemy_animations[self.kind].values()
 
         # Para cada direcao que o personagem olha, ajusta a animacao correspondente e o tamanho da imagem
         if self.facing == "down":
@@ -104,7 +105,7 @@ class Enemy(pygame.sprite.Sprite):
                  self.image = self.walk_down_animations[math.floor(self.animation_loop)]
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
-                 if self.animation_loop >= 5:
+                 if self.animation_loop >= (len(self.walk_down_animations) - 1):
                      self.animation_loop = 1
             
         if self.facing == "up":
@@ -115,7 +116,7 @@ class Enemy(pygame.sprite.Sprite):
                  self.image = self.walk_up_animations[math.floor(self.animation_loop)]
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
-                 if self.animation_loop >= 5:
+                 if self.animation_loop >= (len(self.walk_up_animations) - 1):
                      self.animation_loop = 1
                      
         if self.facing == "right":
@@ -126,7 +127,7 @@ class Enemy(pygame.sprite.Sprite):
                  self.image = self.walk_right_animations[math.floor(self.animation_loop)]
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
-                 if self.animation_loop >= 5:
+                 if self.animation_loop >= (len(self.walk_right_animations) - 1):
                      self.animation_loop = 1
                      
         if self.facing == "left":
@@ -137,7 +138,7 @@ class Enemy(pygame.sprite.Sprite):
                  self.image = self.walk_left_animations[math.floor(self.animation_loop)]
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
-                 if self.animation_loop >= 5:
+                 if self.animation_loop >= (len(self.walk_left_animations) - 1):
                      self.animation_loop = 1
 
         

@@ -2,9 +2,9 @@
 tilesize = 1
 
 # Variavel que define as camadas dos objetos
-player_layer = 3
-enemy_layer = 2
-block_layer = 1
+layers = {"player_layer": 3,
+          "enemy_layer": 2,
+          "block_layer": 1}
 
 # Variavel que define a velocidade do jogador
 player_speed = 7
@@ -26,4 +26,5 @@ width = 77
 # Tamanho do personagem principal
 char_size = (width, (width*32)/22)
 
+# Tmanho base para os personagens
 size = 77

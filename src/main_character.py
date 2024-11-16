@@ -2,13 +2,14 @@ import pygame
 import math
 import random
 import config
+import repositorio_sprites as rs
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
 
         # Define propriedades do jogador, como camada e grupo de sprites
         self.game= game
-        self._layer = config.player_layer
+        self._layer = config.layers["player_layer"]
         self.groups = self.game.all_sprites
         pygame.sprite.Sprite.__init__(self, self.groups)
 
@@ -27,7 +28,7 @@ class Player(pygame.sprite.Sprite):
         self.animation_loop = 1
 
         # Define a imagem inicial do jogador e ajusta o tamanho dele com a tela
-        self.image = self.game.main_character_spritesheet.get_sprite(12, 7, 22, 32)
+        self.image = self.game.sprites.warrior_animations["walk_animations"]["walk_down_animations"][0]
         # Define posicoes do retangulo do jogador
         self.rect = self.image.get_rect()
         self.rect.x = self.x
@@ -132,41 +133,7 @@ class Player(pygame.sprite.Sprite):
                     
     def animate(self):
         # Colecao de todas as imagens de animacao do personagem principal
-         walk_down_animations = [self.game.main_character_spritesheet_walk_down.get_sprite(12, 7, 22, 32),
-                                 self.game.main_character_spritesheet_walk_down.get_sprite(61, 7, 22, 32),
-                                 self.game.main_character_spritesheet_walk_down.get_sprite(109, 6, 22, 32),
-                                 self.game.main_character_spritesheet_walk_down.get_sprite(157, 6, 22, 32),
-                                 self.game.main_character_spritesheet_walk_down.get_sprite(204, 7, 22, 32),
-                                 self.game.main_character_spritesheet_walk_down.get_sprite(251, 7, 22, 32),
-                                 self.game.main_character_spritesheet_walk_down.get_sprite(299, 6, 22, 32),
-                                 self.game.main_character_spritesheet_walk_down.get_sprite(347, 6, 22, 32)]
-         
-         walk_up_animations = [self.game.main_character_spritesheet_walk_up.get_sprite(13, 7, 22, 32),
-                               self.game.main_character_spritesheet_walk_up.get_sprite(60, 7, 22, 32),
-                               self.game.main_character_spritesheet_walk_up.get_sprite(108, 6, 22, 32),
-                               self.game.main_character_spritesheet_walk_up.get_sprite(156, 6, 22, 32),
-                               self.game.main_character_spritesheet_walk_up.get_sprite(205, 7, 22, 32),
-                               self.game.main_character_spritesheet_walk_up.get_sprite(255, 7, 22, 32),
-                               self.game.main_character_spritesheet_walk_up.get_sprite(303, 6, 22, 32),
-                               self.game.main_character_spritesheet_walk_up.get_sprite(351, 6, 22, 32)]
-         
-         walk_right_animations = [self.game.main_character_spritesheet_walk_right.get_sprite(12, 9, 22, 32),
-                                  self.game.main_character_spritesheet_walk_right.get_sprite(60, 9, 22, 32),
-                                  self.game.main_character_spritesheet_walk_right.get_sprite(109, 9, 22, 32),
-                                  self.game.main_character_spritesheet_walk_right.get_sprite(157, 9, 22, 32),
-                                  self.game.main_character_spritesheet_walk_right.get_sprite(204, 9, 22, 32),
-                                  self.game.main_character_spritesheet_walk_right.get_sprite(251, 9, 22, 32),
-                                  self.game.main_character_spritesheet_walk_right.get_sprite(299, 9, 22, 32),
-                                  self.game.main_character_spritesheet_walk_right.get_sprite(347, 9, 22, 32)]
-         
-         walk_left_animations = [self.game.main_character_spritesheet_walk_left.get_sprite(15, 9, 22, 32),
-                                 self.game.main_character_spritesheet_walk_left.get_sprite(64, 9, 22, 32),
-                                 self.game.main_character_spritesheet_walk_left.get_sprite(113, 9, 22, 32),
-                                 self.game.main_character_spritesheet_walk_left.get_sprite(161, 9, 22, 32),
-                                 self.game.main_character_spritesheet_walk_left.get_sprite(207, 9, 22, 32),
-                                 self.game.main_character_spritesheet_walk_left.get_sprite(254, 9, 22, 32),
-                                 self.game.main_character_spritesheet_walk_left.get_sprite(302, 9, 22, 32),
-                                 self.game.main_character_spritesheet_walk_left.get_sprite(350, 9, 22, 32)]
+         [walk_down_animations, walk_up_animations, walk_right_animations, walk_left_animations] = self.game.sprites.warrior_animations["walk_animations"].values()
 
         # Para cada direcao que o personagem olha, ajusta a animacao correspondente e o tamanho da imagem
          if self.facing == "down":
@@ -177,7 +144,7 @@ class Player(pygame.sprite.Sprite):
                  self.image = walk_down_animations[math.floor(self.animation_loop)]
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
-                 if self.animation_loop >= 7:
+                 if self.animation_loop >= (len(walk_down_animations) - 1):
                      self.animation_loop = 1
             
          if self.facing == "up":
@@ -188,7 +155,7 @@ class Player(pygame.sprite.Sprite):
                  self.image = walk_up_animations[math.floor(self.animation_loop)]
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
-                 if self.animation_loop >= 7:
+                 if self.animation_loop >= (len(walk_up_animations) - 1):
                      self.animation_loop = 1
                      
          if self.facing == "right":
@@ -199,7 +166,7 @@ class Player(pygame.sprite.Sprite):
                  self.image = walk_right_animations[math.floor(self.animation_loop)]
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
-                 if self.animation_loop >= 7:
+                 if self.animation_loop >= (len(walk_right_animations) - 1):
                      self.animation_loop = 1
                      
          if self.facing == "left":
@@ -210,5 +177,71 @@ class Player(pygame.sprite.Sprite):
                  self.image = walk_left_animations[math.floor(self.animation_loop)]
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
-                 if self.animation_loop >= 7:
+                 if self.animation_loop >= (len(walk_left_animations) - 1):
                      self.animation_loop = 1
+
+class Attack(pygame.sprite.Sprite):
+    
+    def __init__(self, game, x, y, item):
+        
+        self.game = game
+        self._layer = config.layers["player_layer"]
+        self.groups = self.game.all_sprites, self.game.attacks
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.item = item
+        
+        keys_animations = list(self.game.sprites.attack_animations[self.item].keys())
+        self.image = self.game.sprites.attack_animations[self.item][keys_animations[0]][0]
+        
+        # Define tamanho e posicao do ataque
+        self.x = x * config.tilesize
+        self.y = y * config.tilesize
+        self.width = config.tilesize
+        self.height = config.tilesize
+        
+        self.animation_loop = 0
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+        
+    def update(self):
+        self.animate()
+        
+    def animate(self):
+        direction = self.game.player.facing
+        
+        [self.wave_down_animations, self.wave_up_animations, self.wave_right_animations, self.wave_left_animations] = self.game.sprites.attack_animations[self.item].values()
+        
+        if direction == "down":
+            # Cria o loop de animacao
+            self.image = self.wave_down_animations[math.floor(self.animation_loop)]
+            # Ajusta a velocidade com que o loop ocorre nessa direcao
+            self.animation_loop += 0.5
+            if self.animation_loop >= (len(self.wave_down_animations)- 1):
+                self.kill()
+        
+        if direction == "up":
+            # Cria o loop de animacao
+            self.image = self.wave_up_animations[math.floor(self.animation_loop)]
+            # Ajusta a velocidade com que o loop ocorre nessa direcao
+            self.animation_loop += 0.5
+            if self.animation_loop >= (len(self.wave_up_animations)- 1):
+                self.kill()
+                
+        if direction == "right":
+            # Cria o loop de animacao
+            self.image = self.wave_right_animations[math.floor(self.animation_loop)]
+            # Ajusta a velocidade com que o loop ocorre nessa direcao
+            self.animation_loop += 0.5
+            if self.animation_loop >= (len(self.wave_right_animations)- 1):
+                self.kill()
+                
+        if direction == "left":
+            # Cria o loop de animacao
+            self.image = self.wave_left_animations[math.floor(self.animation_loop)]
+            # Ajusta a velocidade com que o loop ocorre nessa direcao
+            self.animation_loop += 0.5
+            if self.animation_loop >= (len(self.wave_left_animations)- 1):
+                self.kill()
+                

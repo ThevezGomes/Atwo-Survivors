@@ -8,6 +8,7 @@ from sprites import *
 from config import *
 from props import *
 from map import *
+import repositorio_sprites as rs
 
 class Game:
     def __init__(self):
@@ -19,22 +20,10 @@ class Game:
         self.paused = False
         self.level_up = False
         self.restart =False
+        self.sprites = rs.Sprites()
 
         # Carrega o mapa .tmx
         self.tmx_data = load_pygame("../assets/Tiled/tmx/Map2.tmx")
-        
-        self.main_character_spritesheet = Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
-        
-        self.main_character_spritesheet_walk_down = Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
-        self.main_character_spritesheet_walk_up = Spritesheet("../assets/warrior_sprites/Up/Png/WarriorUpWalk.png")
-        self.main_character_spritesheet_walk_left = Spritesheet("../assets/warrior_sprites/Left/Png/WarriorLeftWalk.png")
-        self.main_character_spritesheet_walk_right = Spritesheet("../assets/warrior_sprites/Right/Png/WarriorRightWalk.png")
-
-        self.enemy_skeleton_spritesheet = Spritesheet("../assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png")
-        self.enemy_skeleton_spritesheet_walk_down = Spritesheet("../assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png")
-        self.enemy_skeleton_spritesheet_walk_up = Spritesheet("../assets/enemy_sprites/skeleton/Up/Png/SkeletonWithSwordUpWalk.png")
-        self.enemy_skeleton_spritesheet_walk_left = Spritesheet("../assets/enemy_sprites/skeleton/Left/Png/SkeletonWithSwordLefttRun.png")
-        self.enemy_skeleton_spritesheet_walk_right = Spritesheet("../assets/enemy_sprites/skeleton/Right/Png/SkeletonWithSwordRightRun.png")
 
         self.font_title = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 54)
         self.font_text = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 32)
@@ -154,6 +143,16 @@ class Game:
                         self.pause_menu()  # Chama o menu de pausa
                         self.game_timer.resume() # Retorna o relogio
                 self.inventory.selection_event(event)
+            elif pygame.mouse.get_pressed()[0]:
+                if self.player.facing == "up":
+                    Attack(self, self.player.rect.x, self.player.rect.y - config.char_size[1], "wave")
+                if self.player.facing == "down":
+                    Attack(self, self.player.rect.x, self.player.rect.y + config.char_size[1], "wave")
+                if self.player.facing == "left":
+                    Attack(self, self.player.rect.x - config.char_size[0], self.player.rect.y, "wave")
+                if self.player.facing == "right":
+                    Attack(self, self.player.rect.x + config.char_size[0], self.player.rect.y, "wave")
+               
         if self.level_up == True:
                 self.game_timer.pause() 
                 self.level_up_menu(self.itens)
@@ -409,7 +408,7 @@ class Game:
 
         # Configuração do título
         title_font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 40)
-        title_text = title_font.render("Escolha um:", True, pygame.Color('white'))
+        title_text = title_font.render("Escolha uma habilidade:", True, pygame.Color('white'))
         title_rect = title_text.get_rect(center=(self.screen.get_width() // 2, (self.screen.get_height() // 2) - (button_height // 2) - 30))  # Centraliza no topo da tela
 
         # Define a coordenada Y para todos os itens, mantendo-os na mesma linha
