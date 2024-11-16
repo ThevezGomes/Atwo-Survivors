@@ -19,31 +19,31 @@ class Game:
         self.paused = False
 
         # Carrega o mapa .tmx
-        self.tmx_data = load_pygame("../assets/Tiled/tmx/Map2.tmx")
+        self.tmx_data = load_pygame("assets/Tiled/tmx/Map2.tmx")
 
         #Adiciona sprites do personagem principal
-        self.main_character_spritesheet = Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
+        self.main_character_spritesheet = Spritesheet("assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
         
-        self.main_character_spritesheet_walk_down = Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
-        self.main_character_spritesheet_walk_up = Spritesheet("../assets/warrior_sprites/Up/Png/WarriorUpWalk.png")
-        self.main_character_spritesheet_walk_left = Spritesheet("../assets/warrior_sprites/Left/Png/WarriorLeftWalk.png")
-        self.main_character_spritesheet_walk_right = Spritesheet("../assets/warrior_sprites/Right/Png/WarriorRightWalk.png")
+        self.main_character_spritesheet_walk_down = Spritesheet("assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
+        self.main_character_spritesheet_walk_up = Spritesheet("assets/warrior_sprites/Up/Png/WarriorUpWalk.png")
+        self.main_character_spritesheet_walk_left = Spritesheet("assets/warrior_sprites/Left/Png/WarriorLeftWalk.png")
+        self.main_character_spritesheet_walk_right = Spritesheet("assets/warrior_sprites/Right/Png/WarriorRightWalk.png")
 
-        self.enemy_skeleton_spritesheet = Spritesheet("../assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png")
-        self.enemy_skeleton_spritesheet_walk_down = Spritesheet("../assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png")
-        self.enemy_skeleton_spritesheet_walk_up = Spritesheet("../assets/enemy_sprites/skeleton/Up/Png/SkeletonWithSwordUpWalk.png")
-        self.enemy_skeleton_spritesheet_walk_left = Spritesheet("../assets/enemy_sprites/skeleton/Left/Png/SkeletonWithSwordLefttRun.png")
-        self.enemy_skeleton_spritesheet_walk_right = Spritesheet("../assets/enemy_sprites/skeleton/Right/Png/SkeletonWithSwordRightRun.png")
+        self.enemy_skeleton_spritesheet = Spritesheet("assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png")
+        self.enemy_skeleton_spritesheet_walk_down = Spritesheet("assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png")
+        self.enemy_skeleton_spritesheet_walk_up = Spritesheet("assets/enemy_sprites/skeleton/Up/Png/SkeletonWithSwordUpWalk.png")
+        self.enemy_skeleton_spritesheet_walk_left = Spritesheet("assets/enemy_sprites/skeleton/Left/Png/SkeletonWithSwordLefttRun.png")
+        self.enemy_skeleton_spritesheet_walk_right = Spritesheet("assets/enemy_sprites/skeleton/Right/Png/SkeletonWithSwordRightRun.png")
 
-        self.font_title = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 54)
-        self.font_text = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 32)
+        self.font_title = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 54)
+        self.font_text = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 32)
 
         #Imagens da tela inicial
-        self.intro_background = pygame.image.load('../assets/img/Loginscreen.png').convert()
+        self.intro_background = pygame.image.load('assets/img/Loginscreen.png').convert()
         target_height = self.screen.get_height()
         scaled_width = int(self.intro_background.get_width() * (target_height / self.intro_background.get_height()))
         self.intro_background = pygame.transform.scale(self.intro_background, (scaled_width, target_height))
-        self.character = pygame.image.load('../assets/img/Warrior.png').convert_alpha()
+        self.character = pygame.image.load('assets/img/Warrior.png').convert_alpha()
 
         self.height_character = 88
         self.width_character = (self.height_character/22)*32
@@ -60,15 +60,15 @@ class Game:
 
         #Criação do inventário (posição, tamanho do slot e número de slots)
         self.inventory = Inventory(x=50, y=self.screen.get_height() - 100, slot_size=50, max_slots=5)
-        self.inventory.add_item("Espada", "../assets\img\sword1.png")
-        self.inventory.add_item("Espada", "../assets\img\sword1.png")
-        self.inventory.add_item("Poção", "../assets/img/staff36.png")
+        self.inventory.add_item("Espada", "assets\img\sword1.png")
+        self.inventory.add_item("Espada", "assets\img\sword1.png")
+        self.inventory.add_item("Poção", "assets/img/staff36.png")
 
         #Criação do hub de habilidades (posição, tamanho do slot e número de slots)
         self.skills_hub = Skills_hub(x=10, y=10, slot_size=40, max_slots=5)
-        self.skills_hub.add_item("Resistencia", "../assets\img\Sorceress Green Skill 07.png")
-        self.skills_hub.add_item("Resistencia", "../assets\img\Sorceress Green Skill 07.png")
-        self.skills_hub.add_item("Cura", "../assets\img\Sorceress Icon 10.png")
+        self.skills_hub.add_item("Resistencia", "assets\img\Sorceress Green Skill 07.png")
+        self.skills_hub.add_item("Resistencia", "assets\img\Sorceress Green Skill 07.png")
+        self.skills_hub.add_item("Cura", "assets\img\Sorceress Icon 10.png")
 
         # Barra de vida
         self.health_bar = HealthBar(max=100, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
@@ -92,11 +92,23 @@ class Game:
 
     
     def load_map(self):
-    # Define as propriedades de cada camada do mapa
+
+        #Coordenadas que devem aparecer no centro da tela
+        target_x, target_y = 1250, 1589
+    
+        #Coordenadas do centro da tela
+        screen_center_x, screen_center_y = 460, 454
+
+        #Calcula o deslocamento necessário
+        offset_x = target_x - screen_center_x
+        offset_y = target_y - screen_center_y
+
+
+    #Define as propriedades de cada camada do mapa
         for layer in self.tmx_data.visible_layers:
             if hasattr(layer, 'data'):
                 for x, y, surf in layer.tiles():
-                    pos = (x * self.tmx_data.tilewidth , y * self.tmx_data.tileheight )
+                    pos = (x * self.tmx_data.tilewidth - offset_x , y * self.tmx_data.tileheight - offset_y )
                     tile = Tile(pos, surf, [self.all_sprites])
                     
                     # Verifica se o Tile é colidível
@@ -105,7 +117,7 @@ class Game:
 
         # Adiciona objetos específicos como colidíveis
         for obj in self.tmx_data.objects:
-            pos = (obj.x , obj.y )
+            pos = (obj.x - offset_x , obj.y - offset_y)
             
             if obj.type == 'Poligono':
                 if obj.name == 'rect':
@@ -140,16 +152,24 @@ class Game:
         center_y = map_height // 2
 
         # Cria o jogador no centro do mapa
-        self.player = Player(self, center_x, center_y)
-        self.all_sprites.add(self.player)
+        #self.player = Player(self, center_x, center_y)
+        #self.all_sprites.add(self.player)
 
         # Cria o jogador na posicao central da tela
         #Para funcionar normal, só tirar o comentario abaixo e comentar o de cima
-        #self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
+        self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
         
         # Inicializa a câmera
         #self.camera = Camera(map_width, map_height)
-        self.camera = Camera(center_x, center_y)
+        
+        # Inicializa a câmera com o tamanho do mapa e começa na coordenada (1587, 1610)
+        self.camera = Camera(center_x,center_y)
+
+        # Ajusta a câmera para começar na posição desejada
+        #self.camera.camera.topleft = (self.player)
+
+        #self.player = Player(self, 1587 // config.tilesize, 1610 // config.tilesize)
+
 
         self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
 
@@ -278,12 +298,12 @@ class Game:
         self.blur(paused_surface)
         
         # Carregar e centralizar o fundo do menu
-        menu_background = pygame.image.load('../assets\img\SimplePanel01.png').convert_alpha()
+        menu_background = pygame.image.load('assets\img\SimplePanel01.png').convert_alpha()
         menu_background = pygame.transform.scale(menu_background, (400, 400))
         menu_rect = menu_background.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
         
         # Configuração do título do menu
-        title_font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 40)
+        title_font = pygame.font.Font('assets/fonts/PixelifySans-Regular.ttf', 40)
         title_text = title_font.render("Menu de Pausa", True, pygame.Color('white'))
         title_rect = title_text.get_rect(center=(menu_rect.centerx, menu_rect.top + 70))
         
