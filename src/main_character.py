@@ -39,6 +39,7 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.movement()
         self.animate()
+        self.colete_direction()
         
         self.rect.x += self.x_change
         self.collide_blocks("x")
@@ -179,6 +180,23 @@ class Player(pygame.sprite.Sprite):
                  self.animation_loop += 0.2
                  if self.animation_loop >= (len(walk_left_animations) - 1):
                      self.animation_loop = 1
+                     
+    def colete_direction(self):
+        self.mouse_direction = "down"
+        mouse_position = pygame.mouse.get_pos()
+        h = self.game.screen.get_height()
+        w = self.game.screen.get_width()
+        reta_1 = (h*mouse_position[0])/w
+        reta_2 = (h*(-mouse_position[0] + w))/w
+        
+        if mouse_position[1] >= reta_1 and mouse_position[1] >= reta_2:
+            self.mouse_direction = "down"
+        if mouse_position[1] <= reta_1 and mouse_position[1] <= reta_2:
+            self.mouse_direction = "up"
+        if mouse_position[1] <= reta_1 and mouse_position[1] >= reta_2:
+            self.mouse_direction = "right"
+        if mouse_position[1] >= reta_1 and mouse_position[1] <= reta_2:
+            self.mouse_direction = "left"
 
 class Attack(pygame.sprite.Sprite):
     
@@ -209,7 +227,7 @@ class Attack(pygame.sprite.Sprite):
         self.animate()
         
     def animate(self):
-        direction = self.game.player.facing
+        direction = self.game.player.mouse_direction
         
         [self.wave_down_animations, self.wave_up_animations, self.wave_right_animations, self.wave_left_animations] = self.game.sprites.attack_animations[self.item].values()
         

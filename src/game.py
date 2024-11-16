@@ -144,13 +144,13 @@ class Game:
                         self.game_timer.resume() # Retorna o relogio
                 self.inventory.selection_event(event)
             elif pygame.mouse.get_pressed()[0]:
-                if self.player.facing == "up":
+                if self.player.mouse_direction == "up":
                     Attack(self, self.player.rect.x, self.player.rect.y - config.char_size[1], "wave")
-                if self.player.facing == "down":
+                if self.player.mouse_direction == "down":
                     Attack(self, self.player.rect.x, self.player.rect.y + config.char_size[1], "wave")
-                if self.player.facing == "left":
+                if self.player.mouse_direction == "left":
                     Attack(self, self.player.rect.x - config.char_size[0], self.player.rect.y, "wave")
-                if self.player.facing == "right":
+                if self.player.mouse_direction == "right":
                     Attack(self, self.player.rect.x + config.char_size[0], self.player.rect.y, "wave")
                
         if self.level_up == True:
