@@ -7,6 +7,7 @@ from enemies import Enemy
 from sprites import *
 from config import *
 from map import *
+from camera import *
 
 class Game:
     def __init__(self):
@@ -84,6 +85,11 @@ class Game:
         #Grupo de sprites e colisão
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.collidable_sprites = pygame.sprite.Group()
+
+        # Variáveis para o deslocamento da câmera
+        self.camera_offset_x = 0
+        self.camera_offset_y = 0
+
     
     def load_map(self):
     # Define as propriedades de cada camada do mapa
@@ -135,10 +141,15 @@ class Game:
 
         # Cria o jogador no centro do mapa
         self.player = Player(self, center_x, center_y)
+        self.all_sprites.add(self.player)
 
         # Cria o jogador na posicao central da tela
         #Para funcionar normal, só tirar o comentario abaixo e comentar o de cima
         #self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
+        
+        # Inicializa a câmera
+        #self.camera = Camera(map_width, map_height)
+        self.camera = Camera(center_x, center_y)
 
         self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
 
@@ -149,8 +160,9 @@ class Game:
         #camera_offset_x = self.player.rect.centerx - self.screen.get_width() // 2
         #camera_offset_y = self.player.rect.centery - self.screen.get_height() // 2
 
-        #for sprite in self.all_sprites:
-            #self.screen.blit(sprite.image, (sprite.rect.x - camera_offset_x, sprite.rect.y - camera_offset_y))
+        # Desenha os sprites ajustados pela câmera
+        for sprite in self.all_sprites:
+            self.screen.blit(sprite.image, self.camera.apply(sprite))
 
         self.all_sprites.draw(self.screen)
         self.inventory.draw(self.screen) # Adciona o inventario a tela do jogo
@@ -166,7 +178,10 @@ class Game:
     def update(self):
         #Atualiza todos os sprites e suas propriedades
         self.all_sprites.update()
-
+        
+        #Atualiza a câmera para seguir o jogador
+        self.camera.update(self.player)
+    
     def run(self):
         while self.running:
             for event in pygame.event.get():
