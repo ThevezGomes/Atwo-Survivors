@@ -7,7 +7,6 @@ from enemies import Enemy
 from sprites import *
 from config import *
 from map import *
-from camera import *
 
 class Game:
     def __init__(self):
@@ -86,10 +85,7 @@ class Game:
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.collidable_sprites = pygame.sprite.Group()
 
-        # Variáveis para o deslocamento da câmera
-        self.camera_offset_x = 0
-        self.camera_offset_y = 0
-
+    
     
     def load_map(self):
 
@@ -145,45 +141,14 @@ class Game:
         #Carrega os tiles e define colisões com base nas camadas
         self.load_map()
 
-        # Calcula o centro do mapa
-        map_width = self.tmx_data.width * self.tmx_data.tilewidth
-        map_height = self.tmx_data.height * self.tmx_data.tileheight
-        center_x = map_width // 2
-        center_y = map_height // 2
-
-        # Cria o jogador no centro do mapa
-        #self.player = Player(self, center_x, center_y)
-        #self.all_sprites.add(self.player)
-
         # Cria o jogador na posicao central da tela
-        #Para funcionar normal, só tirar o comentario abaixo e comentar o de cima
         self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
         
-        # Inicializa a câmera
-        #self.camera = Camera(map_width, map_height)
-        
-        # Inicializa a câmera com o tamanho do mapa e começa na coordenada (1587, 1610)
-        self.camera = Camera(center_x,center_y)
-
-        # Ajusta a câmera para começar na posição desejada
-        #self.camera.camera.topleft = (self.player)
-
-        #self.player = Player(self, 1587 // config.tilesize, 1610 // config.tilesize)
-
-
         self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
 
     def draw(self):
         self.screen.fill((0, 0, 0))
         
-        #coloquei como se houvesse uma classe para o player, mas não existe
-        #camera_offset_x = self.player.rect.centerx - self.screen.get_width() // 2
-        #camera_offset_y = self.player.rect.centery - self.screen.get_height() // 2
-
-        # Desenha os sprites ajustados pela câmera
-        for sprite in self.all_sprites:
-            self.screen.blit(sprite.image, self.camera.apply(sprite))
-
         self.all_sprites.draw(self.screen)
         self.inventory.draw(self.screen) # Adciona o inventario a tela do jogo
         self.skills_hub.draw(self.screen)
@@ -199,8 +164,6 @@ class Game:
         #Atualiza todos os sprites e suas propriedades
         self.all_sprites.update()
         
-        #Atualiza a câmera para seguir o jogador
-        self.camera.update(self.player)
     
     def run(self):
         while self.running:
