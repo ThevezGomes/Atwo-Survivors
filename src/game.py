@@ -121,9 +121,9 @@ class Game:
         self.load_map()
 
         # Cria o jogador na posicao central da tela
-        self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
+        self.player = Player(self, (self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2)
         
-        self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
+        self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2)
 
     def draw(self):
         self.screen.fill((0, 0, 0))

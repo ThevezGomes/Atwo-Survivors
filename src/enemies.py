@@ -39,8 +39,6 @@ class Enemy(pygame.sprite.Sprite):
 
         # Forma a aparência do inimigo (Animação há de ser implementada ainda)
         self.image = self.game.enemy_skeleton_spritesheet.get_sprite(12, 7, 22, 32)
-        self.image = pygame.transform.scale(self.image, config.size)
-
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
@@ -101,11 +99,9 @@ class Enemy(pygame.sprite.Sprite):
         if self.facing == "down":
              if self.y_change == 0:
                  self.image = self.walk_down_animations[0]
-                 self.image = pygame.transform.scale(self.image, config.size)
              else:
                  # Cria o loop de animacao
                  self.image = self.walk_down_animations[math.floor(self.animation_loop)]
-                 self.image = pygame.transform.scale(self.image, config.size)
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
                  if self.animation_loop >= 5:
@@ -114,11 +110,9 @@ class Enemy(pygame.sprite.Sprite):
         if self.facing == "up":
              if self.y_change == 0:
                  self.image = self.walk_up_animations[0]
-                 self.image = pygame.transform.scale(self.image, config.size)
              else:
                  # Cria o loop de animacao
                  self.image = self.walk_up_animations[math.floor(self.animation_loop)]
-                 self.image = pygame.transform.scale(self.image, config.size)
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
                  if self.animation_loop >= 5:
@@ -127,11 +121,9 @@ class Enemy(pygame.sprite.Sprite):
         if self.facing == "right":
              if self.x_change == 0:
                  self.image = self.walk_right_animations[0]
-                 self.image = pygame.transform.scale(self.image, config.size)
              else:
                  # Cria o loop de animacao
                  self.image = self.walk_right_animations[math.floor(self.animation_loop)]
-                 self.image = pygame.transform.scale(self.image, config.size)
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
                  if self.animation_loop >= 5:
@@ -140,11 +132,9 @@ class Enemy(pygame.sprite.Sprite):
         if self.facing == "left":
              if self.x_change == 0:
                  self.image = self.walk_left_animations[0]
-                 self.image = pygame.transform.scale(self.image, config.size)
              else:
                  # Cria o loop de animacao
                  self.image = self.walk_left_animations[math.floor(self.animation_loop)]
-                 self.image = pygame.transform.scale(self.image, config.size)
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
                  self.animation_loop += 0.2
                  if self.animation_loop >= 5:
