@@ -1,10 +1,13 @@
 import pygame
+import sys
+from pytmx.util_pygame import load_pygame
 from ui import *
 from main_character import *
-from enemies import Enemy
+from enemies import *
 from sprites import *
+from config import *
 from props import *
-import sys
+from map import *
 
 class Game:
     def __init__(self):
@@ -16,6 +19,9 @@ class Game:
         self.paused = False
         self.level_up = False
         self.restart =False
+
+        # Carrega o mapa .tmx
+        self.tmx_data = load_pygame("../assets/Tiled/tmx/Map2.tmx")
         
         self.main_character_spritesheet = Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png")
         
@@ -84,6 +90,10 @@ class Game:
         #self.game_timer.add_event(5, self.itemdrop)
         #self.game_timer.add_event(7, self.morte)
 
+        #Grupo de sprites e colisão
+        self.all_sprites = pygame.sprite.LayeredUpdates()
+        self.collidable_sprites = pygame.sprite.Group()
+
     #Teste de eventos
     #def itemdrop(self):
     #    self.item1 = self.espada
@@ -107,9 +117,12 @@ class Game:
         self.enemies = pygame.sprite.LayeredUpdates()
         self.attacks = pygame.sprite.LayeredUpdates()
 
+        #Carrega os tiles e define colisões com base nas camadas
+        self.load_map()
+
         # Cria o jogador na posicao central da tela
         self.player = Player(self, (self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
-
+        
         self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.size[0]) // 2, (self.screen.get_height() - config.size[1]) // 2)
 
     def draw(self):
@@ -121,6 +134,7 @@ class Game:
         self.experience_bar.draw(self.screen) # Adciona a barra de experiência na tela
         self.game_timer.update(self.screen) # Adciona o timer ao jogo
         self.clock.tick(60)
+
 
         pygame.display.update()
 
@@ -153,6 +167,48 @@ class Game:
         self.draw()
 
         self.clock.tick(60)  # Controle de FPS
+
+    def load_map(self):
+
+        #Coordenadas que devem aparecer no centro da tela
+        target_x, target_y = 1250, 1589
+    
+        #Coordenadas do centro da tela
+        screen_center_x, screen_center_y = 460, 454
+
+        #Calcula o deslocamento necessário
+        offset_x = target_x - screen_center_x
+        offset_y = target_y - screen_center_y
+
+
+    #Define as propriedades de cada camada do mapa
+        for layer in self.tmx_data.visible_layers:
+            if hasattr(layer, 'data'):
+                for x, y, surf in layer.tiles():
+                    pos = (x * self.tmx_data.tilewidth - offset_x , y * self.tmx_data.tileheight - offset_y )
+                    tile = Tile(pos, surf, [self.all_sprites])
+                    
+                    # Verifica se o Tile é colidível
+                    if layer.name == "Colidivel":
+                        self.collidable_sprites.add(tile)
+
+        # Adiciona objetos específicos como colidíveis
+        for obj in self.tmx_data.objects:
+            pos = (obj.x - offset_x , obj.y - offset_y)
+            
+            if obj.type == 'Poligono':
+                if obj.name == 'rect':
+                    rect = pygame.Rect(obj.x, obj.y ,obj.width, obj.height)
+                    pygame.draw.rect(self.screen, 'yellow', rect)
+
+            if obj.type in ("Vegetacao", "Pedras", "Lapide", "Cerca", "Poligono", "Montanha"):
+                if obj.image:
+                    tile = Tile(pos, obj.image, [self.all_sprites, self.collidable_sprites])
+                    tile.scale(obj.width, obj.height)
+                    print(obj.id, tile.rect)
+                    self.collidable_sprites.add(tile)  # Garante que esses objetos sejam colidíveis
+                else:
+                    print(f"Objeto {obj.name} ({obj.type}) em {pos} está sem imagem!")  # Debug
 
     def intro_screen(self):
         intro = True
@@ -190,7 +246,7 @@ class Game:
             if play_button.is_pressed(mouse_pos, mouse_pressed):
                 intro = False
                 self.new() # Inicia o jogo
-                self.game_timer.start() # Inicia o timer do jogo
+                self.game_timer.start() # Inicia o timer do jogo 
             
             quit_button.update(mouse_pos)
             if quit_button.is_pressed(mouse_pos, mouse_pressed):

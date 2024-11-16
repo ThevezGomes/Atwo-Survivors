@@ -21,7 +21,7 @@ enemy_fov = 400
 red = (255, 0 , 0)
 
 # Largura do personagem principal
-width = 88
+width = 52
 
 # Tamanho do personagem principal
 size = (width, (width*32)/22)
