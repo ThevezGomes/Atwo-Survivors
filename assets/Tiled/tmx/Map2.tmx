@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="214">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="259">
  <tileset firstgid="1" source="../tsx/Land.tsx"/>
  <tileset firstgid="225" source="../tsx/Objetos.tsx"/>
  <tileset firstgid="255" source="../tsx/Montanhas-1.tsx"/>
@@ -129,47 +129,48 @@
  </objectgroup>
  <objectgroup id="3" name="Fundo1">
   <object id="49" type="Montanha" gid="266" x="-0.505208" y="0.00260417" width="3200.38" height="2269.5"/>
+  <object id="257" type="Montanha" gid="262" x="298" y="-29.3333" width="320" height="240"/>
  </objectgroup>
  <objectgroup id="4" name="Fundo 2">
   <object id="44" type="Montanha" gid="263" x="-0.00576768" y="-0.000378788" width="320" height="317"/>
   <object id="48" type="Montanha" gid="262" x="939.979" y="-42" width="320" height="240"/>
   <object id="65" type="Montanha" gid="263" x="320.057" y="-0.000189394" width="320" height="317"/>
-  <object id="66" type="Montanha" gid="262" x="320.063" y="0.000189394" width="320" height="240"/>
-  <object id="67" type="Montanha" gid="265" x="320.063" y="0.000189394" width="320" height="240"/>
+  <object id="67" type="Montanha" gid="265" x="320.006" y="0.0366477" width="320" height="240"/>
   <object id="68" type="Montanha" gid="264" x="318.063" y="-0.999811" width="320" height="240"/>
   <object id="69" type="Montanha" gid="263" x="640.15" y="0.0309659" width="320" height="317"/>
   <object id="70" type="Montanha" gid="263" x="960.213" y="0.0311553" width="320" height="317"/>
   <object id="71" type="Montanha" gid="262" x="960.219" y="0.0315341" width="320" height="240"/>
-  <object id="72" type="Montanha" gid="265" x="960.219" y="0.0315341" width="320" height="240"/>
+  <object id="72" type="Montanha" gid="265" x="959.99" y="0.0350931" width="320" height="240"/>
   <object id="73" type="Montanha" gid="264" x="958.219" y="-0.968466" width="320" height="240"/>
   <object id="74" type="Montanha" gid="262" x="640.156" y="0.0313447" width="320" height="240"/>
-  <object id="75" type="Montanha" gid="265" x="640.156" y="0.0313447" width="320" height="240"/>
+  <object id="75" type="Montanha" gid="265" x="639.99" y="0.0376578" width="320" height="240"/>
   <object id="76" type="Montanha" gid="264" x="638.156" y="-0.968655" width="320" height="240"/>
   <object id="77" type="Montanha" gid="263" x="1280.21" y="0.0110322" width="320" height="317"/>
   <object id="78" type="Montanha" gid="262" x="2220.2" y="-41.9886" width="320" height="240"/>
   <object id="79" type="Montanha" gid="263" x="1600.28" y="0.0112216" width="320" height="317"/>
   <object id="80" type="Montanha" gid="262" x="1600.28" y="0.0116004" width="320" height="240"/>
-  <object id="81" type="Montanha" gid="265" x="1600.28" y="0.0116004" width="320" height="240"/>
+  <object id="81" type="Montanha" gid="265" x="1599.94" y="0.0727115" width="320" height="240"/>
   <object id="82" type="Montanha" gid="264" x="1598.28" y="-0.9884" width="320" height="240"/>
   <object id="83" type="Montanha" gid="263" x="1920.37" y="0.0423769" width="320" height="317"/>
   <object id="84" type="Montanha" gid="263" x="2240.43" y="0.0425663" width="320" height="317"/>
   <object id="85" type="Montanha" gid="262" x="2240.44" y="0.0429451" width="320" height="240"/>
-  <object id="86" type="Montanha" gid="265" x="2240.44" y="0.0429451" width="320" height="240"/>
+  <object id="86" type="Montanha" gid="265" x="2239.96" y="0.0637784" width="320" height="240"/>
   <object id="87" type="Montanha" gid="264" x="2238.44" y="-0.957055" width="320" height="240"/>
   <object id="88" type="Montanha" gid="262" x="1920.38" y="0.0427557" width="320" height="240"/>
-  <object id="89" type="Montanha" gid="265" x="1920.38" y="0.0427557" width="320" height="240"/>
+  <object id="89" type="Montanha" gid="265" x="1919.94" y="0.076089" width="320" height="240"/>
   <object id="90" type="Montanha" gid="264" x="1918.38" y="-0.957244" width="320" height="240"/>
   <object id="91" type="Montanha" gid="262" x="1280.22" y="0.011411" width="320" height="240"/>
-  <object id="92" type="Montanha" gid="265" x="1280.22" y="0.011411" width="320" height="240"/>
+  <object id="92" type="Montanha" gid="265" x="1279.97" y="0.058286" width="320" height="240"/>
   <object id="93" type="Montanha" gid="264" x="1278.22" y="-0.988589" width="320" height="240"/>
   <object id="94" type="Montanha" gid="263" x="2560.18" y="0.0517045" width="320" height="317"/>
   <object id="96" type="Montanha" gid="263" x="2880.24" y="0.0518939" width="320" height="317"/>
   <object id="97" type="Montanha" gid="262" x="2880.25" y="0.0522727" width="320" height="240"/>
-  <object id="98" type="Montanha" gid="265" x="2880.25" y="0.0522727" width="320" height="240"/>
+  <object id="98" type="Montanha" gid="265" x="2880.05" y="0.141162" width="320" height="240"/>
   <object id="99" type="Montanha" gid="264" x="2878.25" y="-0.947728" width="320" height="240"/>
   <object id="108" type="Montanha" gid="262" x="2560.18" y="0.0520833" width="320" height="240"/>
-  <object id="109" type="Montanha" gid="265" x="2560.18" y="0.0520833" width="320" height="240"/>
+  <object id="109" type="Montanha" gid="265" x="2560.05" y="0.12817" width="320" height="240"/>
   <object id="110" type="Montanha" gid="264" x="2558.18" y="-0.947917" width="320" height="240"/>
+  <object id="258" type="Montanha" gid="262" x="320.303" y="-3.90799e-14" width="320" height="240"/>
  </objectgroup>
  <objectgroup id="5" name="Fundo 3">
   <object id="50" type="Montanha" gid="262" x="0" y="0" width="320" height="240"/>
