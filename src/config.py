@@ -17,18 +17,21 @@ damage = {
         "skeleton": 10
         },
     "itens": {
-        "wave": 10}
+        "wave": 10,
+        "energy_ball": 30}
     }
 
 # Variavel que define a velocidade do jogador
 player_speed = 7
 
 itens_speed = {
-    "wave": 1
+    "wave": 1,
+    "energy_ball": 10
     }
 
 itens_delay = {
-    "wave": 550
+    "wave": 550,
+    "energy_ball": 550
     }
 
 # Variavel que define a velocidade base dos inimigos
@@ -37,7 +40,7 @@ enemy_speed = {
 }
 
 # Campo de visão do inimigo
-enemy_fov = 400
+enemy_fov = 600
 
 # Cor vermelha em rgb
 red = (255, 0 , 0)

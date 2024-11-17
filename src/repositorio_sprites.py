@@ -40,6 +40,10 @@ class Sprites:
                 "attack_spritesheet_wave_up": Spritesheet("../assets/itens_sprites/Wave/Small/Up/WaveSmallUp.png"),
                 "attack_spritesheet_wave_right": Spritesheet("../assets/itens_sprites/Wave/Small/Right/WaveSmallRight.png"),
                 "attack_spritesheet_wave_left": Spritesheet("../assets/itens_sprites/Wave/Small/Left/WaveSmallLeft.png")
+                },
+            "energy_ball": {
+                "attack_spritesheet_energy_ball": Spritesheet("../assets/itens_sprites/EnergyBall/EnergyBall.png"),
+                "icon": "../assets/itens_sprites/EnergyBall/orb.png"
                 }
             }
         
@@ -168,5 +172,17 @@ class Sprites:
                 "wave_animations": [self.attack_sprites["wave"]["attack_spritesheet_wave_up"].get_sprite(0, 0, 32, 32),
                                         self.attack_sprites["wave"]["attack_spritesheet_wave_up"].get_sprite(32, 0, 32, 32),
                                         self.attack_sprites["wave"]["attack_spritesheet_wave_up"].get_sprite(64, 0, 32, 32)]
+                },
+            "energy_ball": {
+                "energy_ball_animations": [self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 1054, 36, 86),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 920, 36, 94),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 802, 36, 86),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 666, 36, 94),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 544, 36, 86),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 416, 36, 86),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 288, 36, 86),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 162, 36, 86),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 34, 36, 86),
+                    ]
                 }
             }

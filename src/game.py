@@ -50,21 +50,21 @@ class Game:
 
         #Criação do inventário (posição, tamanho do slot e número de slots)
         self.inventory = Inventory(x=50, y=self.screen.get_height() - 100, slot_size=50, max_slots=5)
-        self.espada = Item("Espada", "Uma espada afiada.", "../assets\img\sword1.png")
-        self.inventory.add_item(self.espada)
-        self.inventory.add_item(self.espada)
-        self.pocao = Item("Poção", "Cura 5 de vida", "../assets/img/staff36.png")
-        self.inventory.add_item(self.pocao)
-        self.escudo = Item("Escudo", "Um escudo resistente.", "../assets\img\Sorceress Green Skill 07.png")
+        self.energy_ball = Item("energy_ball","Bola de energia", "Destroi tudo no caminho.")
+        self.inventory.add_item(self.energy_ball)
+        # self.inventory.add_item(self.espada)
+        # self.pocao = Item("Poção", "Cura 5 de vida", "../assets/img/staff36.png")
+        # self.inventory.add_item(self.pocao)
+        # self.escudo = Item("Escudo", "Um escudo resistente.", "../assets\img\Sorceress Green Skill 07.png")
 
         #Criação do hub de habilidades (posição, tamanho do slot e número de slots)
         self.skills_hub = Skills_hub(x=10, y=10, slot_size=40, max_slots=5)
-        self.resistencia = Ability("Resistencia", "Aumenta 50% na resistencia", "../assets\img\Sorceress Green Skill 07.png")
-        self.skills_hub.add_item(self.resistencia)
-        self.skills_hub.add_item(self.resistencia)
-        self.cura = Ability("Cura", "Cura 5 de vida ada 5s", "../assets\img\Sorceress Icon 10.png")
-        self.skills_hub.add_item(self.cura)
-        self.vida = Ability("Vida", "Cura 5 de vida ada 5s", "../assets\img\Sorceress Icon 10.png")
+        # self.resistencia = Ability("Resistencia", "Aumenta 50% na resistencia", "../assets\img\Sorceress Green Skill 07.png")
+        # self.skills_hub.add_item(self.resistencia)
+        # self.skills_hub.add_item(self.resistencia)
+        # self.cura = Ability("Cura", "Cura 5 de vida ada 5s", "../assets\img\Sorceress Icon 10.png")
+        # self.skills_hub.add_item(self.cura)
+        # self.vida = Ability("Vida", "Cura 5 de vida ada 5s", "../assets\img\Sorceress Icon 10.png")
 
         # Barra de experiência
         self.experience_bar = ExperienceBar(max=100, border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=45, level= 3)
@@ -148,8 +148,12 @@ class Game:
                         self.game_timer.resume() # Retorna o relogio
                 self.inventory.selection_event(event)
             elif pygame.mouse.get_pressed()[0]:
-                self.mouse_position = pygame.mouse.get_pos()
-                self.player.atacar(self, self.player.rect.x + self.player.rect.width/2, self.player.rect.y + self.player.rect.height/2, "wave", self.mouse_position)
+                if self.inventory.selected_item_index != None:
+                    self.mouse_position = pygame.mouse.get_pos()
+                    self.player.atacar(self, self.player.rect.x + self.player.rect.width/2, self.player.rect.y + self.player.rect.height/2, self.inventory.items[self.inventory.selected_item_index][0].kind, self.mouse_position)
+                else:
+                    self.mouse_position = pygame.mouse.get_pos()
+                    self.player.atacar(self, self.player.rect.x + self.player.rect.width/2, self.player.rect.y + self.player.rect.height/2, "wave", self.mouse_position)
                
         if self.level_up == True:
                 self.game_timer.pause() 
