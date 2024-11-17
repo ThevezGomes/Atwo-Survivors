@@ -6,6 +6,20 @@ layers = {"player_layer": 3,
           "enemy_layer": 2,
           "block_layer": 1}
 
+max_health = {"player": 1000,
+              "enemies": {
+                  "skeleton": 1000
+                  }
+              }
+
+damage = {
+    "enemies": {
+        "skeleton": 10
+        },
+    "itens": {
+        "wave": 10}
+    }
+
 # Variavel que define a velocidade do jogador
 player_speed = 7
 

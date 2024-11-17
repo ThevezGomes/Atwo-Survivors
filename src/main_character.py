@@ -12,6 +12,7 @@ class Player(pygame.sprite.Sprite):
         self._layer = config.layers["player_layer"]
         self.groups = self.game.all_sprites
         pygame.sprite.Sprite.__init__(self, self.groups)
+        self.health = config.max_health["player"]
 
         # Define tamanho e posicao do jogador
         self.x = x * config.tilesize
@@ -40,6 +41,7 @@ class Player(pygame.sprite.Sprite):
         self.movement()
         self.animate()
         self.colete_direction()
+        self.collide_enemy()
         
         self.rect.x += self.x_change
         self.collide_blocks("x")
@@ -197,6 +199,12 @@ class Player(pygame.sprite.Sprite):
             self.mouse_direction = "right"
         if mouse_position[1] >= reta_1 and mouse_position[1] <= reta_2:
             self.mouse_direction = "left"
+            
+    def collide_enemy(self):
+        hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
+        if hits:
+            self.health -= config.damage["enemies"]["skeleton"]
+            
 
 class Attack(pygame.sprite.Sprite):
     
@@ -225,6 +233,7 @@ class Attack(pygame.sprite.Sprite):
         
     def update(self):
         self.animate()
+        self.collide_enemy()
         
     def animate(self):
         direction = self.game.player.mouse_direction
@@ -262,4 +271,10 @@ class Attack(pygame.sprite.Sprite):
             self.animation_loop += 0.5
             if self.animation_loop >= (len(self.wave_left_animations)- 1):
                 self.kill()
+                
+    def collide_enemy(self):
+        hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
+        if hits:
+            for sprite in hits:
+                sprite.health -= config.damage["itens"][self.item]
                 

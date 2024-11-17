@@ -66,10 +66,6 @@ class Game:
         self.skills_hub.add_item(self.cura)
         self.vida = Ability("Vida", "Cura 5 de vida ada 5s", "../assets\img\Sorceress Icon 10.png")
 
-        # Barra de vida
-        self.health_bar = HealthBar(max=100, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
-        self.health_bar.amount -= 25  # Exemplo de perda de vida
-
         # Barra de experiência
         self.experience_bar = ExperienceBar(max=100, border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=45, level= 3)
         self.experience_bar.amount += 60
@@ -112,7 +108,11 @@ class Game:
         # Cria o jogador na posicao central da tela
         self.player = Player(self, (self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2)
         
-        self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2)
+        self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) // 4, (self.screen.get_height() - config.char_size[1]) // 4)
+        
+        # Barra de vida
+        self.health_bar = HealthBar(max=config.max_health["player"], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
+        self.health_bar.amount = self.player.health
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -130,6 +130,7 @@ class Game:
     def update(self):
         #Atualiza todos os sprites e suas propriedades
         self.all_sprites.update()
+        self.health_bar.amount = self.player.health
 
     def run(self):
         for event in pygame.event.get():
@@ -158,7 +159,7 @@ class Game:
                 self.level_up_menu(self.itens)
                 self.game_timer.resume()
         
-        if self.health_bar.amount <= 0:
+        if self.player.health <= 0:
             self.draw()
             self.game_over()
             

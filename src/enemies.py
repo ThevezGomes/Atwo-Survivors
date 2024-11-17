@@ -17,6 +17,7 @@ class Enemy(pygame.sprite.Sprite):
         self.groups = self.game.all_sprites, self.game.enemies
         self.kind = kind
         self.speed = config.enemy_speed[self.kind]
+        self.health = config.max_health["enemies"][kind]
 
         # Invocar IA
 
@@ -57,6 +58,8 @@ class Enemy(pygame.sprite.Sprite):
 
         self.x_change = 0
         self.y_change = 0
+        
+        self.check_health()
 
     def attack(self):
         pass
@@ -140,6 +143,10 @@ class Enemy(pygame.sprite.Sprite):
                  self.animation_loop += 0.2
                  if self.animation_loop >= (len(self.walk_left_animations) - 1):
                      self.animation_loop = 1
+                     
+    def check_health(self):
+        if self.health <= 0:
+            self.kill()
 
         
 
