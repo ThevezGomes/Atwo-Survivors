@@ -148,14 +148,8 @@ class Game:
                         self.game_timer.resume() # Retorna o relogio
                 self.inventory.selection_event(event)
             elif pygame.mouse.get_pressed()[0]:
-                if self.player.mouse_direction == "up":
-                    Attack(self, self.player.rect.x, self.player.rect.y - config.char_size[1], "wave")
-                if self.player.mouse_direction == "down":
-                    Attack(self, self.player.rect.x, self.player.rect.y + config.char_size[1], "wave")
-                if self.player.mouse_direction == "left":
-                    Attack(self, self.player.rect.x - config.char_size[0], self.player.rect.y, "wave")
-                if self.player.mouse_direction == "right":
-                    Attack(self, self.player.rect.x + config.char_size[0], self.player.rect.y, "wave")
+                self.mouse_position = pygame.mouse.get_pos()
+                self.player.atacar(self, self.player.rect.x + self.player.rect.width/2, self.player.rect.y + self.player.rect.height/2, "wave", self.mouse_position)
                
         if self.level_up == True:
                 self.game_timer.pause() 
@@ -207,10 +201,7 @@ class Game:
                 if obj.image:
                     tile = Tile(pos, obj.image, [self.all_sprites, self.collidable_sprites])
                     tile.scale(obj.width, obj.height)
-                    print(obj.id, tile.rect)
                     self.collidable_sprites.add(tile)  # Garante que esses objetos sejam colidíveis
-                else:
-                    print(f"Objeto {obj.name} ({obj.type}) em {pos} está sem imagem!")  # Debug
 
     def intro_screen(self):
         intro = True

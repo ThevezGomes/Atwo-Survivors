@@ -165,20 +165,8 @@ class Sprites:
         
         self.attack_animations = {
             "wave": {
-                "wave_down_animations": [self.attack_sprites["wave"]["attack_spritesheet_wave_down"].get_sprite(0, 0, 32, 32),
-                                        self.attack_sprites["wave"]["attack_spritesheet_wave_down"].get_sprite(32, 0, 32, 32),
-                                        self.attack_sprites["wave"]["attack_spritesheet_wave_down"].get_sprite(64, 0, 32, 32)],
-                
-                "wave_up_animations": [self.attack_sprites["wave"]["attack_spritesheet_wave_up"].get_sprite(0, 0, 32, 32),
+                "wave_animations": [self.attack_sprites["wave"]["attack_spritesheet_wave_up"].get_sprite(0, 0, 32, 32),
                                         self.attack_sprites["wave"]["attack_spritesheet_wave_up"].get_sprite(32, 0, 32, 32),
-                                        self.attack_sprites["wave"]["attack_spritesheet_wave_up"].get_sprite(64, 0, 32, 32)],
-                
-                "wave_right_animations": [self.attack_sprites["wave"]["attack_spritesheet_wave_right"].get_sprite(0, 0, 32, 32),
-                                        self.attack_sprites["wave"]["attack_spritesheet_wave_right"].get_sprite(32, 0, 32, 32),
-                                        self.attack_sprites["wave"]["attack_spritesheet_wave_right"].get_sprite(64, 0, 32, 32)],
-                
-                "wave_left_animations": [self.attack_sprites["wave"]["attack_spritesheet_wave_left"].get_sprite(0, 0, 32, 32),
-                                        self.attack_sprites["wave"]["attack_spritesheet_wave_left"].get_sprite(32, 0, 32, 32),
-                                        self.attack_sprites["wave"]["attack_spritesheet_wave_left"].get_sprite(64, 0, 32, 32)]
+                                        self.attack_sprites["wave"]["attack_spritesheet_wave_up"].get_sprite(64, 0, 32, 32)]
                 }
             }

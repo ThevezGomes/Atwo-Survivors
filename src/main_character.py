@@ -14,12 +14,15 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.groups)
         
         self.health = config.max_health["player"]
+        self.enemies = []
         self.damage = False
         self.damage_time = 0
         self.damage_index = 0
         self.death = False
         self.death_time = 0
         self.death_index = 0
+        self.attacking = False
+        self.attack_time = 0
 
         # Define tamanho e posicao do jogador
         self.x = x * config.tilesize
@@ -34,7 +37,6 @@ class Player(pygame.sprite.Sprite):
         # Define para onde ele olha e o estado da animacao, inicial igual para baixo e 1, respectivamente
         self.facing = "down"
         self.animation_loop = 1
-        self.mouse_direction = "down"
 
         # Define a imagem inicial do jogador e ajusta o tamanho dele com a tela
         self.image = self.game.sprites.warrior_animations["walk_animations"]["walk_down_animations"][0]
@@ -51,7 +53,6 @@ class Player(pygame.sprite.Sprite):
         elif self.damage:
             self.damage_animation()
         else:
-            self.colete_direction()
             self.movement()
             self.animate()
             self.collide_enemy()
@@ -195,35 +196,20 @@ class Player(pygame.sprite.Sprite):
                  self.animation_loop += 0.2
                  if self.animation_loop >= (len(walk_left_animations) - 1):
                      self.animation_loop = 1
-                     
-    def colete_direction(self):
-        self.mouse_direction = "down"
-        mouse_position = pygame.mouse.get_pos()
-        h = self.game.screen.get_height()
-        w = self.game.screen.get_width()
-        reta_1 = (h*mouse_position[0])/w
-        reta_2 = (h*(-mouse_position[0] + w))/w
-        
-        if mouse_position[1] >= reta_1 and mouse_position[1] >= reta_2:
-            self.mouse_direction = "down"
-        if mouse_position[1] <= reta_1 and mouse_position[1] <= reta_2:
-            self.mouse_direction = "up"
-        if mouse_position[1] <= reta_1 and mouse_position[1] >= reta_2:
-            self.mouse_direction = "right"
-        if mouse_position[1] >= reta_1 and mouse_position[1] <= reta_2:
-            self.mouse_direction = "left"
             
     def collide_enemy(self):
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
         if hits:
             current_time = pygame.time.get_ticks()
-            if current_time - self.damage_time > 400:
+            if current_time - self.damage_time > config.damage_delay:
                 self.damage = True   
                 self.damage_index = 0
                 self.damage_time = pygame.time.get_ticks()
+                self.enemies = list(hits)
                 
     def damage_animation(self):
-        self.health -= config.damage["enemies"]["skeleton"]
+        for enemy in self.enemies:
+            self.health -= config.damage["enemies"][enemy.kind]
         [self.hurt_down_animations, self.hurt_up_animations, self.hurt_right_animations, self.hurt_left_animations] = self.game.sprites.warrior_animations["hurt_animations"].values()
         if self.facing == "down":
             current_time = pygame.time.get_ticks()
@@ -311,10 +297,20 @@ class Player(pygame.sprite.Sprite):
                 else:
                     self.game.draw()
                     self.game.game_over()
-
+                    
+    def atacar(self, game, x, y, item, position):
+        if not self.attacking:
+            self.attacking = True
+            Attack(game, x, y, item, position)
+            self.attack_time = pygame.time.get_ticks()
+        else:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.attack_time > config.itens_delay[item]:
+                self.attacking = False
+        
+                
 class Attack(pygame.sprite.Sprite):
-    
-    def __init__(self, game, x, y, item):
+    def __init__(self, game, x, y, item, position):
         
         self.game = game
         self._layer = config.layers["player_layer"]
@@ -325,11 +321,21 @@ class Attack(pygame.sprite.Sprite):
         keys_animations = list(self.game.sprites.attack_animations[self.item].keys())
         self.image = self.game.sprites.attack_animations[self.item][keys_animations[0]][0]
         
+        self.speed = config.itens_speed[self.item]
+        direction = pygame.math.Vector2(position[0] - x, position[1] - y)
+        self.velocity = direction.normalize() * self.speed
+        
+        x = x + direction.normalize()[0] * self.game.player.rect.width
+        y = y + direction.normalize()[1] * self.game.player.rect.height
+        self.position = pygame.math.Vector2(x, y)
+        
         # Define tamanho e posicao do ataque
         self.x = x * config.tilesize
-        self.y = y * config.tilesize
+        self.y = y * config.tilesize 
         self.width = config.tilesize
         self.height = config.tilesize
+        self.x_change = 0
+        self.y_change = 0
         
         self.animation_loop = 0
         
@@ -337,50 +343,34 @@ class Attack(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
         
+        
     def update(self):
         self.animate()
         self.collide_enemy()
+        self.position += self.velocity
+        self.rect.center = self.position
+        self.collide_blocks()
         
-    def animate(self):
-        direction = self.game.player.mouse_direction
+    def animate(self):        
+        [self.attack_animations] = self.game.sprites.attack_animations[self.item].values()
         
-        [self.wave_down_animations, self.wave_up_animations, self.wave_right_animations, self.wave_left_animations] = self.game.sprites.attack_animations[self.item].values()
-        
-        if direction == "down":
-            # Cria o loop de animacao
-            self.image = self.wave_down_animations[math.floor(self.animation_loop)]
-            # Ajusta a velocidade com que o loop ocorre nessa direcao
-            self.animation_loop += 0.5
-            if self.animation_loop >= (len(self.wave_down_animations)- 1):
-                self.kill()
-        
-        if direction == "up":
-            # Cria o loop de animacao
-            self.image = self.wave_up_animations[math.floor(self.animation_loop)]
-            # Ajusta a velocidade com que o loop ocorre nessa direcao
-            self.animation_loop += 0.5
-            if self.animation_loop >= (len(self.wave_up_animations)- 1):
-                self.kill()
-                
-        if direction == "right":
-            # Cria o loop de animacao
-            self.image = self.wave_right_animations[math.floor(self.animation_loop)]
-            # Ajusta a velocidade com que o loop ocorre nessa direcao
-            self.animation_loop += 0.5
-            if self.animation_loop >= (len(self.wave_right_animations)- 1):
-                self.kill()
-                
-        if direction == "left":
-            # Cria o loop de animacao
-            self.image = self.wave_left_animations[math.floor(self.animation_loop)]
-            # Ajusta a velocidade com que o loop ocorre nessa direcao
-            self.animation_loop += 0.5
-            if self.animation_loop >= (len(self.wave_left_animations)- 1):
-                self.kill()
-                
+        # Cria o loop de animacao
+        self.image = self.attack_animations[math.floor(self.animation_loop)]
+        angle = self.velocity.angle_to(pygame.math.Vector2(0, -1))  # Alinha com o eixo Y (apontando para cima)
+        self.image = pygame.transform.rotate(self.image, angle).convert_alpha()  # Rotaciona o sprite
+        self.rect = self.image.get_rect(center=self.rect.center)  # Atualiza o retângulo
+        # Ajusta a velocidade com que o loop ocorre nessa direcao
+        self.animation_loop += 0.1
+        if self.animation_loop >= (len(self.attack_animations)- 1):
+            self.kill()
+            
     def collide_enemy(self):
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
         if hits:
             for sprite in hits:
                 sprite.health -= config.damage["itens"][self.item]
                 
+    def collide_blocks(self):
+        hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
+        if hits:
+            self.kill()

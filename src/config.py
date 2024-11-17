@@ -23,6 +23,14 @@ damage = {
 # Variavel que define a velocidade do jogador
 player_speed = 7
 
+itens_speed = {
+    "wave": 1
+    }
+
+itens_delay = {
+    "wave": 550
+    }
+
 # Variavel que define a velocidade base dos inimigos
 enemy_speed = {
     "skeleton" : 3
@@ -42,3 +50,5 @@ char_size = (width, (width*32)/22)
 
 # Tmanho base para os personagens
 size = 77
+
+damage_delay = 400
