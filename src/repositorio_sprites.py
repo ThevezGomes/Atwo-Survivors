@@ -9,6 +9,18 @@ class Sprites:
                 "main_character_spritesheet_walk_up": Spritesheet("../assets/warrior_sprites/Up/Png/WarriorUpWalk.png"),
                 "main_character_spritesheet_walk_left": Spritesheet("../assets/warrior_sprites/Left/Png/WarriorLeftWalk.png"),
                 "main_character_spritesheet_walk_right": Spritesheet("../assets/warrior_sprites/Right/Png/WarriorRightWalk.png")
+                },
+            "hurt":{
+                "warrior_spritesheet_hurt_down": Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownHurt.png"),
+                "warrior_spritesheet_hurt_up": Spritesheet("../assets/warrior_sprites/Up/Png/WarriorUpHurt.png"),
+                "warrior_spritesheet_hurt_right": Spritesheet("../assets/warrior_sprites/Right/Png/WarriorRightHurt.png"),
+                "warrior_spritesheet_hurt_left": Spritesheet("../assets/warrior_sprites/Left/Png/WarriorLeftHurt.png")
+                },
+            "death":{
+                "warrior_spritesheet_death_down": Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownDeath.png"),
+                "warrior_spritesheet_death_up": Spritesheet("../assets/warrior_sprites/Up/Png/WarriorUpDeath.png"),
+                "warrior_spritesheet_death_right": Spritesheet("../assets/warrior_sprites/Right/Png/WarriorRightDeath.png"),
+                "warrior_spritesheet_death_left": Spritesheet("../assets/warrior_sprites/Left/Png/WarriorLeftDeath.png")
                 }
             }
         
@@ -68,6 +80,52 @@ class Sprites:
                                          self.warrior_sprites["walk"]["main_character_spritesheet_walk_left"].get_sprite(254, 9, 22, 32),
                                          self.warrior_sprites["walk"]["main_character_spritesheet_walk_left"].get_sprite(302, 9, 22, 32),
                                          self.warrior_sprites["walk"]["main_character_spritesheet_walk_left"].get_sprite(350, 9, 22, 32)]
+                },
+                
+            "hurt_animations": {
+                "hurt_down_animations": [self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_down"].get_sprite(12, 7, 22, 32),
+                                         self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_down"].get_sprite(60, 4, 22, 32),
+                                         self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_down"].get_sprite(108, 3, 23, 32),
+                                         self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_down"].get_sprite(156, 3, 22, 32)],
+                
+                "hurt_up_animations": [self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_up"].get_sprite(13, 7, 22, 33),
+                                         self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_up"].get_sprite(61, 5, 22, 32),
+                                         self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_up"].get_sprite(109, 4, 22, 32),
+                                         self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_up"].get_sprite(157, 4, 22, 32)],
+                
+                "hurt_right_animations": [self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_right"].get_sprite(11, 9, 22, 32),
+                                         self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_right"].get_sprite(59, 8, 22, 32),
+                                         self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_right"].get_sprite(107, 7, 22, 32),
+                                         self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_right"].get_sprite(155, 7, 22, 32)],
+                
+                "hurt_left_animations": [self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_left"].get_sprite(14, 10, 22, 33),
+                                         self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_left"].get_sprite(62, 8, 22, 32),
+                                         self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_left"].get_sprite(110, 7, 22, 32),
+                                         self.warrior_sprites["hurt"]["warrior_spritesheet_hurt_left"].get_sprite(158, 7, 22, 32)]
+                
+                },
+            
+            # PRECISA VERIFICAR NO PAINT
+            "death_animations": {
+                "death_down_animations": [self.warrior_sprites["death"]["warrior_spritesheet_death_down"].get_sprite(12, 7, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_down"].get_sprite(60, 4, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_down"].get_sprite(108, 3, 23, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_down"].get_sprite(156, 3, 22, 32)],
+                
+                "death_up_animations": [self.warrior_sprites["death"]["warrior_spritesheet_death_up"].get_sprite(13, 7, 22, 33),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_up"].get_sprite(61, 5, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_up"].get_sprite(109, 4, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_up"].get_sprite(157, 4, 22, 32)],
+                
+                "death_right_animations": [self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(11, 9, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(59, 8, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(107, 7, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(155, 7, 22, 32)],
+                
+                "death_left_animations": [self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(14, 10, 22, 33),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(62, 8, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(110, 7, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(158, 7, 22, 32)]
                 }
             }
         
@@ -101,6 +159,7 @@ class Sprites:
                                            self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(152, 11, 29, 30),
                                            self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(202, 11, 29, 30),
                                            self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(250, 10, 29, 30)]
+                
             }
         }
         

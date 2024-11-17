@@ -12,7 +12,14 @@ class Player(pygame.sprite.Sprite):
         self._layer = config.layers["player_layer"]
         self.groups = self.game.all_sprites
         pygame.sprite.Sprite.__init__(self, self.groups)
+        
         self.health = config.max_health["player"]
+        self.damage = False
+        self.damage_time = 0
+        self.damage_index = 0
+        self.death = False
+        self.death_time = 0
+        self.death_index = 0
 
         # Define tamanho e posicao do jogador
         self.x = x * config.tilesize
@@ -27,6 +34,7 @@ class Player(pygame.sprite.Sprite):
         # Define para onde ele olha e o estado da animacao, inicial igual para baixo e 1, respectivamente
         self.facing = "down"
         self.animation_loop = 1
+        self.mouse_direction = "down"
 
         # Define a imagem inicial do jogador e ajusta o tamanho dele com a tela
         self.image = self.game.sprites.warrior_animations["walk_animations"]["walk_down_animations"][0]
@@ -38,18 +46,23 @@ class Player(pygame.sprite.Sprite):
 
     # Atualiza todas as propriedades do jogador, como movimento, animacao, mudanca de posicao e colisao
     def update(self):
-        self.movement()
-        self.animate()
-        self.colete_direction()
-        self.collide_enemy()
-        
-        self.rect.x += self.x_change
-        self.collide_blocks("x")
-        self.rect.y += self.y_change
-        self.collide_blocks("y")
-        
-        self.x_change = 0
-        self.y_change = 0
+        if self.death:
+            self.death_animation()
+        elif self.damage:
+            self.damage_animation()
+        else:
+            self.colete_direction()
+            self.movement()
+            self.animate()
+            self.collide_enemy()
+            
+            self.rect.x += self.x_change
+            self.collide_blocks("x")
+            self.rect.y += self.y_change
+            self.collide_blocks("y")
+            
+            self.x_change = 0
+            self.y_change = 0
 
     # Cria o movimento do jogador
     def movement(self):
@@ -203,8 +216,101 @@ class Player(pygame.sprite.Sprite):
     def collide_enemy(self):
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
         if hits:
-            self.health -= config.damage["enemies"]["skeleton"]
-            
+            current_time = pygame.time.get_ticks()
+            if current_time - self.damage_time > 400:
+                self.damage = True   
+                self.damage_index = 0
+                self.damage_time = pygame.time.get_ticks()
+                
+    def damage_animation(self):
+        self.health -= config.damage["enemies"]["skeleton"]
+        [self.hurt_down_animations, self.hurt_up_animations, self.hurt_right_animations, self.hurt_left_animations] = self.game.sprites.warrior_animations["hurt_animations"].values()
+        if self.facing == "down":
+            current_time = pygame.time.get_ticks()
+            if current_time - self.damage_time > 50:  # Troca de frame a cada 100ms
+                self.damage_time = current_time
+                self.damage_index = (self.damage_index + 1)
+                if self.damage_index < len(self.hurt_down_animations):
+                    self.image = self.hurt_down_animations[self.damage_index]
+                else:
+                    self.damage = False
+                
+
+        if self.facing == "up":
+            current_time = pygame.time.get_ticks()
+            if current_time - self.damage_time > 50:  # Troca de frame a cada 100ms
+                self.damage_time = current_time
+                self.damage_index = (self.damage_index + 1)
+                if self.damage_index < len(self.hurt_up_animations):
+                    self.image = self.hurt_up_animations[self.damage_index]
+                else:
+                    self.damage = False
+               
+        if self.facing == "right":
+            current_time = pygame.time.get_ticks()
+            if current_time - self.damage_time > 50:  # Troca de frame a cada 100ms
+                self.damage_time = current_time
+                self.damage_index = (self.damage_index + 1)
+                if self.damage_index < len(self.hurt_right_animations):
+                    self.image = self.hurt_right_animations[self.damage_index]
+                else:
+                    self.damage = False
+                
+        if self.facing == "left":
+            current_time = pygame.time.get_ticks()
+            if current_time - self.damage_time > 50:  # Troca de frame a cada 100ms
+                self.damage_time = current_time
+                self.damage_index = (self.damage_index + 1)
+                if self.damage_index < len(self.hurt_left_animations):
+                    self.image = self.hurt_left_animations[self.damage_index]
+                else:
+                    self.damage = False
+
+    def death_animation(self):
+        [self.death_down_animations, self.death_up_animations, self.death_right_animations, self.death_left_animations] = self.game.sprites.warrior_animations["death_animations"].values()
+        if self.facing == "down":
+            current_time = pygame.time.get_ticks()
+            if current_time - self.death_time > 100: # Troca de frame a cada 100ms
+                self.death_time = current_time
+                self.death_index = (self.death_index + 1)
+                if self.death_index < len(self.death_down_animations):
+                    self.image = self.death_down_animations[self.death_index]  
+                else:
+                    self.game.draw()
+                    self.game.game_over()
+
+        if self.facing == "up":
+            current_time = pygame.time.get_ticks()
+            if current_time - self.death_time > 100:  # Troca de frame a cada 100ms
+                self.death_time = current_time
+                self.death_index = (self.death_index + 1)
+                if self.death_index < len(self.death_up_animations):
+                    self.image = self.death_up_animations[self.death_index]
+                else:
+                    self.game.draw()
+                    self.game.game_over()
+               
+        if self.facing == "right":
+            current_time = pygame.time.get_ticks()
+            if current_time - self.death_time > 100:  # Troca de frame a cada 100ms
+                self.death_time = current_time
+                self.death_index = (self.death_index + 1)
+                if self.death_index < len(self.death_right_animations):
+                    self.image = self.death_right_animations[self.death_index]
+                else:
+                    self.game.draw()
+                    self.game.game_over()
+                
+        if self.facing == "left":
+            current_time = pygame.time.get_ticks()
+            if current_time - self.death_time > 100:  # Troca de frame a cada 100ms
+                self.death_time = current_time
+                self.death_index = (self.death_index + 1)
+                if self.death_index < len(self.death_left_animations):
+                    self.image = self.death_left_animations[self.death_index]
+                else:
+                    self.game.draw()
+                    self.game.game_over()
 
 class Attack(pygame.sprite.Sprite):
     

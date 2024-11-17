@@ -109,6 +109,9 @@ class Game:
         self.player = Player(self, (self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2)
         
         self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) // 4, (self.screen.get_height() - config.char_size[1]) // 4)
+        self.enemy2 = Enemy(self,"skeleton" , 3* (self.screen.get_width() - config.char_size[0]) // 4, (self.screen.get_height() - config.char_size[1]) // 4)
+        self.enemy3 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) // 4, 3 * (self.screen.get_height() - config.char_size[1]) // 4)
+        self.enemy4 = Enemy(self,"skeleton" , 3 * (self.screen.get_width() - config.char_size[0]) // 4, 3 * (self.screen.get_height() - config.char_size[1]) // 4)
         
         # Barra de vida
         self.health_bar = HealthBar(max=config.max_health["player"], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
@@ -160,8 +163,7 @@ class Game:
                 self.game_timer.resume()
         
         if self.player.health <= 0:
-            self.draw()
-            self.game_over()
+            self.player.death = True
             
         self.update()
         self.draw()

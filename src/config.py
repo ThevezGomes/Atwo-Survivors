@@ -25,7 +25,7 @@ player_speed = 7
 
 # Variavel que define a velocidade base dos inimigos
 enemy_speed = {
-    "skeleton" : 4
+    "skeleton" : 3
 }
 
 # Campo de visão do inimigo
