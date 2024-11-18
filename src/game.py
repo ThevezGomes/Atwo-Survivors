@@ -7,6 +7,7 @@ from enemies import *
 from sprites import *
 from config import *
 from props import *
+from items_abilities import *
 from map import *
 import repositorio_sprites as rs
 import random
@@ -50,8 +51,7 @@ class Game:
         self.dark_overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
         self.dark_overlay.fill((0, 0, 0, 180))  # Escure a tela de fundo
         
-        self.all_itens = {"energy_ball": Item(self, "energy_ball","Bola de energia", "Destroi tudo no caminho.", max_level=3)
-                          }
+        self.all_itens = ItemsArmazenamento().itens
 
         #Criação do inventário (posição, tamanho do slot e número de slots)
         self.inventory = Inventory(x=50, y=self.screen.get_height() - 100, slot_size=50, max_slots=5)
