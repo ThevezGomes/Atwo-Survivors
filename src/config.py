@@ -17,8 +17,15 @@ damage = {
         "skeleton": 10
         },
     "itens": {
-        "wave": 10,
-        "energy_ball": 30}
+        "wave": {
+            1: 10
+            },
+        "energy_ball": {
+            1: 30,
+            2: 50,
+            3: 100
+            }
+        }
     }
 
 # Variavel que define a velocidade do jogador
@@ -40,7 +47,7 @@ enemy_speed = {
 }
 
 enemy_xp = {
-    "skeleton": 70
+    "skeleton": 150
     }
 
 # Campo de visão do inimigo
@@ -60,6 +67,12 @@ size = 77
 
 damage_delay = 400
 
-levels = {1: 100,
+levels = {1: 150,
           2: 150,
-          3: 300}
+          3: 150,
+          4: 450,
+          5: 600,
+          6: 750,
+          7: 900,
+          8: 1000,
+          9: 1200}

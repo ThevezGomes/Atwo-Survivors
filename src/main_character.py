@@ -302,10 +302,10 @@ class Player(pygame.sprite.Sprite):
                     self.game.draw()
                     self.game.game_over()
                     
-    def atacar(self, game, x, y, item, position):
+    def atacar(self, game, x, y, item, position, level=1):
         if not self.attacking:
             self.attacking = True
-            Attack(game, x, y, item, position)
+            Attack(game, x, y, item, position, level)
             self.attack_time = pygame.time.get_ticks()
         else:
             current_time = pygame.time.get_ticks()
@@ -320,13 +320,14 @@ class Player(pygame.sprite.Sprite):
         
                 
 class Attack(pygame.sprite.Sprite):
-    def __init__(self, game, x, y, item, position):
+    def __init__(self, game, x, y, item, position, level):
         
         self.game = game
         self._layer = config.layers["player_layer"]
         self.groups = self.game.all_sprites, self.game.attacks
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.item = item
+        self.level = level
         
         keys_animations = list(self.game.sprites.attack_animations[self.item].keys())
         self.image = self.game.sprites.attack_animations[self.item][keys_animations[0]][0]
@@ -378,7 +379,7 @@ class Attack(pygame.sprite.Sprite):
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
         if hits:
             for sprite in hits:
-                sprite.health -= config.damage["itens"][self.item]
+                sprite.health -= config.damage["itens"][self.item][self.level]
                 
     def collide_blocks(self):
         hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)

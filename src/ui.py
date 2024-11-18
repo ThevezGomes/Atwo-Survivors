@@ -162,7 +162,11 @@ class ExperienceBar(Bar):
         self.amount = xp  # Inicia a quantidade de experiência em 0
 
     def draw(self, screen):
-        filled = self.amount / self.max  # Calcula o preenchimento da barra de experiência
+        # EVITA QUE A BARRA DE EXPERIÊNCIA EXPLODA
+        if self.amount > self.max:
+            filled = 1
+        else:
+            filled = self.amount / self.max  # Calcula o preenchimento da barra de experiência
 
         # Desenha a borda (ajustando as coordenadas para a borda)
         pygame.draw.rect(screen, self.border_color, pygame.Rect(self.x-(self.width/2) - 3, self.y - 3, self.width + 6, self.height + 6))

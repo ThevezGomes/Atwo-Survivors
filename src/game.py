@@ -159,7 +159,7 @@ class Game:
             elif pygame.mouse.get_pressed()[0]:
                 if self.inventory.selected_item_index != None:
                     self.mouse_position = pygame.mouse.get_pos()
-                    self.player.atacar(self, self.player.rect.x + self.player.rect.width/2, self.player.rect.y + self.player.rect.height/2, self.inventory.items[self.inventory.selected_item_index][0].kind, self.mouse_position)
+                    self.player.atacar(self, self.player.rect.x + self.player.rect.width/2, self.player.rect.y + self.player.rect.height/2, self.inventory.items[self.inventory.selected_item_index][0].kind, self.mouse_position, self.inventory.items[self.inventory.selected_item_index][0].level)
                 else:
                     self.mouse_position = pygame.mouse.get_pos()
                     self.player.atacar(self, self.player.rect.x + self.player.rect.width/2, self.player.rect.y + self.player.rect.height/2, "wave", self.mouse_position)
