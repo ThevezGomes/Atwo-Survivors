@@ -333,6 +333,7 @@ class Attack(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.item = item
         self.level = level
+        self.animation_speed = config.item_animation_speed[self.item]
         
         keys_animations = list(self.game.sprites.attack_animations[self.item].keys())
         self.image = self.game.sprites.attack_animations[self.item][keys_animations[0]][0]
@@ -376,7 +377,7 @@ class Attack(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.image, angle).convert_alpha()  # Rotaciona o sprite
         self.rect = self.image.get_rect(center=self.rect.center)  # Atualiza o retângulo
         # Ajusta a velocidade com que o loop ocorre nessa direcao
-        self.animation_loop += 0.1
+        self.animation_loop += self.animation_speed
         if self.animation_loop >= (len(self.attack_animations)- 1):
             self.kill()
             
