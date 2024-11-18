@@ -24,6 +24,9 @@ class Game:
         self.level_up = False
         self.restart =False
         self.sprites = rs.Sprites()
+        self.spawn_time = 0
+        self.spawning = False
+        self.enemies_list = []
 
         # Carrega o mapa .tmx
         self.tmx_data = load_pygame("../assets/Tiled/tmx/Map2.tmx")
@@ -111,11 +114,6 @@ class Game:
         # Cria o jogador na posicao central da tela
         self.player = Player(self, (self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2)
         
-        self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) // 4, (self.screen.get_height() - config.char_size[1]) // 4)
-        self.enemy2 = Enemy(self,"skeleton" , 3* (self.screen.get_width() - config.char_size[0]) // 4, (self.screen.get_height() - config.char_size[1]) // 4)
-        self.enemy3 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) // 4, 3 * (self.screen.get_height() - config.char_size[1]) // 4)
-        self.enemy4 = Enemy(self,"skeleton" , 3 * (self.screen.get_width() - config.char_size[0]) // 4, 3 * (self.screen.get_height() - config.char_size[1]) // 4)
-        
         # Barra de vida
         self.health_bar = HealthBar(max=config.max_health["player"], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
         self.health_bar.amount = self.player.health
@@ -141,8 +139,9 @@ class Game:
         self.all_sprites.update()
         self.health_bar.amount = self.player.health
         self.experience_bar.level = self.player.level
-        self.experience_bar.max = config.levels[self.player.level]
+        self.experience_bar.max = self.experience_bar.levels(self.player.level)
         self.experience_bar.amount = self.player.xp
+        self.spawn_enemies()
         
     def run(self):
         for event in pygame.event.get():
@@ -472,3 +471,14 @@ class Game:
 
             pygame.display.flip()
             self.clock.tick(60)
+            
+    def spawn_enemies(self):
+        if len(self.enemies_list) <= 20:
+            if not self.spawning:
+                self.spawning = True
+                self.enemies_list.append(Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) * random.random(), (self.screen.get_height() - config.char_size[1]) * random.random()))
+                self.spawn_time = pygame.time.get_ticks()
+            else:
+                current_time = pygame.time.get_ticks()
+                if current_time - self.spawn_time > config.spawn_delay:
+                    self.spawning = False

@@ -23,7 +23,9 @@ damage = {
         "energy_ball": {
             1: 30,
             2: 50,
-            3: 100
+            3: 100,
+            4: 150,
+            5: 200
             }
         }
     }
@@ -51,7 +53,7 @@ enemy_xp = {
     }
 
 # Campo de visão do inimigo
-enemy_fov = 600
+enemy_fov = 800
 
 # Cor vermelha em rgb
 red = (255, 0 , 0)
@@ -67,12 +69,5 @@ size = 77
 
 damage_delay = 400
 
-levels = {1: 150,
-          2: 150,
-          3: 150,
-          4: 450,
-          5: 600,
-          6: 750,
-          7: 900,
-          8: 1000,
-          9: 1200}
+spawn_delay = 400
+despawn_delay = 1000

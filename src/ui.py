@@ -163,7 +163,7 @@ class HealthBar(Bar):
 
 class ExperienceBar(Bar):
     def __init__(self, border_color, background_color, color, width, height, x, y, level, xp):
-        max = config.levels[level]
+        max = self.levels(level)
         super().__init__(max, border_color, background_color, color, width, height, x, y)
         self.level = level
         self.amount = xp  # Inicia a quantidade de experiência em 0
@@ -197,6 +197,11 @@ class ExperienceBar(Bar):
 
         # Posiciona o texto centralizado na barra de experiência
         screen.blit(level_text, (text_x, text_y))
+        
+    def levels(self, level):
+        xp_level_1 = 100
+        
+        return int(xp_level_1*(1.5)**level)
 
 class TimeGame:
     def __init__(self, x, y):

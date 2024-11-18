@@ -313,10 +313,15 @@ class Player(pygame.sprite.Sprite):
                 self.attacking = False
                 
     def check_xp_level(self):
-        if self.xp >= config.levels[self.level]:
-            self.xp = self.xp - config.levels[self.level]
+        if self.xp >= self.levels(self.level):
+            self.xp = self.xp - self.levels(self.level)
             self.level += 1
             self.game.level_up = True
+            
+    def levels(self, level):
+        xp_level_1 = 100
+        
+        return int(xp_level_1*(1.5)**level)
         
                 
 class Attack(pygame.sprite.Sprite):
@@ -380,6 +385,7 @@ class Attack(pygame.sprite.Sprite):
         if hits:
             for sprite in hits:
                 sprite.health -= config.damage["itens"][self.item][self.level]
+                
                 
     def collide_blocks(self):
         hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
