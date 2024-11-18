@@ -117,6 +117,13 @@ class Inventory(Hub):
                 slot_num = event.key - pygame.K_1  # Converte tecla para índice de slot
                 if 0 <= slot_num < self.max_slots:
                     self.selected_item_index = slot_num if slot_num < len(self.items) else None
+        # Permite a selação de itens usando o scroll
+        elif event.type == pygame.MOUSEWHEEL:
+            if len(self.items) > 0:
+                # Selecionado o índice do item com base no scroll
+                self.selected_item_index = (self.selected_item_index or 0) + event.y
+                # Garante que apenas seleciones itens validados
+                self.selected_item_index %= len(self.items)
 
 class Skills_hub(Hub):
     def __init__(self, x, y, slot_size, max_slots):
