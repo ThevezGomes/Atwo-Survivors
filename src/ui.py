@@ -1,5 +1,6 @@
 import pygame
 from abc import ABC, abstractmethod
+import config
 
 class Button:
     def __init__(self, x, y, width, height, fg, content, fontsize, image_path='../assets\img\GenericButton.png', image_path_hover='../assets\img\GenericButtonActive.png'):
@@ -107,7 +108,7 @@ class Hub:
 class Inventory(Hub):
     def __init__(self, x, y, slot_size, max_slots):
         super().__init__(x, y, slot_size, max_slots, type_hub="inventory")
-        self.selected_item_index = 0
+        self.selected_item_index = None
 
     def selection_event(self, event):
         # Verifica se uma tecla numérica foi pressionada
@@ -154,10 +155,11 @@ class HealthBar(Bar):
         pygame.draw.rect(screen, self.color, pygame.Rect(self.x + (self.width - filled), self.y, filled, self.height))
 
 class ExperienceBar(Bar):
-    def __init__(self, max, border_color, background_color, color, width, height, x, y, level):
+    def __init__(self, border_color, background_color, color, width, height, x, y, level, xp):
+        max = config.levels[level]
         super().__init__(max, border_color, background_color, color, width, height, x, y)
         self.level = level
-        self.amount = 0  # Inicia a quantidade de experiência em 0
+        self.amount = xp  # Inicia a quantidade de experiência em 0
 
     def draw(self, screen):
         filled = self.amount / self.max  # Calcula o preenchimento da barra de experiência

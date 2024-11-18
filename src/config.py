@@ -39,6 +39,10 @@ enemy_speed = {
     "skeleton" : 3
 }
 
+enemy_xp = {
+    "skeleton": 70
+    }
+
 # Campo de visão do inimigo
 enemy_fov = 600
 
@@ -55,3 +59,7 @@ char_size = (width, (width*32)/22)
 size = 77
 
 damage_delay = 400
+
+levels = {1: 100,
+          2: 150,
+          3: 300}

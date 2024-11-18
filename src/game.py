@@ -9,6 +9,8 @@ from config import *
 from props import *
 from map import *
 import repositorio_sprites as rs
+import random
+import numpy as np
 
 class Game:
     def __init__(self):
@@ -47,11 +49,14 @@ class Game:
         # Criar uma superfície escura semi-transparente
         self.dark_overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
         self.dark_overlay.fill((0, 0, 0, 180))  # Escure a tela de fundo
+        
+        self.all_itens = {"energy_ball": Item(self, "energy_ball","Bola de energia", "Destroi tudo no caminho.", max_level=3)
+                          }
 
         #Criação do inventário (posição, tamanho do slot e número de slots)
         self.inventory = Inventory(x=50, y=self.screen.get_height() - 100, slot_size=50, max_slots=5)
-        self.energy_ball = Item("energy_ball","Bola de energia", "Destroi tudo no caminho.")
-        self.inventory.add_item(self.energy_ball)
+        # self.energy_ball = self.all_itens["energy_ball"]
+        # self.inventory.add_item(self.energy_ball)
         # self.inventory.add_item(self.espada)
         # self.pocao = Item("Poção", "Cura 5 de vida", "../assets/img/staff36.png")
         # self.inventory.add_item(self.pocao)
@@ -66,10 +71,6 @@ class Game:
         # self.skills_hub.add_item(self.cura)
         # self.vida = Ability("Vida", "Cura 5 de vida ada 5s", "../assets\img\Sorceress Icon 10.png")
 
-        # Barra de experiência
-        self.experience_bar = ExperienceBar(max=100, border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=45, level= 3)
-        self.experience_bar.amount += 60
-
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
         #self.game_timer.add_event(5, self.itemdrop)
@@ -78,6 +79,8 @@ class Game:
         #Grupo de sprites e colisão
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.collidable_sprites = pygame.sprite.Group()
+        
+        self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
 
     #Teste de eventos
     #def itemdrop(self):
@@ -116,6 +119,9 @@ class Game:
         # Barra de vida
         self.health_bar = HealthBar(max=config.max_health["player"], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
         self.health_bar.amount = self.player.health
+        
+        # Barra de experiência
+        self.experience_bar = ExperienceBar(border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=45, level=self.player.level, xp=self.player.xp)
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -134,7 +140,10 @@ class Game:
         #Atualiza todos os sprites e suas propriedades
         self.all_sprites.update()
         self.health_bar.amount = self.player.health
-
+        self.experience_bar.level = self.player.level
+        self.experience_bar.max = config.levels[self.player.level]
+        self.experience_bar.amount = self.player.xp
+        
     def run(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -157,6 +166,7 @@ class Game:
                
         if self.level_up == True:
                 self.game_timer.pause() 
+                pygame.time.delay(350)
                 self.level_up_menu(self.itens)
                 self.game_timer.resume()
         
@@ -407,10 +417,10 @@ class Game:
         # Configuração do título
         title_font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 40)
         title_text = title_font.render("Escolha uma habilidade:", True, pygame.Color('white'))
-        title_rect = title_text.get_rect(center=(self.screen.get_width() // 2, (self.screen.get_height() // 2) - (button_height // 2) - 30))  # Centraliza no topo da tela
+        title_rect = title_text.get_rect(center=(self.screen.get_width() // 2, (self.screen.get_height() // 2) - (button_height // 2) - 50))  # Centraliza no topo da tela
 
         # Define a coordenada Y para todos os itens, mantendo-os na mesma linha
-        y_pos = 250  # Ajuste para a posição Y desejada
+        y_pos = (self.screen.get_height() // 2) - (button_height // 2)   # Ajuste para a posição Y desejada
 
         # Coordenada X para centralizar os botões na tela
         x_center = self.screen.get_width() // 2
@@ -430,6 +440,7 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if item1.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         self.level_up = False  # Retomar o jogo
+                        # TESTES PARA NIVEL MAXIMO
                         if isinstance(itens[0], Item):
                             self.inventory.add_item(itens[0])
                         if isinstance(itens[0], Ability):
@@ -461,4 +472,3 @@ class Game:
 
             pygame.display.flip()
             self.clock.tick(60)
-

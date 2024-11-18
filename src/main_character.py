@@ -14,6 +14,8 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.groups)
         
         self.health = config.max_health["player"]
+        self.level = 1
+        self.xp = 0
         self.enemies = []
         self.damage = False
         self.damage_time = 0
@@ -64,6 +66,8 @@ class Player(pygame.sprite.Sprite):
             
             self.x_change = 0
             self.y_change = 0
+            
+            self.check_xp_level()
 
     # Cria o movimento do jogador
     def movement(self):
@@ -307,6 +311,12 @@ class Player(pygame.sprite.Sprite):
             current_time = pygame.time.get_ticks()
             if current_time - self.attack_time > config.itens_delay[item]:
                 self.attacking = False
+                
+    def check_xp_level(self):
+        if self.xp >= config.levels[self.level]:
+            self.xp = self.xp - config.levels[self.level]
+            self.level += 1
+            self.game.level_up = True
         
                 
 class Attack(pygame.sprite.Sprite):

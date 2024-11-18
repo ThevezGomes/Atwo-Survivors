@@ -147,6 +147,7 @@ class Enemy(pygame.sprite.Sprite):
     def check_health(self):
         if self.health <= 0:
             self.kill()
+            self.game.player.xp += config.enemy_xp[self.kind]
 
         
 
