@@ -27,6 +27,17 @@ class Game:
         self.spawn_time = 0
         self.spawning = False
         self.enemies_list = []
+        
+        self.buffs = {
+            "attack": 0,
+            "defense": 0,
+            "firing_speed": 0,
+            "range": 0,
+            "speed": 0,
+            "life": 0,
+            "regeneration": 0
+            }
+        
 
         # Carrega o mapa .tmx
         self.tmx_data = load_pygame("../assets/Tiled/tmx/Map2.tmx")
@@ -115,7 +126,7 @@ class Game:
         self.player = Player(self, (self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2)
         
         # Barra de vida
-        self.health_bar = HealthBar(max=config.max_health["player"], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
+        self.health_bar = HealthBar(max=self.player.max_health, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
         self.health_bar.amount = self.player.health
         
         # Barra de experiência
@@ -130,6 +141,7 @@ class Game:
         self.experience_bar.draw(self.screen) # Adciona a barra de experiência na tela
         self.game_timer.update(self.screen) # Adciona o timer ao jogo
         self.clock.tick(60)
+        self.buffs_apply()
 
 
         pygame.display.update()
@@ -137,7 +149,8 @@ class Game:
     def update(self):
         #Atualiza todos os sprites e suas propriedades
         self.all_sprites.update()
-        self.health_bar.amount = self.player.health
+        self.health_bar.amount = self.player.health 
+        self.health_bar.max = self.player.max_health
         self.experience_bar.level = self.player.level
         self.experience_bar.max = self.experience_bar.levels(self.player.level)
         self.experience_bar.amount = self.player.xp
@@ -483,3 +496,8 @@ class Game:
                 current_time = pygame.time.get_ticks()
                 if current_time - self.spawn_time > config.spawn_delay:
                     self.spawning = False
+                    
+                    
+    def buffs_apply(self):
+        for ability in self.skills_hub.items:
+            self.buffs[ability[0].buff] = config.buff[ability[0].kind][ability[0].level]

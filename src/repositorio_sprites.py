@@ -51,6 +51,16 @@ class Sprites:
                 }
             }
         
+        self.abilities_sprites = {
+            "nice_boots": "../assets/itens_sprites/Abilities/nice_boots.png",
+            "divine_blessing": "../assets/itens_sprites/Abilities/divine_blessing.png",
+            "saint_cross": "../assets/itens_sprites/Abilities/saint_cross.png",
+            "rage_of_the_gods": "../assets/itens_sprites/Abilities/rage_of_the_gods.png",
+            "indestructible_shield": "../assets/itens_sprites/Abilities/indestructible_shield.png",
+            "Artemis_aim": "../assets/itens_sprites/Abilities/Artemis_aim.png",
+            "Apollo_maestry": "../assets/itens_sprites/Abilities/Apollo_maestry.png" 
+            }
+        
         self.warrior_animations = {
             "walk_animations": {
                 "walk_down_animations": [self.warrior_sprites["walk"]["main_character_spritesheet_walk_down"].get_sprite(12, 7, 22, 32),

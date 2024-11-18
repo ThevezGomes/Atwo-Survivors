@@ -37,6 +37,52 @@ damage = {
         }
     }
 
+buff = {
+        "nice_boots": {
+            1: 0.1 ,
+            2: 0.2 ,
+            3: 0.3 ,
+            4: 0.4 ,
+            5: 0.5 },
+        "divine_blessing": {
+            1: 0.1 ,
+            2: 0.2 ,
+            3: 0.3 ,
+            4: 0.4 ,
+            5: 0.5 },
+        "saint_cross": {
+            1: 0.1 ,
+            2: 0.2 ,
+            3: 0.3 ,
+            4: 0.4,
+            5: 0.5},
+        "rage_of_the_gods": {
+            1: 0.1,
+            2: 0.2,
+            3: 0.3,
+            4: 0.4,
+            5: 0.5},
+        "indestructible_shield": {
+            1: 0.1,
+            2: 0.2,
+            3: 0.3,
+            4: 0.4,
+            5: 0.5},
+        "Artemis_aim": {
+            1: 0.1,
+            2: 0.2,
+            3: 0.3,
+            4: 0.4,
+            5: 0.5},
+        "Apollo_maestry": {
+            1: 0.1,
+            2: 0.2,
+            3: 0.3,
+            4: 0.4,
+            5: 0.5}
+        
+        }
+
 # Variavel que define a velocidade do jogador
 player_speed = 7
 

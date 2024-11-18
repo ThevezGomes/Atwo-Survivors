@@ -14,12 +14,14 @@ class Item:
         self.image = pygame.image.load(self.sprite)
 
 class Ability:
-    def __init__(self, kind, name, description, sprite_path, level= 1, max_level = 5):
+    def __init__(self, kind, name, description, buff, level= 1, max_level = 5):
         self.kind = kind
-        self.name = name  # Nome da habilidade
-        self.description = description  # Descrição da habilidade
+        self.name = name  # Nome do item
+        self.description = description  # Descrição do item
+        self.buff = buff
         self.level = level
         self.max_level = max_level
         
         # Carrega o sprite do item a partir de um caminho de imagem
-        self.sprite = sprite_path
+        self.sprite = Sprites().abilities_sprites[kind]
+        self.image = pygame.image.load(self.sprite)

@@ -104,6 +104,13 @@ class Hub:
             if self.type_hub == 'inventory':
                 if i == self.selected_item_index:
                     pygame.draw.rect(screen, pygame.Color('yellow'), (slot_x, slot_y, self.slot_size, self.slot_size), 3)
+                    
+    def item_belonging_check(self, item):
+        for objeto in self.items:
+            if objeto == item:
+                return True
+        
+        return False
 
 class Inventory(Hub):
     def __init__(self, x, y, slot_size, max_slots):

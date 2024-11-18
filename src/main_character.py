@@ -3,6 +3,7 @@ import math
 import random
 import config
 import repositorio_sprites as rs
+from items_abilities import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -13,7 +14,9 @@ class Player(pygame.sprite.Sprite):
         self.groups = self.game.all_sprites
         pygame.sprite.Sprite.__init__(self, self.groups)
         
+        self.speed = config.player_speed
         self.health = config.max_health["player"]
+        self.max_health = config.max_health["player"]
         self.level = 1
         self.xp = 0
         self.enemies = []
@@ -68,6 +71,9 @@ class Player(pygame.sprite.Sprite):
             self.y_change = 0
             
             self.check_xp_level()
+            
+            self.speed = config.player_speed * (1 + self.game.buffs["speed"])
+            self.max_health = config.max_health["player"] * (1 + self.game.buffs["life"])
 
     # Cria o movimento do jogador
     def movement(self):
@@ -76,23 +82,23 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             for sprite in self.game.all_sprites:
-                sprite.rect.x += config.player_speed
-            self.x_change -= config.player_speed
+                sprite.rect.x += self.speed
+            self.x_change -= self.speed
             self.facing = "left"
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             for sprite in self.game.all_sprites:
-                sprite.rect.x -= config.player_speed
-            self.x_change += config.player_speed
+                sprite.rect.x -= self.speed
+            self.x_change += self.speed
             self.facing = "right"
         if keys[pygame.K_w] or keys[pygame.K_UP]:
             for sprite in self.game.all_sprites:
-                sprite.rect.y += config.player_speed
-            self.y_change -= config.player_speed
+                sprite.rect.y += self.speed
+            self.y_change -= self.speed
             self.facing = "up"
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             for sprite in self.game.all_sprites:
-                sprite.rect.y -= config.player_speed
-            self.y_change += config.player_speed
+                sprite.rect.y -= self.speed
+            self.y_change += self.speed
             self.facing = "down"
         
         #Caso for iplementar o controle, uma base para a movimentação
@@ -130,12 +136,12 @@ class Player(pygame.sprite.Sprite):
                     self.rect.x = hits[0].rect.left - self.rect.width
                     # Ajusta a camera para nao ser modificada na colisao
                     for sprite in self.game.all_sprites:
-                        sprite.rect.x += config.player_speed
+                        sprite.rect.x += self.speed
                 if self.x_change < 0:
                     self.rect.x = hits[0].rect.right
                     # Ajusta a camera para nao ser modificada na colisao
                     for sprite in self.game.all_sprites:
-                        sprite.rect.x -= config.player_speed
+                        sprite.rect.x -= self.speed
         
         if direction == "y":
             hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
@@ -144,12 +150,12 @@ class Player(pygame.sprite.Sprite):
                     self.rect.y = hits[0].rect.top - self.rect.height
                     # Ajusta a camera para nao ser modificada na colisao
                     for sprite in self.game.all_sprites:
-                        sprite.rect.y += config.player_speed
+                        sprite.rect.y += self.speed
                 if self.y_change < 0:
                     self.rect.y = hits[0].rect.bottom
                     # Ajusta a camera para nao ser modificada na colisao
                     for sprite in self.game.all_sprites:
-                        sprite.rect.y -= config.player_speed
+                        sprite.rect.y -= self.speed
         
                     
     def animate(self):
@@ -213,7 +219,7 @@ class Player(pygame.sprite.Sprite):
                 
     def damage_animation(self):
         for enemy in self.enemies:
-            self.health -= config.damage["enemies"][enemy.kind]
+            self.health -= config.damage["enemies"][enemy.kind] * (1 - self.game.buffs["defense"])
         [self.hurt_down_animations, self.hurt_up_animations, self.hurt_right_animations, self.hurt_left_animations] = self.game.sprites.warrior_animations["hurt_animations"].values()
         if self.facing == "down":
             current_time = pygame.time.get_ticks()
@@ -309,7 +315,7 @@ class Player(pygame.sprite.Sprite):
             self.attack_time = pygame.time.get_ticks()
         else:
             current_time = pygame.time.get_ticks()
-            if current_time - self.attack_time > config.itens_delay[item]:
+            if current_time - self.attack_time > config.itens_delay[item] * (1 - self.game.buffs["firing_speed"]):
                 self.attacking = False
                 
     def check_xp_level(self):
@@ -385,7 +391,7 @@ class Attack(pygame.sprite.Sprite):
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
         if hits:
             for sprite in hits:
-                sprite.health -= config.damage["itens"][self.item][self.level]
+                sprite.health -= config.damage["itens"][self.item][self.level] * (1 + self.game.buffs["attack"])
                 
                 
     def collide_blocks(self):
