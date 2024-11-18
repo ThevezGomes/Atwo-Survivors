@@ -1,5 +1,6 @@
 import pygame
 import sys
+import random
 from pytmx.util_pygame import load_pygame
 from ui import *
 from main_character import *
@@ -9,6 +10,7 @@ from config import *
 from props import *
 from map import *
 import repositorio_sprites as rs
+from drop_item import * 
 
 class Game:
     def __init__(self):
@@ -78,7 +80,8 @@ class Game:
         #Grupo de sprites e colisão
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.collidable_sprites = pygame.sprite.Group()
-
+        #Grupo do sprites do item
+        self.item_sprites = pygame.sprite.Group() 
     #Teste de eventos
     #def itemdrop(self):
     #    self.item1 = self.espada
@@ -117,6 +120,10 @@ class Game:
         self.health_bar = HealthBar(max=config.max_health["player"], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
         self.health_bar.amount = self.player.health
 
+        # Grupo de sprites para itens
+        #self.item_sprites = pygame.sprite.Group()
+
+
     def draw(self):
         self.screen.fill((0, 0, 0))
         self.all_sprites.draw(self.screen)
@@ -134,6 +141,14 @@ class Game:
         #Atualiza todos os sprites e suas propriedades
         self.all_sprites.update()
         self.health_bar.amount = self.player.health
+
+        self.all_sprites.update()
+
+        # Detecta colisão com itens
+        collided_items = pygame.sprite.spritecollide(self.player, self.item_sprites, True)
+        for item in collided_items:
+            # Aplica o efeito do item
+            item.apply_effect(self.player)  
 
     def run(self):
         for event in pygame.event.get():
@@ -158,7 +173,11 @@ class Game:
         
         if self.player.health <= 0:
             self.player.death = True
-            
+        
+        # Chance contínua de spawnar itens durante o jogo
+        if random.random() < 0.01:  
+            self.spawn_item()
+
         self.update()
         self.draw()
 
@@ -201,7 +220,24 @@ class Game:
                 if obj.image:
                     tile = Tile(pos, obj.image, [self.all_sprites, self.collidable_sprites])
                     tile.scale(obj.width, obj.height)
-                    self.collidable_sprites.add(tile)  # Garante que esses objetos sejam colidíveis
+                    # Garante que esses objetos sejam colidíveis
+                    self.collidable_sprites.add(tile)  
+
+    def spawn_item(self):
+        # Definir os limites da área
+        spawn_area_width = 3100
+        spawn_area_height = 3100
+
+        if random.random() < 0.2:  # 10% de chance de spawnar um item
+            x = random.randint(0, spawn_area_width)
+            y = random.randint(0, spawn_area_height)
+            #"Carlos_Ivan_Supremacy", "Camacho_Supremacy" os itens de xp
+            item_type = random.choice(["Pigseed","Pigtree"])
+            item = ItemDrop(x, y, item_type)
+            self.item_sprites.add(item)
+            # Adiciona ao grupo geral de sprites
+            self.all_sprites.add(item)
+
 
     def intro_screen(self):
         intro = True
