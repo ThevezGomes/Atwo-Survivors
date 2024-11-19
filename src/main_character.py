@@ -348,13 +348,12 @@ class Attack(pygame.sprite.Sprite):
         direction = pygame.math.Vector2(position[0] - x, position[1] - y)
         self.velocity = direction.normalize() * self.speed
         
-        x = x + direction.normalize()[0] * self.game.player.rect.width
-        y = y + direction.normalize()[1] * self.game.player.rect.height
-        self.position = pygame.math.Vector2(x, y)
+        x_attack = x + direction.normalize()[0] * self.game.player.rect.width
+        y_attack = y + direction.normalize()[1] * self.game.player.rect.height
         
         # Define tamanho e posicao do ataque
-        self.x = x * config.tilesize
-        self.y = y * config.tilesize 
+        self.x = x_attack
+        self.y = y_attack
         self.width = config.tilesize
         self.height = config.tilesize
         self.x_change = 0
@@ -363,16 +362,24 @@ class Attack(pygame.sprite.Sprite):
         self.animation_loop = 0
         
         self.rect = self.image.get_rect()
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.rect.x = self.x - self.rect.width/2
+        self.rect.y = self.y - self.rect.height/2
         
         
     def update(self):
+        self.movement()
         self.animate()
         self.collide_enemy()
-        self.position += self.velocity
-        self.rect.center = self.position
+        self.rect.x += self.x_change
+        self.rect.y += self.y_change
         self.collide_blocks()
+        
+        self.x_change = 0
+        self.y_change = 0
+        
+    def movement(self):
+        self.x_change = self.velocity[0]
+        self.y_change = self.velocity[1]
         
     def animate(self):        
         [self.attack_animations] = self.game.sprites.attack_animations[self.item].values()
@@ -381,7 +388,7 @@ class Attack(pygame.sprite.Sprite):
         self.image = self.attack_animations[math.floor(self.animation_loop)]
         angle = self.velocity.angle_to(pygame.math.Vector2(0, -1))  # Alinha com o eixo Y (apontando para cima)
         self.image = pygame.transform.rotate(self.image, angle).convert_alpha()  # Rotaciona o sprite
-        self.rect = self.image.get_rect(center=self.rect.center)  # Atualiza o retângulo
+        # self.rect = self.image.get_rect(center=self.rect.center)  # Atualiza o retângulo
         # Ajusta a velocidade com que o loop ocorre nessa direcao
         self.animation_loop += self.animation_speed
         if self.animation_loop >= (len(self.attack_animations)- 1):
