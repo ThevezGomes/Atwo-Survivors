@@ -156,6 +156,7 @@ class Game:
         self.experience_bar.amount = self.player.xp
         self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
         self.spawn_enemies()
+        self.cheats()
         
     def run(self):
         for event in pygame.event.get():
@@ -501,3 +502,10 @@ class Game:
     def buffs_apply(self):
         for ability in self.skills_hub.items:
             self.buffs[ability[0].buff] = config.buff[ability[0].kind][ability[0].level]
+            
+    def cheats(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_y] and keys[pygame.K_u]:
+            self.level_up = True
+        if keys[pygame.K_r] and keys[pygame.K_i]:
+            self.player.health = self.player.max_health
