@@ -184,44 +184,53 @@ class Game:
         self.clock.tick(60)  # Controle de FPS
 
     def load_map(self):
-
-        #Coordenadas que devem aparecer no centro da tela
+        # Coordenadas do centro do mapa e da tela
         target_x, target_y = 1250, 1589
-    
+        
         #Coordenadas do centro da tela
         screen_center_x, screen_center_y = 460, 454
 
-        #Calcula o deslocamento necessário
+        # Calcula o deslocamento necessário para centralizar
         offset_x = target_x - screen_center_x
         offset_y = target_y - screen_center_y
 
-
-    #Define as propriedades de cada camada do mapa
+        # Itera pelas camadas visíveis do mapa
         for layer in self.tmx_data.visible_layers:
-            if hasattr(layer, 'data'):
-                for x, y, surf in layer.tiles():
-                    pos = (x * self.tmx_data.tilewidth - offset_x , y * self.tmx_data.tileheight - offset_y )
-                    tile = Tile(pos, surf, [self.all_sprites])
-                    
-                    # Verifica se o Tile é colidível
+            if hasattr(layer, 'data'):  # Camadas baseadas em tiles
+                for x, y, gid in layer:
+                    if gid == 0:  # Ignora tiles vazios
+                        continue
+
+                    # Obtém a superfície do tile do GID
+                    tile_image = self.tmx_data.get_tile_image_by_gid(gid)
+
+                     # Aplica as transformações usando a função transform_tile_image
+                    tile_image = Tile.transform_tile_image(tile_image, gid)
+
+                    # Calcula a posição no mapa
+                    pos = (x * self.tmx_data.tilewidth - offset_x, y * self.tmx_data.tileheight - offset_y)
+
+                    # Cria o sprite do tile
+                    tile = Tile(pos, tile_image, [self.all_sprites])
+
+                    # Adiciona ao grupo de colisões se for colidível
                     if layer.name == "Colidivel":
                         self.collidable_sprites.add(tile)
 
-        # Adiciona objetos específicos como colidíveis
+        # Itera pelos objetos do mapa
         for obj in self.tmx_data.objects:
-            pos = (obj.x - offset_x , obj.y - offset_y)
-            
-            if obj.type == 'Poligono':
-                if obj.name == 'rect':
-                    rect = pygame.Rect(obj.x, obj.y ,obj.width, obj.height)
-                    pygame.draw.rect(self.screen, 'yellow', rect)
+            pos = (obj.x - offset_x, obj.y - offset_y)
 
-            if obj.type in ("Vegetacao", "Pedras", "Lapide", "Cerca", "Poligono", "Montanha"):
-                if obj.image:
-                    tile = Tile(pos, obj.image, [self.all_sprites, self.collidable_sprites])
-                    tile.scale(obj.width, obj.height)
-                    # Garante que esses objetos sejam colidíveis
-                    self.collidable_sprites.add(tile)  
+            # Objetos com imagens (vegetação, pedras, etc.)
+            if obj.type in ("Vegetacao", "Pedras", "Lapide", "Cerca", "Poligono", "Montanha") and obj.image:
+                image = obj.image
+
+                # Cria o tile e ajusta o tamanho
+                tile = Tile(pos, image, [self.all_sprites, self.collidable_sprites])
+                tile.scale(obj.width, obj.height)
+
+                # Adiciona ao grupo de colisão
+                self.collidable_sprites.add(tile)
 
     def spawn_item(self):
         # Definir os limites da área

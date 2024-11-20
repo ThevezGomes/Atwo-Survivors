@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="371">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="392">
  <tileset firstgid="1" source="../tsx/Land.tsx"/>
  <tileset firstgid="225" source="../tsx/Objetos.tsx"/>
  <tileset firstgid="255" source="../tsx/Montanhas-1.tsx"/>
@@ -145,16 +145,25 @@
   <object id="367" type="Pedras" gid="240" x="2971" y="1559" width="74" height="18"/>
  </objectgroup>
  <objectgroup id="8" name="Fundo">
-  <object id="340" type="Montanha" gid="268" x="-0.00480208" y="0.00266667" width="320.007" height="390"/>
-  <object id="341" type="Montanha" gid="268" x="320.01" y="-0.00184722" width="320.007" height="390"/>
-  <object id="342" type="Montanha" gid="268" x="640.02" y="-0.00288889" width="320.007" height="390"/>
-  <object id="343" type="Montanha" gid="268" x="960.03" y="0" width="320.007" height="390"/>
-  <object id="344" type="Montanha" gid="268" x="1280.04" y="0" width="320.007" height="390"/>
-  <object id="345" type="Montanha" gid="268" x="1600.05" y="0" width="320.007" height="390"/>
-  <object id="346" type="Montanha" gid="268" x="1920.06" y="0" width="320.007" height="390"/>
-  <object id="347" type="Montanha" gid="268" x="2240.07" y="0" width="320.007" height="390"/>
-  <object id="368" type="Montanha" gid="268" x="2560.8" y="0" width="320.007" height="370"/>
-  <object id="369" type="Montanha" gid="268" x="2560.8" y="0" width="320.007" height="390"/>
-  <object id="370" type="Montanha" gid="268" x="2880.9" y="0" width="320.007" height="390"/>
+  <object id="344" type="Montanha" gid="268" x="1280.04" y="0" width="640.2" height="390"/>
+  <object id="371" type="Montanha" gid="269" x="640.2" y="0" width="640.2" height="390"/>
+  <object id="372" type="Montanha" gid="269" x="0" y="0" width="640.2" height="390"/>
+  <object id="373" type="Montanha" gid="269" x="1920.6" y="0" width="640.2" height="390"/>
+  <object id="374" type="Montanha" gid="269" x="2560.8" y="0" width="640.2" height="390"/>
+  <object id="375" type="Montanha" gid="269" x="3200" y="0" width="640.2" height="390" rotation="90"/>
+  <object id="376" type="Montanha" gid="269" x="3200" y="640.2" width="640.2" height="390" rotation="90"/>
+  <object id="377" type="Montanha" gid="269" x="3200" y="1280.4" width="640.2" height="390" rotation="90"/>
+  <object id="378" type="Montanha" gid="269" x="3200" y="1920.5" width="640.2" height="390" rotation="90"/>
+  <object id="379" type="Montanha" gid="269" x="3200" y="2560.7" width="640.2" height="390" rotation="90"/>
+  <object id="381" type="Montanha" gid="1073742093" x="640.2" y="3590.01" width="640.2" height="390"/>
+  <object id="382" type="Montanha" gid="1073742093" x="0" y="3590.01" width="640.2" height="390"/>
+  <object id="383" type="Montanha" gid="1073742093" x="1920.6" y="3590.01" width="640.2" height="390"/>
+  <object id="384" type="Montanha" gid="1073742093" x="2560.8" y="3590.01" width="640.2" height="390"/>
+  <object id="385" type="Montanha" gid="1073742093" x="1280.4" y="3590.01" width="640.2" height="390"/>
+  <object id="387" type="Montanha" gid="1073742093" x="-390" y="-3.35" width="640.2" height="390" rotation="90"/>
+  <object id="388" type="Montanha" gid="1073742093" x="-390" y="636.85" width="640.2" height="390" rotation="90"/>
+  <object id="389" type="Montanha" gid="1073742093" x="-390" y="1277.05" width="640.2" height="390" rotation="90"/>
+  <object id="390" type="Montanha" gid="1073742093" x="-390" y="1917.15" width="640.2" height="390" rotation="90"/>
+  <object id="391" type="Montanha" gid="1073742093" x="-390" y="2557.35" width="640.2" height="390" rotation="90"/>
  </objectgroup>
 </map>
