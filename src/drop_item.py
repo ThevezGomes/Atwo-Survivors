@@ -5,13 +5,13 @@ from config import *
 class ItemDrop(pygame.sprite.Sprite):
     def __init__(self, x, y, item_type):
         super().__init__()
-        self.item_type = item_type  # 'Pigseed', 'Pigtree', 'Camacho_Supremacy', etc.
+        self.item_type = item_type  # 
         
         # Definindo a imagem com base no tipo de item
-        if self.item_type == 'Pigseed':
+        if self.item_type == 'Baconseed':
             self.image = pygame.image.load('../assets/drop_itens_sprites/Pigseed.png').convert_alpha()
-        elif self.item_type == 'Pigtree':
-            self.image = pygame.image.load('../assets/drop_itens_sprites/Pigtree.png').convert_alpha()
+        elif self.item_type == 'Baconfruit':
+            self.image = pygame.image.load('../assets/drop_itens_sprites/Bacon.jpg').convert_alpha()
         elif self.item_type == 'Camacho_Supremacy':
             self.image = pygame.image.load('../assets/drop_itens_sprites/Camacho_Supremacy.png').convert_alpha()
         elif self.item_type == 'Carlos_Ivan_Supremacy':

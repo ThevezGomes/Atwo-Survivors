@@ -43,12 +43,12 @@ enemy_fov = 400
 red = (255, 0 , 0)
 
 # Largura do personagem principal
-width = 77
+width = 60
 
 # Tamanho do personagem principal
 char_size = (width, (width*32)/22)
 
 # Tmanho base para os personagens
-size = 77
+size = 60
 
 damage_delay = 400

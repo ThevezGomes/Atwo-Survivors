@@ -2,6 +2,7 @@ import pygame
 import sys
 import random
 from pytmx.util_pygame import load_pygame
+from pytmx import pytmx
 from ui import *
 from main_character import *
 from enemies import *
@@ -182,6 +183,26 @@ class Game:
         self.draw()
 
         self.clock.tick(60)  # Controle de FPS
+   
+    def transform_tile_image(self, tile_image, gid):
+        flipped_horizontally = bool(gid & (1 << 31))  # Verifica o flip horizontal
+        flipped_vertically = bool(gid & (1 << 30))    # Verifica o flip vertical
+        flipped_diagonally = bool(gid & (1 << 29))    # Verifica o flip diagonal (rotação de 90 graus)
+
+        # Limpa os bits de transformação para obter o GID base
+        gid &= 0x1FFFFFFF
+
+        # Aplica rotação se necessário (diagonal flip é equivalente a uma rotação de 90 graus)
+        if flipped_diagonally:
+            tile_image = pygame.transform.rotate(tile_image, 90)
+
+        # Aplica flip horizontal e vertical
+        if flipped_horizontally or flipped_vertically:
+            tile_image = pygame.transform.flip(tile_image, flipped_horizontally, flipped_vertically)
+
+        return tile_image
+
+
 
     def load_map(self):
         # Coordenadas do centro do mapa e da tela
@@ -203,19 +224,19 @@ class Game:
 
                     # Obtém a superfície do tile do GID
                     tile_image = self.tmx_data.get_tile_image_by_gid(gid)
+                    if tile_image:
+                        # Aplica as transformações usando a função transform_tile_image
+                        tile_image = self.transform_tile_image(tile_image, gid)
 
-                     # Aplica as transformações usando a função transform_tile_image
-                    tile_image = Tile.transform_tile_image(tile_image, gid)
+                        # Calcula a posição no mapa
+                        pos = (x * self.tmx_data.tilewidth - offset_x, y * self.tmx_data.tileheight - offset_y)
 
-                    # Calcula a posição no mapa
-                    pos = (x * self.tmx_data.tilewidth - offset_x, y * self.tmx_data.tileheight - offset_y)
+                        # Cria o sprite do tile
+                        tile = Tile(pos, tile_image, [self.all_sprites])
 
-                    # Cria o sprite do tile
-                    tile = Tile(pos, tile_image, [self.all_sprites])
-
-                    # Adiciona ao grupo de colisões se for colidível
-                    if layer.name == "Colidivel":
-                        self.collidable_sprites.add(tile)
+                        # Adiciona ao grupo de colisões se for colidível
+                        if layer.name == "Colidivel":
+                            self.collidable_sprites.add(tile)
 
         # Itera pelos objetos do mapa
         for obj in self.tmx_data.objects:
@@ -224,6 +245,9 @@ class Game:
             # Objetos com imagens (vegetação, pedras, etc.)
             if obj.type in ("Vegetacao", "Pedras", "Lapide", "Cerca", "Poligono", "Montanha") and obj.image:
                 image = obj.image
+
+                if hasattr(obj, 'gid') and obj.gid:
+                    image = self.transform_tile_image(image, obj.gid)
 
                 # Cria o tile e ajusta o tamanho
                 tile = Tile(pos, image, [self.all_sprites, self.collidable_sprites])
@@ -241,7 +265,7 @@ class Game:
             x = random.randint(0, spawn_area_width)
             y = random.randint(0, spawn_area_height)
             #"Carlos_Ivan_Supremacy", "Camacho_Supremacy" os itens de xp
-            item_type = random.choice(["Pigseed","Pigtree"])
+            item_type = random.choice(["Baconseed","Baconfruit"])
             item = ItemDrop(x, y, item_type)
             self.item_sprites.add(item)
             # Adiciona ao grupo geral de sprites
