@@ -21,7 +21,7 @@ damage = {
     }
 
 # Variavel que define a velocidade do jogador
-player_speed = 7
+player_speed = 9
 
 itens_speed = {
     "wave": 1

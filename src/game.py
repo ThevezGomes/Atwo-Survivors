@@ -78,11 +78,13 @@ class Game:
         #self.game_timer.add_event(5, self.itemdrop)
         #self.game_timer.add_event(7, self.morte)
 
-        #Grupo de sprites e colisão
+        #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()
-        self.collidable_sprites = pygame.sprite.Group()
         #Grupo do sprites do item
         self.item_sprites = pygame.sprite.Group() 
+        #Grupo do sprites de colisão
+        self.collidable_sprites = pygame.sprite.Group()
+       
     #Teste de eventos
     #def itemdrop(self):
     #    self.item1 = self.espada
@@ -141,9 +143,9 @@ class Game:
     def update(self):
         #Atualiza todos os sprites e suas propriedades
         self.all_sprites.update()
+        
+        #Atualiza a barra de vida do jogador
         self.health_bar.amount = self.player.health
-
-        self.all_sprites.update()
 
         # Detecta colisão com itens
         collided_items = pygame.sprite.spritecollide(self.player, self.item_sprites, True)
@@ -256,22 +258,38 @@ class Game:
                 # Adiciona ao grupo de colisão
                 self.collidable_sprites.add(tile)
 
+        #Para os itens não nascerem na posição de um objeto 
+        self.blocked_rects = []  # Lista de áreas bloqueadas como retângulos
+        for obj in self.tmx_data.objects:
+            if obj.type in ("Vegetacao", "Pedras", "Lapide", "Cerca", "Poligono", "Montanha"):
+                # Cria um retângulo bloqueado baseado na posição e dimensões do objeto
+                rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+                self.blocked_rects.append(rect)
+
+
     def spawn_item(self):
-        # Definir os limites da área
-        spawn_area_width = 3100
-        spawn_area_height = 3100
+        #Quantidade de tentativas para o item encontra o local ideal para nascer
+        spawn_attempts = 8
+        spawn_probability = 0.8
 
-        if random.random() < 0.2:  # 10% de chance de spawnar um item
-            x = random.randint(0, spawn_area_width)
-            y = random.randint(0, spawn_area_height)
-            #"Carlos_Ivan_Supremacy", "Camacho_Supremacy" os itens de xp
-            item_type = random.choice(["Baconseed","Baconfruit"])
-            item = ItemDrop(x, y, item_type)
+        if random.random() > spawn_probability:
+            return
+
+        for _ in range(spawn_attempts):
+            spawn_x = random.randint(5,3080)
+            spawn_y = random.randint(5,3080)
+            spawn_pos = pygame.Rect(spawn_x, spawn_y, 1, 1)
+
+        #Verifica se a posição gerada não bate com a de um objeto
+        if not any(spawn_pos.colliderect(rect) for rect in self.blocked_rects):
+            item_type = random.choice(["Baconseed", "Baconfruit", "Carlos_Ivan_Supremacy", "Camacho_Supremacy"])
+            item = ItemDrop(spawn_x, spawn_y, item_type)
+            
+            #Adciona os itens no grupo de sprites
             self.item_sprites.add(item)
-            # Adiciona ao grupo geral de sprites
             self.all_sprites.add(item)
-
-
+            return  
+        
     def intro_screen(self):
         intro = True
         title = self.font_title.render('Jogo da A2', True, pygame.Color('white'))
