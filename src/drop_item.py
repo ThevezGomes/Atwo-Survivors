@@ -1,13 +1,15 @@
 import pygame
 from main_character import *
-from config import * 
+from config import *
+from main_character import *
+
 
 class ItemDrop(pygame.sprite.Sprite):
     def __init__(self, x, y, item_type):
         super().__init__()
         self.item_type = item_type  # 
         self.spawn_time = pygame.time.get_ticks()
-        self.lifetime = 10000
+        self.lifetime = 15000
 
 
         # Definindo a imagem com base no tipo de item
@@ -38,21 +40,18 @@ class ItemDrop(pygame.sprite.Sprite):
         # Remove o item se o tempo de vida expirar
         if time_left <= 0:
             self.kill()
-        """
-        current_time = pygame.time.get_ticks()
-        if current_time - self.spawn_time > self.lifetime:
-            self.kill()
-        """
+        
 
     def apply_effect(self, player):
         # Aplica o efeito do item no jogador
-        if self.item_type == 'Pigseed':
-            player.health = min(player.health + 50, config.max_health["player"])
-        elif self.item_type == 'Pigtree':
-            player.health = min(player.health + 100, config.max_health["player"])
+        if self.item_type == 'Baconseed':
+            player.health = min(player.health + 70, config.max_health["player"])
+        elif self.item_type == 'Baconfruit':
+            player.health = min(player.health + 140, config.max_health["player"])
         elif self.item_type == 'Camacho_Supremacy':
-            player.experience += 25  
+            player.xp += 60   
         elif self.item_type == 'Carlos_Ivan_Supremacy':
-            player.experience += 60
+            player.xp += 120
+
 
         

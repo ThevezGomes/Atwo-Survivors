@@ -175,11 +175,11 @@
   <object id="372" type="Montanha" gid="269" x="0" y="0" width="640.2" height="500"/>
   <object id="373" type="Montanha" gid="269" x="1919.72" y="0" width="641.075" height="500"/>
   <object id="374" type="Montanha" gid="269" x="2560.8" y="0" width="640.2" height="500"/>
-  <object id="392" type="Montanha" gid="270" x="3200" y="640.2" width="500" height="640.2"/>
-  <object id="394" type="Montanha" gid="270" x="3200" y="1280.4" width="500" height="640.2"/>
-  <object id="395" type="Montanha" gid="270" x="3200" y="1920.6" width="500" height="648.2"/>
-  <object id="396" type="Montanha" gid="270" x="3200" y="2560.8" width="500" height="645.7"/>
-  <object id="397" type="Montanha" gid="270" x="3200" y="3201" width="500" height="640.2"/>
+  <object id="392" type="Montanha" gid="270" x="3200" y="640.2" width="800" height="640.2"/>
+  <object id="394" type="Montanha" gid="270" x="3200" y="1280.4" width="800" height="640.2"/>
+  <object id="395" type="Montanha" gid="270" x="3200" y="1920.6" width="800" height="648.2"/>
+  <object id="396" type="Montanha" gid="270" x="3200" y="2560.8" width="800" height="645.7"/>
+  <object id="397" type="Montanha" gid="270" x="3200" y="3201" width="800" height="640.2"/>
   <object id="399" type="Montanha" gid="271" x="2560" y="3700.1" width="640.2" height="500"/>
   <object id="400" type="Montanha" gid="271" x="1919.8" y="3700.1" width="640.2" height="500"/>
   <object id="401" type="Montanha" gid="271" x="1279.6" y="3700.1" width="640.2" height="500"/>
