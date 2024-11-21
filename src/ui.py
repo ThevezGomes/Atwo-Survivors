@@ -1,5 +1,6 @@
 import pygame
 from abc import ABC, abstractmethod
+import config
 
 class Button:
     def __init__(self, x, y, width, height, fg, content, fontsize, image_path='../assets\img\GenericButton.png', image_path_hover='../assets\img\GenericButtonActive.png'):
@@ -103,11 +104,18 @@ class Hub:
             if self.type_hub == 'inventory':
                 if i == self.selected_item_index:
                     pygame.draw.rect(screen, pygame.Color('yellow'), (slot_x, slot_y, self.slot_size, self.slot_size), 3)
+                    
+    def item_belonging_check(self, item):
+        for objeto in self.items:
+            if objeto == item:
+                return True
+        
+        return False
 
 class Inventory(Hub):
     def __init__(self, x, y, slot_size, max_slots):
         super().__init__(x, y, slot_size, max_slots, type_hub="inventory")
-        self.selected_item_index = 0
+        self.selected_item_index = None
 
     def selection_event(self, event):
         # Verifica se uma tecla numérica foi pressionada
@@ -116,6 +124,13 @@ class Inventory(Hub):
                 slot_num = event.key - pygame.K_1  # Converte tecla para índice de slot
                 if 0 <= slot_num < self.max_slots:
                     self.selected_item_index = slot_num if slot_num < len(self.items) else None
+        # Permite a selação de itens usando o scroll
+        elif event.type == pygame.MOUSEWHEEL:
+            if len(self.items) > 0:
+                # Selecionado o índice do item com base no scroll
+                self.selected_item_index = (self.selected_item_index or 0) + event.y
+                # Garante que apenas seleciones itens validados
+                self.selected_item_index %= len(self.items)
 
 class Skills_hub(Hub):
     def __init__(self, x, y, slot_size, max_slots):
@@ -154,13 +169,18 @@ class HealthBar(Bar):
         pygame.draw.rect(screen, self.color, pygame.Rect(self.x + (self.width - filled), self.y, filled, self.height))
 
 class ExperienceBar(Bar):
-    def __init__(self, max, border_color, background_color, color, width, height, x, y, level):
+    def __init__(self, border_color, background_color, color, width, height, x, y, level, xp):
+        max = self.levels(level)
         super().__init__(max, border_color, background_color, color, width, height, x, y)
         self.level = level
-        self.amount = 0  # Inicia a quantidade de experiência em 0
+        self.amount = xp  # Inicia a quantidade de experiência em 0
 
     def draw(self, screen):
-        filled = self.amount / self.max  # Calcula o preenchimento da barra de experiência
+        # EVITA QUE A BARRA DE EXPERIÊNCIA EXPLODA
+        if self.amount > self.max:
+            filled = 1
+        else:
+            filled = self.amount / self.max  # Calcula o preenchimento da barra de experiência
 
         # Desenha a borda (ajustando as coordenadas para a borda)
         pygame.draw.rect(screen, self.border_color, pygame.Rect(self.x-(self.width/2) - 3, self.y - 3, self.width + 6, self.height + 6))
@@ -184,6 +204,11 @@ class ExperienceBar(Bar):
 
         # Posiciona o texto centralizado na barra de experiência
         screen.blit(level_text, (text_x, text_y))
+        
+    def levels(self, level):
+        xp_level_1 = 100
+        
+        return int(xp_level_1*(1.5)**level)
 
 class TimeGame:
     def __init__(self, x, y):

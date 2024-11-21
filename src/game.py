@@ -9,8 +9,11 @@ from enemies import *
 from sprites import *
 from config import *
 from props import *
+from items_abilities import *
 from map import *
 import repositorio_sprites as rs
+import random
+import numpy as np
 from drop_item import * 
 
 class Game:
@@ -24,6 +27,20 @@ class Game:
         self.level_up = False
         self.restart =False
         self.sprites = rs.Sprites()
+        self.spawn_time = 0
+        self.spawning = False
+        self.enemies_list = []
+        
+        self.buffs = {
+            "attack": 0,
+            "defense": 0,
+            "firing_speed": 0,
+            "range": 0,
+            "speed": 0,
+            "life": 0,
+            "regeneration": 0
+            }
+        
 
         # Carrega o mapa .tmx
         self.tmx_data = load_pygame("../assets/Tiled/tmx/Map2.tmx")
@@ -50,28 +67,26 @@ class Game:
         # Criar uma superfície escura semi-transparente
         self.dark_overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
         self.dark_overlay.fill((0, 0, 0, 180))  # Escure a tela de fundo
+        
+        self.all_itens = ItemsArmazenamento().itens
 
         #Criação do inventário (posição, tamanho do slot e número de slots)
         self.inventory = Inventory(x=50, y=self.screen.get_height() - 100, slot_size=50, max_slots=5)
-        self.espada = Item("Espada", "Uma espada afiada.", "../assets\img\sword1.png")
-        self.inventory.add_item(self.espada)
-        self.inventory.add_item(self.espada)
-        self.pocao = Item("Poção", "Cura 5 de vida", "../assets/img/staff36.png")
-        self.inventory.add_item(self.pocao)
-        self.escudo = Item("Escudo", "Um escudo resistente.", "../assets\img\Sorceress Green Skill 07.png")
+        # self.energy_ball = self.all_itens["energy_ball"]
+        # self.inventory.add_item(self.energy_ball)
+        # self.inventory.add_item(self.espada)
+        # self.pocao = Item("Poção", "Cura 5 de vida", "../assets/img/staff36.png")
+        # self.inventory.add_item(self.pocao)
+        # self.escudo = Item("Escudo", "Um escudo resistente.", "../assets\img\Sorceress Green Skill 07.png")
 
         #Criação do hub de habilidades (posição, tamanho do slot e número de slots)
         self.skills_hub = Skills_hub(x=10, y=10, slot_size=40, max_slots=5)
-        self.resistencia = Ability("Resistencia", "Aumenta 50% na resistencia", "../assets\img\Sorceress Green Skill 07.png")
-        self.skills_hub.add_item(self.resistencia)
-        self.skills_hub.add_item(self.resistencia)
-        self.cura = Ability("Cura", "Cura 5 de vida ada 5s", "../assets\img\Sorceress Icon 10.png")
-        self.skills_hub.add_item(self.cura)
-        self.vida = Ability("Vida", "Cura 5 de vida ada 5s", "../assets\img\Sorceress Icon 10.png")
-
-        # Barra de experiência
-        self.experience_bar = ExperienceBar(max=100, border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=45, level= 3)
-        self.experience_bar.amount += 60
+        # self.resistencia = Ability("Resistencia", "Aumenta 50% na resistencia", "../assets\img\Sorceress Green Skill 07.png")
+        # self.skills_hub.add_item(self.resistencia)
+        # self.skills_hub.add_item(self.resistencia)
+        # self.cura = Ability("Cura", "Cura 5 de vida ada 5s", "../assets\img\Sorceress Icon 10.png")
+        # self.skills_hub.add_item(self.cura)
+        # self.vida = Ability("Vida", "Cura 5 de vida ada 5s", "../assets\img\Sorceress Icon 10.png")
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
@@ -84,7 +99,9 @@ class Game:
         self.item_sprites = pygame.sprite.Group() 
         #Grupo do sprites de colisão
         self.collidable_sprites = pygame.sprite.Group()
-       
+        
+        self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
+
     #Teste de eventos
     #def itemdrop(self):
     #    self.item1 = self.espada
@@ -114,18 +131,12 @@ class Game:
         # Cria o jogador na posicao central da tela
         self.player = Player(self, (self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2)
         
-        self.enemy1 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) // 4, (self.screen.get_height() - config.char_size[1]) // 4)
-        self.enemy2 = Enemy(self,"skeleton" , 3* (self.screen.get_width() - config.char_size[0]) // 4, (self.screen.get_height() - config.char_size[1]) // 4)
-        self.enemy3 = Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) // 4, 3 * (self.screen.get_height() - config.char_size[1]) // 4)
-        self.enemy4 = Enemy(self,"skeleton" , 3 * (self.screen.get_width() - config.char_size[0]) // 4, 3 * (self.screen.get_height() - config.char_size[1]) // 4)
-        
         # Barra de vida
-        self.health_bar = HealthBar(max=config.max_health["player"], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
+        self.health_bar = HealthBar(max=self.player.max_health, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
         self.health_bar.amount = self.player.health
-
-        # Grupo de sprites para itens
-        #self.item_sprites = pygame.sprite.Group()
-
+        
+        # Barra de experiência
+        self.experience_bar = ExperienceBar(border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=45, level=self.player.level, xp=self.player.xp)
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -136,6 +147,7 @@ class Game:
         self.experience_bar.draw(self.screen) # Adciona a barra de experiência na tela
         self.game_timer.update(self.screen) # Adciona o timer ao jogo
         self.clock.tick(60)
+        self.buffs_apply()
 
 
         pygame.display.update()
@@ -145,8 +157,15 @@ class Game:
         self.all_sprites.update()
         
         #Atualiza a barra de vida do jogador
-        self.health_bar.amount = self.player.health
-
+        self.health_bar.amount = self.player.health 
+        self.health_bar.max = self.player.max_health
+        self.experience_bar.level = self.player.level
+        self.experience_bar.max = self.experience_bar.levels(self.player.level)
+        self.experience_bar.amount = self.player.xp
+        self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
+        self.spawn_enemies()
+        self.cheats()
+        
         # Detecta colisão com itens
         collided_items = pygame.sprite.spritecollide(self.player, self.item_sprites, True)
         for item in collided_items:
@@ -164,13 +183,18 @@ class Game:
                         self.game_timer.pause() # Pausa o relogio
                         self.pause_menu()  # Chama o menu de pausa
                         self.game_timer.resume() # Retorna o relogio
-                self.inventory.selection_event(event)
             elif pygame.mouse.get_pressed()[0]:
-                self.mouse_position = pygame.mouse.get_pos()
-                self.player.atacar(self, self.player.rect.x + self.player.rect.width/2, self.player.rect.y + self.player.rect.height/2, "wave", self.mouse_position)
-               
+                if self.inventory.selected_item_index != None:
+                    self.mouse_position = pygame.mouse.get_pos()
+                    self.player.atacar(self, self.player.rect.x + self.player.rect.width/2, self.player.rect.y + self.player.rect.height/2, self.inventory.items[self.inventory.selected_item_index][0].kind, self.mouse_position, self.inventory.items[self.inventory.selected_item_index][0].level)
+                else:
+                    self.mouse_position = pygame.mouse.get_pos()
+                    self.player.atacar(self, self.player.rect.x + self.player.rect.width/2, self.player.rect.y + self.player.rect.height/2, "wave", self.mouse_position)
+            self.inventory.selection_event(event)
+
         if self.level_up == True:
                 self.game_timer.pause() 
+                pygame.time.delay(350)
                 self.level_up_menu(self.itens)
                 self.game_timer.resume()
         
@@ -490,10 +514,10 @@ class Game:
         # Configuração do título
         title_font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 40)
         title_text = title_font.render("Escolha uma habilidade:", True, pygame.Color('white'))
-        title_rect = title_text.get_rect(center=(self.screen.get_width() // 2, (self.screen.get_height() // 2) - (button_height // 2) - 30))  # Centraliza no topo da tela
+        title_rect = title_text.get_rect(center=(self.screen.get_width() // 2, (self.screen.get_height() // 2) - (button_height // 2) - 50))  # Centraliza no topo da tela
 
         # Define a coordenada Y para todos os itens, mantendo-os na mesma linha
-        y_pos = 250  # Ajuste para a posição Y desejada
+        y_pos = (self.screen.get_height() // 2) - (button_height // 2)   # Ajuste para a posição Y desejada
 
         # Coordenada X para centralizar os botões na tela
         x_center = self.screen.get_width() // 2
@@ -513,6 +537,7 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if item1.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         self.level_up = False  # Retomar o jogo
+                        # TESTES PARA NIVEL MAXIMO
                         if isinstance(itens[0], Item):
                             self.inventory.add_item(itens[0])
                         if isinstance(itens[0], Ability):
@@ -544,4 +569,26 @@ class Game:
 
             pygame.display.flip()
             self.clock.tick(60)
-
+            
+    def spawn_enemies(self):
+        if len(self.enemies_list) <= 20:
+            if not self.spawning:
+                self.spawning = True
+                self.enemies_list.append(Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) * random.random(), (self.screen.get_height() - config.char_size[1]) * random.random()))
+                self.spawn_time = pygame.time.get_ticks()
+            else:
+                current_time = pygame.time.get_ticks()
+                if current_time - self.spawn_time > config.spawn_delay:
+                    self.spawning = False
+                    
+                    
+    def buffs_apply(self):
+        for ability in self.skills_hub.items:
+            self.buffs[ability[0].buff] = config.buff[ability[0].kind][ability[0].level]
+            
+    def cheats(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_y] and keys[pygame.K_u]:
+            self.level_up = True
+        if keys[pygame.K_r] and keys[pygame.K_i]:
+            self.player.health = self.player.max_health

@@ -3,6 +3,7 @@ import math
 import random
 import config
 import repositorio_sprites as rs
+from items_abilities import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -13,7 +14,11 @@ class Player(pygame.sprite.Sprite):
         self.groups = self.game.all_sprites
         pygame.sprite.Sprite.__init__(self, self.groups)
         
+        self.speed = config.player_speed
         self.health = config.max_health["player"]
+        self.max_health = config.max_health["player"]
+        self.level = 1
+        self.xp = 0
         self.enemies = []
         self.damage = False
         self.damage_time = 0
@@ -64,6 +69,11 @@ class Player(pygame.sprite.Sprite):
             
             self.x_change = 0
             self.y_change = 0
+            
+            self.check_xp_level()
+            
+            self.speed = config.player_speed * (1 + self.game.buffs["speed"])
+            self.max_health = config.max_health["player"] * (1 + self.game.buffs["life"])
 
     # Cria o movimento do jogador
     def movement(self):
@@ -72,23 +82,23 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             for sprite in self.game.all_sprites:
-                sprite.rect.x += config.player_speed
-            self.x_change -= config.player_speed
+                sprite.rect.x += self.speed
+            self.x_change -= self.speed
             self.facing = "left"
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             for sprite in self.game.all_sprites:
-                sprite.rect.x -= config.player_speed
-            self.x_change += config.player_speed
+                sprite.rect.x -= self.speed
+            self.x_change += self.speed
             self.facing = "right"
         if keys[pygame.K_w] or keys[pygame.K_UP]:
             for sprite in self.game.all_sprites:
-                sprite.rect.y += config.player_speed
-            self.y_change -= config.player_speed
+                sprite.rect.y += self.speed
+            self.y_change -= self.speed
             self.facing = "up"
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             for sprite in self.game.all_sprites:
-                sprite.rect.y -= config.player_speed
-            self.y_change += config.player_speed
+                sprite.rect.y -= self.speed
+            self.y_change += self.speed
             self.facing = "down"
         
         #Caso for iplementar o controle, uma base para a movimentação
@@ -126,12 +136,12 @@ class Player(pygame.sprite.Sprite):
                     self.rect.x = hits[0].rect.left - self.rect.width
                     # Ajusta a camera para nao ser modificada na colisao
                     for sprite in self.game.all_sprites:
-                        sprite.rect.x += config.player_speed
+                        sprite.rect.x += self.speed
                 if self.x_change < 0:
                     self.rect.x = hits[0].rect.right
                     # Ajusta a camera para nao ser modificada na colisao
                     for sprite in self.game.all_sprites:
-                        sprite.rect.x -= config.player_speed
+                        sprite.rect.x -= self.speed
         
         if direction == "y":
             hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
@@ -140,12 +150,12 @@ class Player(pygame.sprite.Sprite):
                     self.rect.y = hits[0].rect.top - self.rect.height
                     # Ajusta a camera para nao ser modificada na colisao
                     for sprite in self.game.all_sprites:
-                        sprite.rect.y += config.player_speed
+                        sprite.rect.y += self.speed
                 if self.y_change < 0:
                     self.rect.y = hits[0].rect.bottom
                     # Ajusta a camera para nao ser modificada na colisao
                     for sprite in self.game.all_sprites:
-                        sprite.rect.y -= config.player_speed
+                        sprite.rect.y -= self.speed
         
                     
     def animate(self):
@@ -209,7 +219,7 @@ class Player(pygame.sprite.Sprite):
                 
     def damage_animation(self):
         for enemy in self.enemies:
-            self.health -= config.damage["enemies"][enemy.kind]
+            self.health -= config.damage["enemies"][enemy.kind] * (1 - self.game.buffs["defense"])
         [self.hurt_down_animations, self.hurt_up_animations, self.hurt_right_animations, self.hurt_left_animations] = self.game.sprites.warrior_animations["hurt_animations"].values()
         if self.facing == "down":
             current_time = pygame.time.get_ticks()
@@ -298,25 +308,38 @@ class Player(pygame.sprite.Sprite):
                     self.game.draw()
                     self.game.game_over()
                     
-    def atacar(self, game, x, y, item, position):
+    def atacar(self, game, x, y, item, position, level=1):
         if not self.attacking:
             self.attacking = True
-            Attack(game, x, y, item, position)
+            Attack(game, x, y, item, position, level)
             self.attack_time = pygame.time.get_ticks()
         else:
             current_time = pygame.time.get_ticks()
-            if current_time - self.attack_time > config.itens_delay[item]:
+            if current_time - self.attack_time > config.itens_delay[item] * (1 - self.game.buffs["firing_speed"]):
                 self.attacking = False
+                
+    def check_xp_level(self):
+        if self.xp >= self.levels(self.level):
+            self.xp = self.xp - self.levels(self.level)
+            self.level += 1
+            self.game.level_up = True
+            
+    def levels(self, level):
+        xp_level_1 = 100
+        
+        return int(xp_level_1*(1.5)**level)
         
                 
 class Attack(pygame.sprite.Sprite):
-    def __init__(self, game, x, y, item, position):
+    def __init__(self, game, x, y, item, position, level):
         
         self.game = game
         self._layer = config.layers["player_layer"]
         self.groups = self.game.all_sprites, self.game.attacks
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.item = item
+        self.level = level
+        self.animation_speed = config.item_animation_speed[self.item]
         
         keys_animations = list(self.game.sprites.attack_animations[self.item].keys())
         self.image = self.game.sprites.attack_animations[self.item][keys_animations[0]][0]
@@ -325,13 +348,12 @@ class Attack(pygame.sprite.Sprite):
         direction = pygame.math.Vector2(position[0] - x, position[1] - y)
         self.velocity = direction.normalize() * self.speed
         
-        x = x + direction.normalize()[0] * self.game.player.rect.width
-        y = y + direction.normalize()[1] * self.game.player.rect.height
-        self.position = pygame.math.Vector2(x, y)
+        x_attack = x + direction.normalize()[0] * self.game.player.rect.width
+        y_attack = y + direction.normalize()[1] * self.game.player.rect.height
         
         # Define tamanho e posicao do ataque
-        self.x = x * config.tilesize
-        self.y = y * config.tilesize 
+        self.x = x_attack
+        self.y = y_attack
         self.width = config.tilesize
         self.height = config.tilesize
         self.x_change = 0
@@ -340,16 +362,24 @@ class Attack(pygame.sprite.Sprite):
         self.animation_loop = 0
         
         self.rect = self.image.get_rect()
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.rect.x = self.x - self.rect.width/2
+        self.rect.y = self.y - self.rect.height/2
         
         
     def update(self):
+        self.movement()
         self.animate()
         self.collide_enemy()
-        self.position += self.velocity
-        self.rect.center = self.position
+        self.rect.x += self.x_change
+        self.rect.y += self.y_change
         self.collide_blocks()
+        
+        self.x_change = 0
+        self.y_change = 0
+        
+    def movement(self):
+        self.x_change = self.velocity[0]
+        self.y_change = self.velocity[1]
         
     def animate(self):        
         [self.attack_animations] = self.game.sprites.attack_animations[self.item].values()
@@ -358,9 +388,9 @@ class Attack(pygame.sprite.Sprite):
         self.image = self.attack_animations[math.floor(self.animation_loop)]
         angle = self.velocity.angle_to(pygame.math.Vector2(0, -1))  # Alinha com o eixo Y (apontando para cima)
         self.image = pygame.transform.rotate(self.image, angle).convert_alpha()  # Rotaciona o sprite
-        self.rect = self.image.get_rect(center=self.rect.center)  # Atualiza o retângulo
+        # self.rect = self.image.get_rect(center=self.rect.center)  # Atualiza o retângulo
         # Ajusta a velocidade com que o loop ocorre nessa direcao
-        self.animation_loop += 0.1
+        self.animation_loop += self.animation_speed
         if self.animation_loop >= (len(self.attack_animations)- 1):
             self.kill()
             
@@ -368,7 +398,8 @@ class Attack(pygame.sprite.Sprite):
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
         if hits:
             for sprite in hits:
-                sprite.health -= config.damage["itens"][self.item]
+                sprite.health -= config.damage["itens"][self.item][self.level] * (1 + self.game.buffs["attack"])
+                
                 
     def collide_blocks(self):
         hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)

@@ -12,6 +12,8 @@ class Enemy_AI:
         self.player = self.game.player
         self.seach_distance = config.enemy_fov
         self.facing = "down"
+        self.track_player = False
+        self.time_untracked = 0
 
     def enemy_pursue(self):
 
@@ -42,8 +44,13 @@ class Enemy_AI:
     def target_detector(self): # Verifica se o player está próximo para liberar perseguição
 
         if self.distance_vector(self.player) <= self.seach_distance and self.distance_vector(self.player) > 40:
+                self.track_player = True
                 return self.player
-        else: return None
+        else: 
+            if self.track_player:
+                self.time_untracked = pygame.time.get_ticks()
+                self.track_player = False
+            return None
 
     def get_deltas(self, player): # Calcula a distância entre o inimigo e uma entidade
         delta_x = player.rect.x - self.enemy.rect.x

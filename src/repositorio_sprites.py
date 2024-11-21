@@ -40,7 +40,29 @@ class Sprites:
                 "attack_spritesheet_wave_up": Spritesheet("../assets/itens_sprites/Wave/Small/Up/WaveSmallUp.png"),
                 "attack_spritesheet_wave_right": Spritesheet("../assets/itens_sprites/Wave/Small/Right/WaveSmallRight.png"),
                 "attack_spritesheet_wave_left": Spritesheet("../assets/itens_sprites/Wave/Small/Left/WaveSmallLeft.png")
+                },
+            "energy_ball": {
+                "attack_spritesheet_energy_ball": Spritesheet("../assets/itens_sprites/EnergyBall/EnergyBall.png"),
+                "icon": "../assets/itens_sprites/EnergyBall/orb.png"
+                },
+            "demon_sword": {
+                "attack_spritesheet_demon_sword": Spritesheet("../assets/itens_sprites/DemonSword/DemonSword.png"),
+                "icon": "../assets/itens_sprites/DemonSword/DemonSwordIcon.png"
+                },
+            "shot_gun": {
+                "attack_spritesheet_shot_gun": Spritesheet("../assets\itens_sprites\ShotGun\shotgun.png"),
+                "icon": "../assets\itens_sprites\ShotGun\shotgun_icon.png"
                 }
+            }
+        
+        self.abilities_sprites = {
+            "nice_boots": "../assets/itens_sprites/Abilities/nice_boots.png",
+            "divine_blessing": "../assets/itens_sprites/Abilities/divine_blessing.png",
+            "saint_cross": "../assets/itens_sprites/Abilities/saint_cross.png",
+            "rage_of_the_gods": "../assets/itens_sprites/Abilities/rage_of_the_gods.png",
+            "indestructible_shield": "../assets/itens_sprites/Abilities/indestructible_shield.png",
+            "Artemis_aim": "../assets/itens_sprites/Abilities/Artemis_aim.png",
+            "Apollo_maestry": "../assets/itens_sprites/Abilities/Apollo_maestry.png" 
             }
         
         self.warrior_animations = {
@@ -168,5 +190,32 @@ class Sprites:
                 "wave_animations": [self.attack_sprites["wave"]["attack_spritesheet_wave_up"].get_sprite(0, 0, 32, 32),
                                         self.attack_sprites["wave"]["attack_spritesheet_wave_up"].get_sprite(32, 0, 32, 32),
                                         self.attack_sprites["wave"]["attack_spritesheet_wave_up"].get_sprite(64, 0, 32, 32)]
+                },
+            "energy_ball": {
+                "energy_ball_animations": [self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 1054, 36, 86),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 920, 36, 94),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 802, 36, 86),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 666, 36, 94),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 544, 36, 86),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 416, 36, 86),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 288, 36, 86),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 162, 36, 86),
+                                           self.attack_sprites["energy_ball"]["attack_spritesheet_energy_ball"].get_sprite(44, 34, 36, 86),
+                    ]
+                },
+            "demon_sword": {
+                "demon_sword_animations": [self.attack_sprites["demon_sword"]["attack_spritesheet_demon_sword"].get_sprite(204, 419, 44, 69),
+                                           self.attack_sprites["demon_sword"]["attack_spritesheet_demon_sword"].get_sprite(33, 403, 92, 86),
+                                           self.attack_sprites["demon_sword"]["attack_spritesheet_demon_sword"].get_sprite(137, 273, 118, 85),
+                                           self.attack_sprites["demon_sword"]["attack_spritesheet_demon_sword"].get_sprite(7, 267, 119, 71),
+                                           self.attack_sprites["demon_sword"]["attack_spritesheet_demon_sword"].get_sprite(135, 138, 111, 67),
+                                           self.attack_sprites["demon_sword"]["attack_spritesheet_demon_sword"].get_sprite(7, 141, 86, 64),
+                                           self.attack_sprites["demon_sword"]["attack_spritesheet_demon_sword"].get_sprite(134, 16, 54, 60),]
+                },
+            "shot_gun": {
+                "shot_gun_animations": [self.attack_sprites["shot_gun"]["attack_spritesheet_shot_gun"].get_sprite(119, 543, 123, 120),
+                                        self.attack_sprites["shot_gun"]["attack_spritesheet_shot_gun"].get_sprite(110, 378, 142, 148),
+                                        self.attack_sprites["shot_gun"]["attack_spritesheet_shot_gun"].get_sprite(78, 208, 206, 144),
+                                        self.attack_sprites["shot_gun"]["attack_spritesheet_shot_gun"].get_sprite(65, 24, 231, 169),]
                 }
             }
