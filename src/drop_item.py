@@ -45,9 +45,9 @@ class ItemDrop(pygame.sprite.Sprite):
     def apply_effect(self, player):
         # Aplica o efeito do item no jogador
         if self.item_type == 'Baconseed':
-            player.health += 70 
+            player.health += 80 
         elif self.item_type == 'Baconfruit':
-            player.health += 140 
+            player.health += 160 
         elif self.item_type == 'Starpotion':
             player.xp += 60   
         elif self.item_type == 'Hugepotion':
