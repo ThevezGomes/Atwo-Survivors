@@ -306,7 +306,7 @@ class Game:
 
         #Verifica se a posição gerada não bate com a de um objeto
         if not any(spawn_pos.colliderect(rect) for rect in self.blocked_rects):
-            item_type = random.choice(["Baconseed", "Baconfruit", "Carlos_Ivan_Supremacy", "Camacho_Supremacy"])
+            item_type = random.choice(["Baconseed", "Baconfruit", "Starpotion", "Hugepotion"])
             item = ItemDrop(spawn_x, spawn_y, item_type)
             
             #Adciona os itens no grupo de sprites

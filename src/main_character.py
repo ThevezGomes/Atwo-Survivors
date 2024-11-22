@@ -102,7 +102,7 @@ class Player(pygame.sprite.Sprite):
             self.facing = "down"
         
         #Caso for iplementar o controle, uma base para a movimentação
-        """ 
+        """
         # Inicializa o joystick (caso ainda não tenha sido iniciado)
         if pygame.joystick.get_count() > 0:
             joystick = pygame.joystick.Joystick(0)
@@ -112,7 +112,7 @@ class Player(pygame.sprite.Sprite):
             x_axis = joystick.get_axis(0)  # Eixo horizontal (esquerda/direita)
             y_axis = joystick.get_axis(1)  # Eixo vertical (cima/baixo)
 
-            # Movimento do jogador com base no eixo analógico (ajuste o limiar de sensibilidade conforme necessário)
+            # Movimento do jogador com base no eixo analógico (ajuste o limiar de sensibilidade conforme necessário) DAVI
             if abs(x_axis) > 0.1:
                 for sprite in self.game.all_sprites:
                     sprite.rect.x += x_axis * config_mod.player_speed
@@ -124,7 +124,7 @@ class Player(pygame.sprite.Sprite):
                     sprite.rect.y += y_axis * config_mod.player_speed
                 self.y_change += y_axis * config_mod.player_speed
                 self.facing = "up" if y_axis < 0 else "down"
-                """
+           """     
 
     # Ajusta a colisao
     def collide_blocks(self, direction):
@@ -317,7 +317,23 @@ class Player(pygame.sprite.Sprite):
             current_time = pygame.time.get_ticks()
             if current_time - self.attack_time > config.itens_delay[item] * (1 - self.game.buffs["firing_speed"]):
                 self.attacking = False
-                
+
+        #Davi
+        """
+        if pygame.joystick.get_count()>0:
+            joystick = pygame.joystick.Joystick(0)
+            joystick.init()
+
+            # Botão de ataque (por exemplo, o botão 0 que é geralmente o "A" no controle)
+            attack_button = joystick.get_button(0)
+
+            if attack_button and not self.attacking:
+                self.attacking = True
+                # Chama a função de ataque
+                self.atacar(self.game, self.rect.centerx, self.rect.centery, "sword", self.facing)
+                self.attack_time = pygame.time.get_ticks()
+            """
+
     def check_xp_level(self):
         if self.xp >= self.levels(self.level):
             self.xp = self.xp - self.levels(self.level)
@@ -373,7 +389,9 @@ class Attack(pygame.sprite.Sprite):
         self.rect.x += self.x_change
         self.rect.y += self.y_change
         self.collide_blocks()
-        
+        #DAVI
+        #self.attack_with_joystick()
+
         self.x_change = 0
         self.y_change = 0
         

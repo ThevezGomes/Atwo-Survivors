@@ -17,10 +17,10 @@ class ItemDrop(pygame.sprite.Sprite):
             self.image = pygame.image.load('../assets/drop_itens_sprites/Pigtree.png').convert_alpha()
         elif self.item_type == 'Baconfruit':
             self.image = pygame.image.load('../assets/drop_itens_sprites/Bacon.jpg').convert_alpha()
-        elif self.item_type == 'Camacho_Supremacy':
-            self.image = pygame.image.load('../assets/drop_itens_sprites/CamachoSupremacy.webp').convert_alpha()
-        elif self.item_type == 'Carlos_Ivan_Supremacy':
-            self.image = pygame.image.load('../assets/drop_itens_sprites/CarlosIvanSupremacy.png').convert_alpha()
+        elif self.item_type == 'Starpotion':
+            self.image = pygame.image.load('../assets/drop_itens_sprites/starpotion.png').convert_alpha()
+        elif self.item_type == 'Hugepotion':
+            self.image = pygame.image.load('../assets/drop_itens_sprites/hugepotion.png').convert_alpha()
         else:
             self.image = pygame.Surface((20, 20))  # Caso nenhum tipo seja válido, cria uma superfície vazia
 
@@ -48,9 +48,9 @@ class ItemDrop(pygame.sprite.Sprite):
             player.health += 70 
         elif self.item_type == 'Baconfruit':
             player.health += 140 
-        elif self.item_type == 'Camacho_Supremacy':
+        elif self.item_type == 'Starpotion':
             player.xp += 60   
-        elif self.item_type == 'Carlos_Ivan_Supremacy':
+        elif self.item_type == 'Hugepotion':
             player.xp += 120
 
 
