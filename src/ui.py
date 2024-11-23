@@ -152,21 +152,37 @@ class Bar(ABC):
     def draw(self, screen):
         pass
 
+import pygame
+
 class HealthBar(Bar):
-    def __init__(self, max, border_color, background_color, color, width, height, x, y):
-        super().__init__(max, border_color, background_color, color, width, height, x, y)
+    def __init__(self, max, border_color, background_color, color, base_width, height, x, y, character_icon):
+        super().__init__(max, border_color, background_color, color, base_width, height, x, y)
+        self.base_width = base_width  # Largura base da barra
+        self.character_icon = character_icon
+        self.original_x = x
+        self.icon_image = pygame.image.load(character_icon)
+        self.icon_image = pygame.transform.scale(self.icon_image, (50, 50))
 
     def draw(self, screen):
+        # Atualizar o tamanho da barra com base na vida máxima
+        self.width = self.base_width * (self.max / config.max_health["player"])
+
+        # Atualiza a posição da barra após o crescimento
+        self.x = self.original_x + self.base_width - self.width
+
+        # Calcular o preenchimento proporcional
         filled = self.width * (self.amount / self.max)
 
-        # Desenha a borda (ajustando as coordenadas para a borda)
+        # Desenhar a borda
         pygame.draw.rect(screen, self.border_color, pygame.Rect(self.x - 3, self.y - 3, self.width + 6, self.height + 6))
-        # Desenha o fundo da barra
+        # Desenhar o fundo da barra
         background_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
-        background_surface.fill(self.background_color)  # Cor de fundo com alpha
+        background_surface.fill(self.background_color)  # Cor de fundo com transparência
         screen.blit(background_surface, (self.x, self.y))
-        # Desenha a parte preenchida da barra
+        # Desenhar a parte preenchida da barra
         pygame.draw.rect(screen, self.color, pygame.Rect(self.x + (self.width - filled), self.y, filled, self.height))
+        # Desenhar o ícone do personagem
+        screen.blit(self.icon_image, (self.x + self.width, self.y - 16))
 
 class ExperienceBar(Bar):
     def __init__(self, border_color, background_color, color, width, height, x, y, level, xp):

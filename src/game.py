@@ -122,7 +122,7 @@ class Game:
         self.player = Player(self, (self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2)
         
         # Barra de vida
-        self.health_bar = HealthBar(max=self.player.max_health, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(163, 31, 13), width=250, height=20, x=self.screen.get_width() - 260, y=self.screen.get_height() - 35)
+        self.health_bar = HealthBar(max=self.player.max_health, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(163, 31, 13), base_width=250, height=20, x=self.screen.get_width() - 310, y=self.screen.get_height() - 45, character_icon="../assets/img/WarriorIcon.png")
         self.health_bar.amount = self.player.health
         
         # Barra de experiência
@@ -182,6 +182,9 @@ class Game:
                         self.game_timer.pause() # Pausa o relogio
                         self.pause_menu()  # Chama o menu de pausa
                         self.game_timer.resume() # Retorna o relogio
+                if event.key == pygame.K_e:
+                    self.buffs["life"] += 0.2
+                    
             elif pygame.mouse.get_pressed()[0]:
                 if self.inventory.selected_item_index != None:
                     self.mouse_position = pygame.mouse.get_pos()
