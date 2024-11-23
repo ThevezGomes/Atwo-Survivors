@@ -27,10 +27,18 @@ class Sprites:
         self.enemy_sprites = {
             "skeleton": {
                 "enemy_skeleton_spritesheet": Spritesheet("../assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png"),
-                "enemy_skeleton_spritesheet_walk_down": Spritesheet("../assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png"),
-                "enemy_skeleton_spritesheet_walk_up": Spritesheet("../assets/enemy_sprites/skeleton/Up/Png/SkeletonWithSwordUpWalk.png"),
-                "enemy_skeleton_spritesheet_walk_left": Spritesheet("../assets/enemy_sprites/skeleton/Left/Png/SkeletonWithSwordLefttRun.png"),
-                "enemy_skeleton_spritesheet_walk_right": Spritesheet("../assets/enemy_sprites/skeleton/Right/Png/SkeletonWithSwordRightRun.png")
+                "walk": {
+                    "enemy_skeleton_spritesheet_walk_down": Spritesheet("../assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownWalk.png"),
+                    "enemy_skeleton_spritesheet_walk_up": Spritesheet("../assets/enemy_sprites/skeleton/Up/Png/SkeletonWithSwordUpWalk.png"),
+                    "enemy_skeleton_spritesheet_walk_left": Spritesheet("../assets/enemy_sprites/skeleton/Left/Png/SkeletonWithSwordLefttRun.png"),
+                    "enemy_skeleton_spritesheet_walk_right": Spritesheet("../assets/enemy_sprites/skeleton/Right/Png/SkeletonWithSwordRightRun.png")
+                    },
+                "hurt": {
+                    "enemy_skeleton_spritesheet_hurt_down": Spritesheet("../assets/enemy_sprites/skeleton/Down/Png/SkeletonWithSwordDownHurt.png"),
+                    "enemy_skeleton_spritesheet_hurt_up": Spritesheet("../assets/enemy_sprites/skeleton/Up/Png/SkeletonWithSwordUpHurt.png"),
+                    "enemy_skeleton_spritesheet_hurt_left": Spritesheet("../assets/enemy_sprites/skeleton/Left/Png/SkeletonWithSwordLefttHurt.png"),
+                    "enemy_skeleton_spritesheet_hurt_right": Spritesheet("../assets/enemy_sprites/skeleton/Right/Png/SkeletonWithSwordRightHurt.png")
+                    }
                 }
             }
         
@@ -127,60 +135,86 @@ class Sprites:
                 
                 },
             
-            # PRECISA VERIFICAR NO PAINT
             "death_animations": {
                 "death_down_animations": [self.warrior_sprites["death"]["warrior_spritesheet_death_down"].get_sprite(12, 7, 22, 32),
-                                         self.warrior_sprites["death"]["warrior_spritesheet_death_down"].get_sprite(60, 4, 22, 32),
-                                         self.warrior_sprites["death"]["warrior_spritesheet_death_down"].get_sprite(108, 3, 23, 32),
-                                         self.warrior_sprites["death"]["warrior_spritesheet_death_down"].get_sprite(156, 3, 22, 32)],
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_down"].get_sprite(60, 7, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_down"].get_sprite(108, 7, 23, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_down"].get_sprite(156, 7, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_down"].get_sprite(204, 7, 22, 32)],
                 
                 "death_up_animations": [self.warrior_sprites["death"]["warrior_spritesheet_death_up"].get_sprite(13, 7, 22, 33),
-                                         self.warrior_sprites["death"]["warrior_spritesheet_death_up"].get_sprite(61, 5, 22, 32),
-                                         self.warrior_sprites["death"]["warrior_spritesheet_death_up"].get_sprite(109, 4, 22, 32),
-                                         self.warrior_sprites["death"]["warrior_spritesheet_death_up"].get_sprite(157, 4, 22, 32)],
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_up"].get_sprite(61, 7, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_up"].get_sprite(109, 7, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_up"].get_sprite(158, 8, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_up"].get_sprite(206, 8, 22, 32)],
                 
-                "death_right_animations": [self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(11, 9, 22, 32),
-                                         self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(59, 8, 22, 32),
-                                         self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(107, 7, 22, 32),
-                                         self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(155, 7, 22, 32)],
+                "death_right_animations": [self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(12, 9, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(61, 9, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(109, 9, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(157, 9, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_right"].get_sprite(205, 9, 22, 32)],
                 
-                "death_left_animations": [self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(14, 10, 22, 33),
-                                         self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(62, 8, 22, 32),
-                                         self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(110, 7, 22, 32),
-                                         self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(158, 7, 22, 32)]
+                "death_left_animations": [self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(15, 9, 22, 33),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(63, 9, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(111, 9, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(159, 9, 22, 32),
+                                         self.warrior_sprites["death"]["warrior_spritesheet_death_left"].get_sprite(207, 9, 22, 32)]
                 }
             }
         
         
         self.enemy_animations = {
             "skeleton" : {
-                "walk_down_animations" : [ self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_down"].get_sprite(  8, 12, 25, 29),
-                                           self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_down"].get_sprite( 55, 11, 25, 29),
-                                           self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_down"].get_sprite(104, 10, 25, 29),
-                                           self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_down"].get_sprite(152, 11, 25, 29),
-                                           self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_down"].get_sprite(198, 11, 25, 29),
-                                           self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_down"].get_sprite(246, 11, 25, 29)],
-                
-                "walk_up_animations" : [ self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_up"].get_sprite( 15, 11, 25, 30),
-                                         self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_up"].get_sprite( 63, 11, 24, 30),
-                                         self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_up"].get_sprite(111, 10, 23, 30),
-                                         self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_up"].get_sprite(159, 11, 25, 30),
-                                         self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_up"].get_sprite(208, 11, 24, 30),
-                                         self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_up"].get_sprite(256, 11, 24, 30)],
-                
-                "walk_right_animations" : [ self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_right"].get_sprite( 15, 11, 22, 31),
-                                            self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_right"].get_sprite( 62, 11, 22, 31),
-                                            self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_right"].get_sprite(109, 10, 22, 31),
-                                            self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_right"].get_sprite(159, 11, 22, 31),
-                                            self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_right"].get_sprite(207, 11, 22, 31),
-                                            self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_right"].get_sprite(256, 10, 22, 31)],
-                
-                "walk_left_animations" : [ self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(  8, 11, 29, 30),
-                                           self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_left"].get_sprite( 54, 11, 29, 30),
-                                           self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(102, 10, 29, 30),
-                                           self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(152, 11, 29, 30),
-                                           self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(202, 11, 29, 30),
-                                           self.enemy_sprites["skeleton"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(250, 10, 29, 30)]
+                "walk_animations": {
+                    "walk_down_animations" : [ self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_down"].get_sprite(  8, 12, 25, 29),
+                                               self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_down"].get_sprite( 55, 11, 25, 29),
+                                               self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_down"].get_sprite(104, 10, 25, 29),
+                                               self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_down"].get_sprite(152, 11, 25, 29),
+                                               self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_down"].get_sprite(198, 11, 25, 29),
+                                               self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_down"].get_sprite(246, 11, 25, 29)],
+                    
+                    "walk_up_animations" : [ self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_up"].get_sprite( 15, 11, 25, 30),
+                                             self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_up"].get_sprite( 63, 11, 24, 30),
+                                             self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_up"].get_sprite(111, 10, 23, 30),
+                                             self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_up"].get_sprite(159, 11, 25, 30),
+                                             self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_up"].get_sprite(208, 11, 24, 30),
+                                             self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_up"].get_sprite(256, 11, 24, 30)],
+                    
+                    "walk_right_animations" : [ self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_right"].get_sprite( 15, 11, 22, 31),
+                                                self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_right"].get_sprite( 62, 11, 22, 31),
+                                                self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_right"].get_sprite(109, 10, 22, 31),
+                                                self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_right"].get_sprite(159, 11, 22, 31),
+                                                self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_right"].get_sprite(207, 11, 22, 31),
+                                                self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_right"].get_sprite(256, 10, 22, 31)],
+                    
+                    "walk_left_animations" : [ self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(  8, 11, 29, 30),
+                                               self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_left"].get_sprite( 54, 11, 29, 30),
+                                               self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(102, 10, 29, 30),
+                                               self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(152, 11, 29, 30),
+                                               self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(202, 11, 29, 30),
+                                               self.enemy_sprites["skeleton"]["walk"]["enemy_skeleton_spritesheet_walk_left"].get_sprite(250, 10, 29, 30)]
+                    },
+                "hurt_animations":{
+                    "hurt_down_animations" : [ self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_down"].get_sprite(  8, 12, 25, 29),
+                                               self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_down"].get_sprite( 56, 10, 25, 29),
+                                               self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_down"].get_sprite(103, 9, 25, 29),
+                                               self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_down"].get_sprite(151, 8, 25, 29)],
+                    
+                    "hurt_up_animations" : [ self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_up"].get_sprite( 16, 12, 25, 30),
+                                             self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_up"].get_sprite( 63, 10, 24, 30),
+                                             self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_up"].get_sprite(112, 9, 23, 30),
+                                             self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_up"].get_sprite(159, 8, 25, 30)],
+                    
+                    "hurt_right_animations" : [ self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_right"].get_sprite( 16, 12, 22, 31),
+                                                self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_right"].get_sprite( 63, 10, 22, 31),
+                                                self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_right"].get_sprite(112, 9, 22, 31),
+                                                self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_right"].get_sprite(159, 8, 22, 31)],
+                    
+                    "hurt_left_animations" : [ self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_left"].get_sprite(  9, 12, 29, 30),
+                                               self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_left"].get_sprite( 56, 10, 29, 30),
+                                               self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_left"].get_sprite(105, 9, 29, 30),
+                                               self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_left"].get_sprite(152, 8, 29, 30)]
+                    }
                 
             }
         }
