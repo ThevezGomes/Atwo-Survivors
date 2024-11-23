@@ -132,11 +132,14 @@ class Game:
         self.player = Player(self, (self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2)
         
         # Barra de vida
-        self.health_bar = HealthBar(max=self.player.max_health, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() - 210, y=self.screen.get_height() - 35)
+        self.health_bar = HealthBar(max=self.player.max_health, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(199, 12, 10), width=250, height=20, x=self.screen.get_width() - 260, y=self.screen.get_height() - 35)
         self.health_bar.amount = self.player.health
         
         # Barra de experiência
         self.experience_bar = ExperienceBar(border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=45, level=self.player.level, xp=self.player.xp)
+
+        # Barra de vida do Boss
+        self.boss_bar = BossBar(max=100, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=115, boss_name="Grande Esqueleto")
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -145,6 +148,7 @@ class Game:
         self.skills_hub.draw(self.screen)
         self.health_bar.draw(self.screen) # Adciona a barra de vida na tela
         self.experience_bar.draw(self.screen) # Adciona a barra de experiência na tela
+        self.boss_bar.draw(self.screen) # Adiciona a brra de vida do Boss, e não vai ficar aqui
         self.game_timer.update(self.screen) # Adciona o timer ao jogo
         self.clock.tick(60)
         self.buffs_apply()

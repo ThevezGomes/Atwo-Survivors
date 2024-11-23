@@ -210,6 +210,37 @@ class ExperienceBar(Bar):
         
         return int(xp_level_1*(1.5)**level)
 
+class BossBar(Bar):
+    def __init__(self, max, border_color, background_color, color, width, height, x, y, boss_name):
+        super().__init__(max, border_color, background_color, color, width, height, x, y)
+        self.boss_name = boss_name
+
+    def draw(self, screen):
+        filled = self.amount / self.max  # Calcula o preenchimento da barra de experiência
+
+        # Desenha a borda (ajustando as coordenadas para a borda)
+        pygame.draw.rect(screen, self.border_color, pygame.Rect(self.x-(self.width/2) - 3, self.y - 3, self.width + 6, self.height + 6))
+        # Desenha o fundo da barra
+        background_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+        background_surface.fill(self.background_color)  # Cor de fundo com alpha
+        screen.blit(background_surface, (self.x-(self.width/2), self.y))
+        # Desenha a parte preenchida da barra
+        pygame.draw.rect(screen, self.color, pygame.Rect(self.x-(self.width/2), self.y, self.width * filled, self.height)) 
+
+        # Exibe o nome do boss
+        font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 24)
+        name_text = font.render(f"{self.boss_name}", True, (255, 255, 255))
+        
+        # Calcula a posição para centralizar o texto
+        text_width = name_text.get_width()
+        text_x = self.x - (text_width / 2)  # Subtrai a metade da largura do texto da posição central da barra
+        
+        # Calcula a posição para centralizar o texto verticalmente
+        text_y = self.y - (self.height / 2) - (name_text.get_height() / 2) - 10  # Posição vertical centralizada
+
+        # Posiciona o texto centralizado na barra
+        screen.blit(name_text, (text_x, text_y))
+
 class TimeGame:
     def __init__(self, x, y):
         self.font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 32)
@@ -251,7 +282,6 @@ class TimeGame:
                 if total_elapsed >= event_time:
                     func()
                     del self.events[event_time]
-
 
 class SelectionItem:
     def __init__(self, x, y, width, height, fg, item, fontsize):
