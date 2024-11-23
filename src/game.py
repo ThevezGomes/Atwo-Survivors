@@ -30,6 +30,7 @@ class Game:
         self.spawn_time = 0
         self.spawning = False
         self.spawned_boss = False
+        self.show_message = False
         self.enemies_list = []
         
         self.buffs = {
@@ -91,6 +92,7 @@ class Game:
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
+        self.game_timer.add_event(3, self.MessageSpawnBoss)
         #self.game_timer.add_event(5, self.SpawnBoss)
 
         #Grupo de sprites 
@@ -144,9 +146,9 @@ class Game:
         else:
             self.boss_bar.draw(self.screen)
         self.game_timer.draw(self.screen) # Adciona o timer ao jogo
+        self.draw_message() # Em caso de haver uma mensagem, adciona a mensagem na tela
         self.clock.tick(60)
         self.buffs_apply()
-
 
         pygame.display.update()
 
@@ -591,6 +593,28 @@ class Game:
     def buffs_apply(self):
         for ability in self.skills_hub.items:
             self.buffs[ability[0].buff] = config.buff[ability[0].kind][ability[0].level]
+
+    def MessageSpawnBoss(self):
+         # Exibir a mensagem no centro superior da tela
+        self.message = "Prepare-se"
+        self.show_message = True # Faz a messagem aparecer usando a função draw_message que está no loop do jogo
+        self.message_time = pygame.time.get_ticks()  # Registra o tempo em que a mensagem foi exibida
+        self.message_duration = 1000 # Define o tempo que a menssagem fica na tela
+
+    def draw_message(self):
+        # Se show_message for True, exibe a mensagem
+        if self.show_message:
+            # Posiciona a menssagem na tela
+            font = pygame.font.Font('../assets/fonts/PixelifySans-Regular.ttf', 34)
+            text_surface = font.render(self.message, True, (255, 255, 255))
+            text_rect = text_surface.get_rect(center=(self.screen.get_width() // 2, 150))  # Centralizado no topo
+
+            # Verificar se o tempo já passou
+            if pygame.time.get_ticks() - self.message_time >= self.message_duration:
+                self.show_message = False  # Remove a mensagem após o termino do tempo
+
+            # Desenhar a mensagem na tela
+            self.screen.blit(text_surface, text_rect)
             
     def cheats(self):
         keys = pygame.key.get_pressed()
