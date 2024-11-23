@@ -249,39 +249,46 @@ class TimeGame:
         self.events = {}
         self.time_paused = False
         self.elapsed_time = 0  # Tempo acumulado de pausa
+        self.start_time = pygame.time.get_ticks()
+        self.total_elapsed = 0
 
     def start(self):
         self.start_time = pygame.time.get_ticks()
+        self.elapsed_time = 0
+        self.time_paused = False
 
     def add_event(self, time_seconds, func):
         self.events[time_seconds * 1000] = func
 
     def pause(self):
-        self.elapsed_time += pygame.time.get_ticks() - self.start_time  # Adiciona o tempo decorrido antes da pausa
-        self.time_paused = True
+        if not self.time_paused:
+            self.elapsed_time += pygame.time.get_ticks() - self.start_time
+            self.time_paused = True
 
     def resume(self):
-        self.start_time = pygame.time.get_ticks()  # Reinicia o tempo de início para considerar o tempo restante
-        self.time_paused = False
+        if self.time_paused:
+            self.start_time = pygame.time.get_ticks()
+            self.time_paused = False
 
-    def update(self, screen):
+    def update(self):
         if not self.time_paused:
             current_time = pygame.time.get_ticks()
-            total_elapsed = current_time - self.start_time + self.elapsed_time  # Inclui o tempo pausado
-            
-            # Atualiza o timer na tela
-            minutes = total_elapsed // 60000
-            seconds = (total_elapsed % 60000) // 1000
-            timer_text = self.font.render(f'{minutes:02}:{seconds:02}', True, (255, 255, 255))
-            text_size = timer_text.get_size()
-            timer_x = self.x - (text_size[0]/2)
-            screen.blit(timer_text, (timer_x, self.y))
+            self.total_elapsed = self.elapsed_time + (current_time - self.start_time)
 
-            # Checa e dispara eventos de tempo
+            # Checa e dispara eventos
             for event_time, func in list(self.events.items()):
-                if total_elapsed >= event_time:
+                if self.total_elapsed >= event_time:
                     func()
                     del self.events[event_time]
+
+    def draw(self, screen):
+        minutes = self.total_elapsed // 60000
+        seconds = (self.total_elapsed % 60000) // 1000
+        timer_text = self.font.render(f'{minutes:02}:{seconds:02}', True, (255, 255, 255))
+        text_size = timer_text.get_size()
+        timer_x = self.x - (text_size[0] / 2)
+        screen.blit(timer_text, (timer_x, self.y))
+
 
 class SelectionItem:
     def __init__(self, x, y, width, height, fg, item, fontsize):

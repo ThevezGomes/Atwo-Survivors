@@ -29,6 +29,7 @@ class Game:
         self.sprites = rs.Sprites()
         self.spawn_time = 0
         self.spawning = False
+        self.spawned_boss = False
         self.enemies_list = []
         
         self.buffs = {
@@ -71,7 +72,7 @@ class Game:
         self.all_itens = ItemsArmazenamento().itens
 
         #Criação do inventário (posição, tamanho do slot e número de slots)
-        self.inventory = Inventory(x=50, y=self.screen.get_height() - 100, slot_size=50, max_slots=5)
+        self.inventory = Inventory(x=10, y=self.screen.get_height() - 60, slot_size=50, max_slots=5)
         # self.energy_ball = self.all_itens["energy_ball"]
         # self.inventory.add_item(self.energy_ball)
         # self.inventory.add_item(self.espada)
@@ -90,8 +91,7 @@ class Game:
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
-        #self.game_timer.add_event(5, self.itemdrop)
-        #self.game_timer.add_event(7, self.morte)
+        #self.game_timer.add_event(5, self.SpawnBoss)
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()
@@ -103,18 +103,8 @@ class Game:
         self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
 
     #Teste de eventos
-    #def itemdrop(self):
-    #    self.item1 = self.espada
-    #    self.item2 = self.escudo
-    #    self.item3 = self.vida
-
-        # Lista de itens
-    #    self.itens = [self.item1, self.item2, self.item3]
-
-    #    self.level_up = True
-
-    #def morte(self):
-    #    self.health_bar.amount -= 100
+    #def SpawnBoss(self):
+    #    self.spawned_boss = True
 
     def new(self):
         self.playing = True
@@ -132,14 +122,14 @@ class Game:
         self.player = Player(self, (self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2)
         
         # Barra de vida
-        self.health_bar = HealthBar(max=self.player.max_health, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(199, 12, 10), width=250, height=20, x=self.screen.get_width() - 260, y=self.screen.get_height() - 35)
+        self.health_bar = HealthBar(max=self.player.max_health, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(163, 31, 13), width=250, height=20, x=self.screen.get_width() - 260, y=self.screen.get_height() - 35)
         self.health_bar.amount = self.player.health
         
         # Barra de experiência
         self.experience_bar = ExperienceBar(border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=45, level=self.player.level, xp=self.player.xp)
 
         # Barra de vida do Boss
-        self.boss_bar = BossBar(max=100, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=115, boss_name="Grande Esqueleto")
+        self.boss_bar = BossBar(max=100, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=75, boss_name="Grande Esqueleto")
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -147,9 +137,13 @@ class Game:
         self.inventory.draw(self.screen) # Adciona o inventario a tela do jogo
         self.skills_hub.draw(self.screen)
         self.health_bar.draw(self.screen) # Adciona a barra de vida na tela
-        self.experience_bar.draw(self.screen) # Adciona a barra de experiência na tela
-        self.boss_bar.draw(self.screen) # Adiciona a brra de vida do Boss, e não vai ficar aqui
-        self.game_timer.update(self.screen) # Adciona o timer ao jogo
+        # Adiciona a barra de experiência apenas se não tiver um Boss
+        if self.spawned_boss == False:
+            self.experience_bar.draw(self.screen) # Adciona a barra de experiência na tela
+        # Se tiver um boss então adciona a barra de vida do boss
+        else:
+            self.boss_bar.draw(self.screen)
+        self.game_timer.draw(self.screen) # Adciona o timer ao jogo
         self.clock.tick(60)
         self.buffs_apply()
 
@@ -167,6 +161,7 @@ class Game:
         self.experience_bar.max = self.experience_bar.levels(self.player.level)
         self.experience_bar.amount = self.player.xp
         self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
+        self.game_timer.update() # Atualisa o timer
         self.spawn_enemies()
         self.cheats()
         
@@ -209,6 +204,10 @@ class Game:
         if random.random() < 0.01:  
             self.spawn_item()
 
+        # Evento do Boss
+        if self.spawned_boss == True:
+            self.game_timer.pause()
+        
         self.update()
         self.draw()
 
