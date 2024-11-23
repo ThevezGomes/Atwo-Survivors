@@ -46,7 +46,7 @@ class Enemy_AI:
         if self.distance_vector(self.player) <= self.seach_distance and self.distance_vector(self.player) > 40:
                 self.track_player = True
                 return self.player
-        else: 
+        elif self.distance_vector(self.player) > self.seach_distance: 
             if self.track_player:
                 self.time_untracked = pygame.time.get_ticks()
                 self.track_player = False

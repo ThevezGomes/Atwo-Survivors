@@ -416,7 +416,12 @@ class Attack(pygame.sprite.Sprite):
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
         if hits:
             for sprite in hits:
-                sprite.health -= config.damage["itens"][self.item][self.level] * (1 + self.game.buffs["attack"])
+                if not sprite.damage:
+                    sprite.damage = True
+                    sprite.damage_index = 0
+                    sprite.damage_reason = self
+                    sprite.damage_time = pygame.time.get_ticks() 
+                
                 
                 
     def collide_blocks(self):

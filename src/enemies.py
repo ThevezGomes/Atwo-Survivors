@@ -18,6 +18,14 @@ class Enemy(pygame.sprite.Sprite):
         self.kind = kind
         self.speed = config.enemy_speed[self.kind]
         self.health = config.max_health["enemies"][kind]
+        
+        self.damage = False
+        self.damage_time = 0
+        self.damage_index = 0
+        self.damage_reason = None
+        # self.death = False
+        # self.death_time = 0
+        # self.death_index = 0
 
         # Invocar IA
 
@@ -39,28 +47,30 @@ class Enemy(pygame.sprite.Sprite):
         self.y_change = 0
 
         # Forma a aparência do inimigo (Animação há de ser implementada ainda)
-        self.keys_animations = list(self.game.sprites.enemy_animations[self.kind].keys())
-        self.image = self.game.sprites.enemy_animations[self.kind][self.keys_animations[0]][0]
+        self.keys_animations = list(self.game.sprites.enemy_animations[self.kind]["walk_animations"].keys())
+        self.image = self.game.sprites.enemy_animations[self.kind]["walk_animations"][self.keys_animations[0]][0]
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
 
     def update(self):
-
-        self.x_change, self.y_change = self.ai.enemy_pursue()
-        self.facing = self.ai.facing
-        self.animate()
-
-        self.rect.x += self.x_change
-        self.collide_blocks("x")
-        self.rect.y += self.y_change
-        self.collide_blocks("y")
-
-        self.x_change = 0
-        self.y_change = 0
-        
-        self.check_health()
-        self.despawn()
+        if self.damage:
+            self.damage_animation()
+        else:
+            self.x_change, self.y_change = self.ai.enemy_pursue()
+            self.facing = self.ai.facing
+            self.animate()
+    
+            self.rect.x += self.x_change
+            self.collide_blocks("x")
+            self.rect.y += self.y_change
+            self.collide_blocks("y")
+    
+            self.x_change = 0
+            self.y_change = 0
+            
+            self.check_health()
+            self.despawn()
 
     def attack(self):
         pass
@@ -68,37 +78,27 @@ class Enemy(pygame.sprite.Sprite):
     def collide_blocks(self, direction):
         # Para cada direcao, se o personagem colide com o cenario, entao ajusta a posicao do jogador para fora do objeto colidido
         if direction == "x":
-            hits = pygame.sprite.spritecollide(self, self.game.blocks, False)
+            hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
             if hits:
                 if self.x_change > 0:
                     self.rect.x = hits[0].rect.left - self.rect.width
-                    # Ajusta a camera para nao ser modificada na colisao
-                    for sprite in self.game.all_sprites:
-                        sprite.rect.x += config.player_speed
+                    
                 if self.x_change < 0:
                     self.rect.x = hits[0].rect.right
-                    # Ajusta a camera para nao ser modificada na colisao
-                    for sprite in self.game.all_sprites:
-                        sprite.rect.x -= config.player_speed
-        
+                    
         if direction == "y":
-            hits = pygame.sprite.spritecollide(self, self.game.blocks, False)
+            hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
             if hits:
                 if self.y_change > 0:
                     self.rect.y = hits[0].rect.top - self.rect.height
-                    # Ajusta a camera para nao ser modificada na colisao
-                    for sprite in self.game.all_sprites:
-                        sprite.rect.y += config.player_speed
+                    
                 if self.y_change < 0:
                     self.rect.y = hits[0].rect.bottom
-                    # Ajusta a camera para nao ser modificada na colisao
-                    for sprite in self.game.all_sprites:
-                        sprite.rect.x -= config.player_speed
 
     
     def animate(self):
 
-        [self.walk_down_animations, self.walk_up_animations, self.walk_right_animations, self.walk_left_animations]  = self.game.sprites.enemy_animations[self.kind].values()
+        [self.walk_down_animations, self.walk_up_animations, self.walk_right_animations, self.walk_left_animations]  = self.game.sprites.enemy_animations[self.kind]["walk_animations"].values()
 
         # Para cada direcao que o personagem olha, ajusta a animacao correspondente e o tamanho da imagem
         if self.facing == "down":
@@ -159,5 +159,46 @@ class Enemy(pygame.sprite.Sprite):
                 self.kill()
                 self.game.enemies_list.remove(self)
         
+    def damage_animation(self):
+        self.health -= config.damage["itens"][self.damage_reason.item][self.damage_reason.level] * (1 + self.game.buffs["attack"])
+        [self.hurt_down_animations, self.hurt_up_animations, self.hurt_right_animations, self.hurt_left_animations] = self.game.sprites.enemy_animations[self.kind]["hurt_animations"].values()
+        if self.facing == "down":
+            current_time = pygame.time.get_ticks()
+            if current_time - self.damage_time > 50:  # Troca de frame a cada 100ms
+                self.damage_time = current_time
+                if self.damage_index < len(self.hurt_down_animations):
+                    self.image = self.hurt_down_animations[self.damage_index]
+                    self.damage_index += 1
+                else:
+                    self.damage = False
+                
 
-
+        if self.facing == "up":
+            current_time = pygame.time.get_ticks()
+            if current_time - self.damage_time > 50:  # Troca de frame a cada 100ms
+                self.damage_time = current_time
+                if self.damage_index < len(self.hurt_up_animations):
+                    self.image = self.hurt_up_animations[self.damage_index]
+                    self.damage_index += 1
+                else:
+                    self.damage = False
+               
+        if self.facing == "right":
+            current_time = pygame.time.get_ticks()
+            if current_time - self.damage_time > 50:  # Troca de frame a cada 100ms
+                self.damage_time = current_time
+                if self.damage_index < len(self.hurt_right_animations):
+                    self.image = self.hurt_right_animations[self.damage_index]
+                    self.damage_index += 1
+                else:
+                    self.damage = False
+                
+        if self.facing == "left":
+            current_time = pygame.time.get_ticks()
+            if current_time - self.damage_time > 50:  # Troca de frame a cada 100ms
+                self.damage_time = current_time
+                if self.damage_index < len(self.hurt_left_animations):
+                    self.image = self.hurt_left_animations[self.damage_index]
+                    self.damage_index += 1
+                else:
+                    self.damage = False
