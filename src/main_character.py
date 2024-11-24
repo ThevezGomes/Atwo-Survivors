@@ -58,6 +58,7 @@ class Player(pygame.sprite.Sprite):
         elif self.damage:
             self.damage_animation()
         else:
+            self.speed = config.player_speed * (1 + self.game.buffs["speed"])
             self.movement()
             self.animate()
             self.collide_enemy()
@@ -72,7 +73,7 @@ class Player(pygame.sprite.Sprite):
             
             self.check_xp_level()
             
-            self.speed = config.player_speed * (1 + self.game.buffs["speed"])
+            
             self.max_health = config.max_health["player"] * (1 + self.game.buffs["life"])
 
     # Cria o movimento do jogador
@@ -343,7 +344,8 @@ class Player(pygame.sprite.Sprite):
     def levels(self, level):
         xp_level_1 = 100
         
-        return int(xp_level_1*(1.5)**level)
+        #return int(xp_level_1*(1.5)**level)
+        return 100
         
                 
 class Attack(pygame.sprite.Sprite):

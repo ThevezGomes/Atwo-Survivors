@@ -70,7 +70,11 @@ class Game:
         self.dark_overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
         self.dark_overlay.fill((0, 0, 0, 180))  # Escure a tela de fundo
         
+        self.all_itens_classes = ["attacks", "abilities"]
         self.all_itens = ItemsArmazenamento().itens
+        self.all_itens_max = ItemsArmazenamento().itens_player_max
+        self.update_items = True
+        self.update_abilities = True
 
         #Criação do inventário (posição, tamanho do slot e número de slots)
         self.inventory = Inventory(x=10, y=self.screen.get_height() - 60, slot_size=50, max_slots=5)
@@ -162,7 +166,7 @@ class Game:
         self.experience_bar.level = self.player.level
         self.experience_bar.max = self.experience_bar.levels(self.player.level)
         self.experience_bar.amount = self.player.xp
-        self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
+        self.items_list_choice()
         self.game_timer.update() # Atualisa o timer
         self.spawn_enemies()
         self.cheats()
@@ -544,24 +548,81 @@ class Game:
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if item1.is_pressed(event.pos, pygame.mouse.get_pressed()):
-                        self.level_up = False  # Retomar o jogo
-                        # TESTES PARA NIVEL MAXIMO
-                        if isinstance(itens[0], Item):
-                            self.inventory.add_item(itens[0])
-                        if isinstance(itens[0], Ability):
-                            self.skills_hub.add_item(itens[0])
+                        if self.level_up:
+                            self.level_up = False  # Retomar o jogo
+                            # TESTES PARA NIVEL MAXIMO
+                            if isinstance(itens[0], Item):
+                                self.inventory.add_item(itens[0])
+                                if itens[0].level == itens[0].max_level:
+                                    try:
+                                        self.all_itens["attacks"].pop(itens[0].kind)
+                                    except ValueError:
+                                        pass
+                            if isinstance(itens[0], Ability):
+                                self.skills_hub.add_item(itens[0])
+                                if itens[0].level == itens[0].max_level:
+                                    try:
+                                        self.all_itens["abilities"].pop(itens[0].kind)
+                                    except ValueError:
+                                        pass
+                            if isinstance(itens[0], Consumible):
+                                if itens[0].kind == "Baconseed":
+                                    if self.player.health + (self.player.max_health // 2) > self.player.max_health:
+                                        self.player.health = self.player.max_health
+                                    else:
+                                        self.player.health += (self.player.max_health // 2)
+                                elif itens[0].kind == "Starpotion":
+                                    self.player.xp += 10
                     elif item2.is_pressed(event.pos, pygame.mouse.get_pressed()):
-                        self.level_up = False  # Retomar o jogo
-                        if isinstance(itens[1], Item):
-                            self.inventory.add_item(itens[1])
-                        if isinstance(itens[1], Ability):
-                            self.skills_hub.add_item(itens[1])
+                        if self.level_up:
+                            self.level_up = False  # Retomar o jogo
+                            if isinstance(itens[1], Item):
+                                self.inventory.add_item(itens[1])
+                                if itens[1].level == itens[1].max_level:
+                                    try:
+                                        self.all_itens["attacks"].pop(itens[1].kind)
+                                    except ValueError:
+                                        pass
+                            if isinstance(itens[1], Ability):
+                                self.skills_hub.add_item(itens[1])
+                                if itens[1].level == itens[1].max_level:
+                                    try:
+                                        self.all_itens["abilities"].pop(itens[1].kind)
+                                    except ValueError:
+                                        pass
+                            if isinstance(itens[1], Consumible):
+                                if itens[1].kind == "Baconseed":
+                                    if self.player.health + (self.player.max_health // 2) > self.player.max_health:
+                                        self.player.health = self.player.max_health
+                                    else:
+                                        self.player.health += (self.player.max_health // 2)
+                                elif itens[1].kind == "Starpotion":
+                                    self.player.xp += 10
                     elif item3.is_pressed(event.pos, pygame.mouse.get_pressed()):
-                        self.level_up = False  # Retomar o jogo
-                        if isinstance(itens[2], Item):
-                            self.inventory.add_item(itens[2])
-                        if isinstance(itens[2], Ability):
-                            self.skills_hub.add_item(itens[2])
+                        if self.level_up:
+                            self.level_up = False  # Retomar o jogo
+                            if isinstance(itens[2], Item):
+                                self.inventory.add_item(itens[2])
+                                if itens[2].level == itens[2].max_level:
+                                    try:
+                                        self.all_itens["attacks"].pop(itens[2].kind)
+                                    except ValueError:
+                                        pass
+                            if isinstance(itens[2], Ability):
+                                self.skills_hub.add_item(itens[2])
+                                if itens[2].level == itens[2].max_level:
+                                    try:
+                                        self.all_itens["abilities"].pop(itens[2].kind)
+                                    except ValueError:
+                                        pass
+                            if isinstance(itens[2], Consumible):
+                                if itens[2].kind == "Baconseed":
+                                    if self.player.health + (self.player.max_health // 2) > self.player.max_health:
+                                        self.player.health = self.player.max_health
+                                    else:
+                                        self.player.health += (self.player.max_health // 2)
+                                elif itens[2].kind == "Starpotion":
+                                    self.player.xp += 10
 
             # Desenha a tela de pausa
             self.screen.blit(paused_surface, (0, 0))
@@ -618,7 +679,35 @@ class Game:
             
     def cheats(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_y] and keys[pygame.K_u]:
-            self.level_up = True
+        if keys[pygame.K_q]:
+            self.player.xp += 2100
         if keys[pygame.K_r] and keys[pygame.K_i]:
             self.player.health = self.player.max_health
+            
+    def items_list_choice(self):
+        if len(self.inventory.items) >= self.inventory.max_slots:
+            if self.update_items:
+                items = {}
+                for item in self.inventory.items:
+                    items[item[0].kind] = item[0]
+                self.all_itens["attacks"] = items
+                self.update_items = False
+        if len(self.skills_hub.items) >= self.skills_hub.max_slots:
+            if self.update_abilities:
+                abilities = {}
+                for ability in self.skills_hub.items:
+                    abilities[ability[0].kind] = ability[0]
+                self.all_itens["abilities"] = abilities
+                self.update_abilities = False
+        if "attacks" in self.all_itens_classes:
+            if self.all_itens["attacks"] == {}:
+                self.all_itens_classes.remove("attacks")
+        if "abilities" in self.all_itens_classes:
+            if self.all_itens["abilities"] == {}:
+                self.all_itens_classes.remove("abilities")
+        if self.all_itens_classes == []:
+            self.itens = {}
+        if self.itens != {}:
+            self.itens = [random.choice(list(self.all_itens[random.choice(self.all_itens_classes)].values())), random.choice(list(self.all_itens[random.choice(self.all_itens_classes)].values())), random.choice(list(self.all_itens[random.choice(self.all_itens_classes)].values()))]
+        else:
+            self.itens = [random.choice(list(self.all_itens_max.values())), random.choice(list(self.all_itens_max.values())), random.choice(list(self.all_itens_max.values()))]

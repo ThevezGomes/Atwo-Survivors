@@ -25,3 +25,12 @@ class Ability:
         # Carrega o sprite do item a partir de um caminho de imagem
         self.sprite = Sprites().abilities_sprites[kind]
         self.image = pygame.image.load(self.sprite)
+        
+class Consumible:
+    def __init__(self, kind, name, description):
+        self.kind = kind
+        self.name = name  # Nome do item
+        self.description = description  # Descrição do item
+        
+        self.sprite = Sprites().consumible_sprites[kind]
+        self.image = pygame.image.load(self.sprite)

@@ -73,6 +73,13 @@ class Sprites:
             "Apollo_maestry": "../assets/itens_sprites/Abilities/Apollo_maestry.png" 
             }
         
+        self.consumible_sprites = {
+            "Baconseed": "../assets/drop_itens_sprites/Pigtree.png",
+            "Baconfruit": "../assets/drop_itens_sprites/Bacon.jpg",
+            "Starpotion": "../assets/drop_itens_sprites/starpotion.png",
+            "Hugepotion": "../assets/drop_itens_sprites/hugepotion.png"
+            }
+        
         self.warrior_animations = {
             "walk_animations": {
                 "walk_down_animations": [self.warrior_sprites["walk"]["main_character_spritesheet_walk_down"].get_sprite(12, 7, 22, 32),
