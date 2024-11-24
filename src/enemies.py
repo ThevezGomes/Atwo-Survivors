@@ -147,8 +147,11 @@ class Enemy(pygame.sprite.Sprite):
                      
     def check_health(self):
         if self.health <= 0:
+            try:
+                self.game.enemies_list.remove(self)
+            except ValueError:
+                pass
             self.kill()
-            self.game.enemies_list.remove(self)
             self.game.player.xp += config.enemy_xp[self.kind]
             
             
@@ -156,8 +159,12 @@ class Enemy(pygame.sprite.Sprite):
         if not self.ai.track_player:
             current_time = pygame.time.get_ticks()
             if current_time - self.ai.time_untracked > config.despawn_delay:
+                try:
+                    self.game.enemies_list.remove(self)
+                except ValueError:
+                    pass
                 self.kill()
-                self.game.enemies_list.remove(self)
+                
         
     def damage_animation(self):
         self.health -= config.damage["itens"][self.damage_reason.item][self.damage_reason.level] * (1 + self.game.buffs["attack"])
