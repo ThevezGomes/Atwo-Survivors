@@ -344,7 +344,7 @@ class Player(pygame.sprite.Sprite):
     def levels(self, level):
         xp_level_1 = 100
         
-        #return int(xp_level_1*(1.5)**level)
+        return int(xp_level_1*(1.5)**level)
         return 100
         
                 
