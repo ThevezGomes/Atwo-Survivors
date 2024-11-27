@@ -345,7 +345,10 @@ class Player(pygame.sprite.Sprite):
         xp_level_1 = 100
         
         #return int(xp_level_1*(1.5)**level)
-        return 100
+        if level <= 50:
+            return 100
+        elif level > 50:
+            return 1000000
         
                 
 class Attack(pygame.sprite.Sprite):
@@ -358,6 +361,7 @@ class Attack(pygame.sprite.Sprite):
         self.item = item
         self.level = level
         self.animation_speed = config.item_animation_speed[self.item]
+        self.count_enemies = 0
         
         keys_animations = list(self.game.sprites.attack_animations[self.item].keys())
         self.image = self.game.sprites.attack_animations[self.item][keys_animations[0]][0]
@@ -418,11 +422,12 @@ class Attack(pygame.sprite.Sprite):
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
         if hits:
             for sprite in hits:
-                if not sprite.damage:
+                if not sprite.damage and self.count_enemies <= config.enemies_attack_limit:
                     sprite.damage = True
                     sprite.damage_index = 0
                     sprite.damage_reason = self
-                    sprite.damage_time = pygame.time.get_ticks() 
+                    sprite.damage_time = pygame.time.get_ticks()
+                    self.count_enemies += 1
                 
                 
                 

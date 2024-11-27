@@ -11,7 +11,7 @@ class Spritesheet:
     # Separa o sprite e o aplica em uma superficie
         self.sheet = pygame.image.load(file).convert_alpha()
         
-    def get_sprite(self, x, y, width, height, size=config.size):
+    def get_sprite(self, x, y, width, height, size=config.size["player"]):
         sprite = pygame.Surface([width, height], pygame.SRCALPHA)
         sprite.blit(self.sheet, (0,0), (x, y, width, height))
         # Define o fundo da imagem para o mesmo fundo do game

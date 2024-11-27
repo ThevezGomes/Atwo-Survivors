@@ -8,13 +8,15 @@ layers = {"player_layer": 3,
 
 max_health = {"player": 1000,
               "enemies": {
-                  "skeleton": 1000
+                  "skeleton": 1000,
+                  "skeleton_boss": 10000
                   }
               }
 
 damage = {
     "enemies": {
-        "skeleton": 10
+        "skeleton": 10,
+        "skeleton_boss": 30
         },
     "itens": {
         "wave": {
@@ -116,11 +118,13 @@ itens_delay = {
 
 # Variavel que define a velocidade base dos inimigos
 enemy_speed = {
-    "skeleton" : 3
+    "skeleton" : 3,
+    "skeleton_boss": 5
 }
 
 enemy_xp = {
-    "skeleton": 150
+    "skeleton": 150,
+    "skeleton_boss": 1000
     }
 
 # Campo de visão do inimigo
@@ -136,9 +140,16 @@ width = 60
 char_size = (width, (width*32)/22)
 
 # Tmanho base para os personagens
-size = 60
+size = {"player": 60,
+              "enemies": {
+                  "skeleton": 60,
+                  "skeleton_boss": 100
+                  }
+              }
 
 damage_delay = 400
 
 spawn_delay = 400
 despawn_delay = 1000
+
+enemies_attack_limit = 3

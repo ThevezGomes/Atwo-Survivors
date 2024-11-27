@@ -39,6 +39,21 @@ class Sprites:
                     "enemy_skeleton_spritesheet_hurt_left": Spritesheet("../assets/enemy_sprites/skeleton/Left/Png/SkeletonWithSwordLefttHurt.png"),
                     "enemy_skeleton_spritesheet_hurt_right": Spritesheet("../assets/enemy_sprites/skeleton/Right/Png/SkeletonWithSwordRightHurt.png")
                     }
+                },
+            "skeleton_boss": {
+                "enemy_skeleton_boss_spritesheet": Spritesheet("../assets/enemy_sprites/skeleton_boss/Down/Png/AncientSkeletonDownWalk.png"),
+                "walk": {
+                    "enemy_skeleton_boss_spritesheet_walk_down": Spritesheet("../assets/enemy_sprites/skeleton_boss/Down/Png/AncientSkeletonDownWalk.png"),
+                    "enemy_skeleton_boss_spritesheet_walk_up": Spritesheet("../assets/enemy_sprites/skeleton_boss/Up/Png/AncientSkeletonUpWalk.png"),
+                    "enemy_skeleton_boss_spritesheet_walk_left": Spritesheet("../assets/enemy_sprites/skeleton_boss/Left/Png/AncientSkeletonLeftWalk.png"),
+                    "enemy_skeleton_boss_spritesheet_walk_right": Spritesheet("../assets/enemy_sprites/skeleton_boss/Right/Png/AncientSkeletonRightWalk.png")
+                    },
+                "hurt": {
+                    "enemy_skeleton_boss_spritesheet_hurt_down": Spritesheet("../assets/enemy_sprites/skeleton_boss/Down/Png/AncientSkeletonDownHurt.png"),
+                    "enemy_skeleton_boss_spritesheet_hurt_up": Spritesheet("../assets/enemy_sprites/skeleton_boss/Up/Png/AncientSkeletonUpHurt.png"),
+                    "enemy_skeleton_boss_spritesheet_hurt_left": Spritesheet("../assets/enemy_sprites/skeleton_boss/Left/Png/AncientSkeletonLeftHurt.png"),
+                    "enemy_skeleton_boss_spritesheet_hurt_right": Spritesheet("../assets/enemy_sprites/skeleton_boss/Right/Png/AncientSkeletonRightHurt.png")
+                    }
                 }
             }
         
@@ -221,6 +236,67 @@ class Sprites:
                                                self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_left"].get_sprite( 56, 10, 29, 30),
                                                self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_left"].get_sprite(105, 9, 29, 30),
                                                self.enemy_sprites["skeleton"]["hurt"]["enemy_skeleton_spritesheet_hurt_left"].get_sprite(152, 8, 29, 30)]
+                    }
+                
+            },
+            "skeleton_boss" : {
+                "walk_animations": {
+                    "walk_down_animations" : [ self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_down"].get_sprite(  20, 8, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_down"].get_sprite( 102, 9, 33, 55, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_down"].get_sprite(183, 10, 34, 55, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_down"].get_sprite(263, 11, 34, 55, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_down"].get_sprite(340, 8, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_down"].get_sprite(419, 9, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_down"].get_sprite(498, 10, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_down"].get_sprite(578, 11, 35, 55, config.size["enemies"]["skeleton_boss"])],
+                    
+                    "walk_up_animations" : [ self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite( 15, 8, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                                             self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite( 104, 9, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                                             self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite(183, 10, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                                             self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite(263, 11, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                                             self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite(345, 8, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                                             self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite(425, 9, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                                             self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite(505, 10, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                                             self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite(585, 11, 35, 55, config.size["enemies"]["skeleton_boss"])],
+                    
+                    "walk_right_animations" : [ self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_right"].get_sprite( 32, 16, 56, 57, config.size["enemies"]["skeleton_boss"]),
+                                                self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_right"].get_sprite( 127, 17, 58, 57, config.size["enemies"]["skeleton_boss"]),
+                                                self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_right"].get_sprite(222, 18, 61, 57, config.size["enemies"]["skeleton_boss"]),
+                                                self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_right"].get_sprite(318, 19, 61, 57, config.size["enemies"]["skeleton_boss"]),
+                                                self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_right"].get_sprite(416, 16, 55, 57, config.size["enemies"]["skeleton_boss"]),
+                                                self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_right"].get_sprite(513, 17, 57, 57, config.size["enemies"]["skeleton_boss"]),
+                                                self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_right"].get_sprite(609, 18, 57, 57, config.size["enemies"]["skeleton_boss"]),
+                                                self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_right"].get_sprite(705, 19, 57, 57, config.size["enemies"]["skeleton_boss"])],
+                    
+                    "walk_left_animations" : [ self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_left"].get_sprite(  9, 11, 55, 57, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_left"].get_sprite( 103, 17, 58, 57, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_left"].get_sprite(197, 18, 61, 57, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_left"].get_sprite(293, 19, 61, 57, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_left"].get_sprite(393, 16, 55, 57, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_left"].get_sprite(486, 17, 57, 57, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_left"].get_sprite(583, 18, 57, 57, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_left"].get_sprite(679, 19, 57, 57, config.size["enemies"]["skeleton_boss"])]
+                    },
+                "hurt_animations":{
+                    "hurt_down_animations" : [ self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_down"].get_sprite(  20, 8, 34, 55, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_down"].get_sprite( 105, 3, 32, 58, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_down"].get_sprite(185, 2, 32, 58, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_down"].get_sprite(265, 1, 32, 58, config.size["enemies"]["skeleton_boss"])],
+                    
+                    "hurt_up_animations" : [ self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_up"].get_sprite( 25, 8, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                                             self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_up"].get_sprite( 103, 3, 32, 58, config.size["enemies"]["skeleton_boss"]),
+                                             self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_up"].get_sprite(183, 2, 32, 58, config.size["enemies"]["skeleton_boss"]),
+                                             self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_up"].get_sprite(263, 1, 32, 58, config.size["enemies"]["skeleton_boss"])],
+                    
+                    "hurt_right_animations" : [ self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_right"].get_sprite( 24, 8, 55, 57, config.size["enemies"]["skeleton_boss"]),
+                                                self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_right"].get_sprite( 104, 7, 55, 57, config.size["enemies"]["skeleton_boss"]),
+                                                self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_right"].get_sprite(184, 6, 55, 57, config.size["enemies"]["skeleton_boss"]),
+                                                self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_right"].get_sprite(264, 5, 55, 57, config.size["enemies"]["skeleton_boss"])],
+                    
+                    "hurt_left_animations" : [ self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_left"].get_sprite(  1, 8, 55, 57, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_left"].get_sprite( 81, 7, 55, 57, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_left"].get_sprite(161, 6, 55, 57, config.size["enemies"]["skeleton_boss"]),
+                                               self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_left"].get_sprite(241, 5, 55, 57, config.size["enemies"]["skeleton_boss"])]
                     }
                 
             }

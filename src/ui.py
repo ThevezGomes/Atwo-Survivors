@@ -224,7 +224,11 @@ class ExperienceBar(Bar):
     def levels(self, level):
         xp_level_1 = 100
         
-        return int(xp_level_1*(1.5)**level)
+        #return int(xp_level_1*(1.5)**level)
+        if level <= 50:
+            return 100
+        elif level > 50:
+            return 1000000
 
 class BossBar(Bar):
     def __init__(self, max, border_color, background_color, color, width, height, x, y, boss_name):

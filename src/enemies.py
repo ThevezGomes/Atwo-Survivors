@@ -209,3 +209,19 @@ class Enemy(pygame.sprite.Sprite):
                     self.damage_index += 1
                 else:
                     self.damage = False
+                    
+class Boss(Enemy):
+    def __init__(self, game, kind, x, y, name, last_boss=False):
+        super().__init__(game, kind, x, y)
+        self.name = name
+        self.last_boss = last_boss
+        
+    def check_health(self):
+        if self.health <= 0:
+            self.kill()
+            if self.last_boss:
+                self.game.game_over("Parabéns, você venceu!")
+            else:
+                self.game.player.xp += config.enemy_xp[self.kind]
+                self.game.spawned_boss = False
+                self.game.allow_spawn_enemies = True

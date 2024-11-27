@@ -29,6 +29,7 @@ class Game:
         self.sprites = rs.Sprites()
         self.spawn_time = 0
         self.spawning = False
+        self.allow_spawn_enemies = True
         self.spawned_boss = False
         self.show_message = False
         self.enemies_list = []
@@ -96,8 +97,8 @@ class Game:
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
-        self.game_timer.add_event(3, self.MessageSpawnBoss)
-        #self.game_timer.add_event(5, self.SpawnBoss)
+        self.game_timer.add_event(55, self.MessageSpawnBoss)
+        self.game_timer.add_event(60, self.SpawnBoss)
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()
@@ -108,9 +109,12 @@ class Game:
         
         self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
 
-    #Teste de eventos
-    #def SpawnBoss(self):
-    #    self.spawned_boss = True
+    def SpawnBoss(self):
+        self.despawn_all_enemies()
+        self.boss = Boss(self, "skeleton_boss", (self.screen.get_width()) // 2, (self.screen.get_height()) // 2, "Puro Osso", True)
+        # Barra de vida do Boss
+        self.boss_bar = BossBar(max=config.max_health["enemies"]["skeleton_boss"], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=75, boss_name=self.boss.name)
+        self.spawned_boss = True
 
     def new(self):
         self.playing = True
@@ -133,9 +137,6 @@ class Game:
         
         # Barra de experiência
         self.experience_bar = ExperienceBar(border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=45, level=self.player.level, xp=self.player.xp)
-
-        # Barra de vida do Boss
-        self.boss_bar = BossBar(max=100, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=75, boss_name="Grande Esqueleto")
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -162,14 +163,18 @@ class Game:
         
         #Atualiza a barra de vida do jogador
         self.health_bar.amount = self.player.health 
-        self.health_bar.max = self.player.max_health
+        self.health_bar.max = self.player.max_health 
         self.experience_bar.level = self.player.level
         self.experience_bar.max = self.experience_bar.levels(self.player.level)
         self.experience_bar.amount = self.player.xp
         self.items_list_choice()
         self.game_timer.update() # Atualisa o timer
-        self.spawn_enemies()
+        if self.allow_spawn_enemies:
+            self.spawn_enemies()
         self.cheats()
+        
+        if self.spawned_boss:
+            self.boss_bar.amount = self.boss.health
         
         # Detecta colisão com itens
         collided_items = pygame.sprite.spritecollide(self.player, self.item_sprites, True)
@@ -392,7 +397,7 @@ class Game:
             self.clock.tick(60)
             pygame.display.flip()
 
-    def game_over(self):
+    def game_over(self, mensage="Fim de jogo"):
         over = True
 
         paused_surface = self.screen.copy()  # Captura o estado atual do jogo
@@ -401,7 +406,7 @@ class Game:
         # Dimensoes da tela
         screen_width, screen_height = self.screen.get_size()
 
-        title = self.font_title.render('Fim de jogo', True, pygame.Color('white'))
+        title = self.font_title.render(mensage, True, pygame.Color('white'))
         title_rect = title.get_rect(center=(screen_width // 2, ((screen_height - title.get_height()) // 2) -50))
 
         # Dimensoes do botão
@@ -711,3 +716,13 @@ class Game:
             self.itens = [random.choice(list(self.all_itens[random.choice(self.all_itens_classes)].values())), random.choice(list(self.all_itens[random.choice(self.all_itens_classes)].values())), random.choice(list(self.all_itens[random.choice(self.all_itens_classes)].values()))]
         else:
             self.itens = [random.choice(list(self.all_itens_max.values())), random.choice(list(self.all_itens_max.values())), random.choice(list(self.all_itens_max.values()))]
+           
+    def despawn_all_enemies(self):
+        self.allow_spawn_enemies = False
+        for enemy in self.enemies_list:
+            try:
+                self.enemies_list.remove(self)
+            except ValueError:
+                pass
+            enemy.kill()
+        
