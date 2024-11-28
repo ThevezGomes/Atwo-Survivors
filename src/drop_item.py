@@ -21,6 +21,8 @@ class ItemDrop(pygame.sprite.Sprite):
             self.image = pygame.image.load('../assets/drop_itens_sprites/starpotion.png').convert_alpha()
         elif self.item_type == 'Hugepotion':
             self.image = pygame.image.load('../assets/drop_itens_sprites/hugepotion.png').convert_alpha()
+        elif sel.item == 'Giantpotion':
+            self.image =pygame.image.load('../assets/drop_itens_sprites/Giantpot.png')
         else:
             self.image = pygame.Surface((20, 20))  # Caso nenhum tipo seja válido, cria uma superfície vazia
 
@@ -55,9 +57,11 @@ class ItemDrop(pygame.sprite.Sprite):
             else:
                 player.health += (player.max_health) 
         elif self.item_type == 'Starpotion':
-            player.xp += 60   
+            player.xp += player.xp +player.xp *0.4   
         elif self.item_type == 'Hugepotion':
-            player.xp += 120
+            player.xp += player.xp +player.xp *0.6 
+        elif self.item_type == 'Giantpotion':
+            player.xp += player.xp * 3
 
 
         
