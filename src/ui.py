@@ -336,14 +336,45 @@ class SelectionItem:
         # Desenhar o botão com a imagem selecionada
         screen.blit(self.current_image, self.rect.topleft)
 
-        # Calcular o espaço total necessário para os elementos (ícone, texto do nome, e descrição)
-        name = self.font_name.render(self.item.name, True, self.fg)
-        description = self.font_description.render(self.item.description, True, self.fg)
+        # Função para quebrar texto em múltiplas linhas
+        def wrap_text(text, font, max_width):
+            words = text.split()
+            lines = []
+            current_line = ""
+            for word in words:
+                test_line = f"{current_line} {word}".strip()
+                if font.size(test_line)[0] <= max_width:
+                    current_line = test_line
+                else:
+                    lines.append(current_line)
+                    current_line = word
+            lines.append(current_line)
+
+            surfaces = []
+            for line in lines:
+                surface = font.render(line, True, self.fg)
+                surfaces.append(surface)
+
+            return surfaces
+        
+        # Definir largura máxima do texto
+        max_width = self.rect.width - 25  # Margem horizontal
+
+        # Quebrar e renderizar nome e descrição
+        name_surfaces = wrap_text(self.item.name, self.font_name, max_width)
+        description_surfaces = wrap_text(self.item.description, self.font_description, max_width)
 
         # Obtem os tamanhos dos elementos
         icon_height = self.item_icon.get_rect().height
-        name_height = name.get_rect().height
-        description_height = description.get_rect().height
+        # Calcular a altura total das superfícies de nome
+        name_height = 0
+        for surface in name_surfaces:
+            name_height += surface.get_height()
+        # Calcular a altura total das superfícies de descrição
+        description_height = 0
+        for surface in description_surfaces:
+            description_height += surface.get_height()
+            
         total_height = icon_height + name_height + description_height + 30  # Inclui espaçamento entre os elementos
 
         # Calcular o ponto inicial para centralização vertical
@@ -355,17 +386,19 @@ class SelectionItem:
         icon_rect.top = start_y
         screen.blit(self.item_icon, icon_rect)
 
-        # Posicionar o nome
-        name_rect = name.get_rect()
-        name_rect.centerx = self.rect.centerx
-        name_rect.top = icon_rect.bottom + 10  # Espaçamento entre ícone e nome
-        screen.blit(name, name_rect)
+        # Desenha o nome
+        current_y = icon_rect.bottom + 10
+        for surface in name_surfaces:
+            rect = surface.get_rect(centerx=self.rect.centerx, top=current_y)
+            screen.blit(surface, rect)
+            current_y += surface.get_height()
 
-        # Posicionar a descrição
-        description_rect = description.get_rect()
-        description_rect.centerx = self.rect.centerx
-        description_rect.top = name_rect.bottom + 10  # Espaçamento entre nome e descrição
-        screen.blit(description, description_rect)
+        # Desenha a descrição
+        current_y += 10
+        for surface in description_surfaces:
+            rect = surface.get_rect(centerx=self.rect.centerx, top=current_y)
+            screen.blit(surface, rect)
+            current_y += surface.get_height()
 
     #Não esta sendo usado!!!
     def update(self, mouse_pos):
