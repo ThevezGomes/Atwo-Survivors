@@ -40,6 +40,59 @@ class Sprites:
                     "enemy_skeleton_spritesheet_hurt_right": Spritesheet("../assets/enemy_sprites/skeleton/Right/Png/SkeletonWithSwordRightHurt.png")
                     }
                 },
+
+            "skeleton_hunter": {
+                "enemy_skeleton_hunter_spritesheet": Spritesheet("../assets/enemy_sprites/skeleton_hunter/Down/SkeletonWithBowDownWalk.png"),
+                "walk": {
+                    "enemy_skeleton_hunter_spritesheet_walk_down": Spritesheet("../assets/enemy_sprites/skeleton_hunter/Down/SkeletonWithBowDownWalk.png"),
+                    "enemy_skeleton_hunter_spritesheet_walk_up":   Spritesheet("../assets/enemy_sprites/skeleton_hunter/Up/SkeletonWithBowUpWalk.png"),
+                    "enemy_skeleton_hunter_spritesheet_walk_left": Spritesheet("../assets/enemy_sprites/skeleton_hunter/Left/SkeletonWithBowLefttRun.png"),
+                    "enemy_skeleton_hunter_spritesheet_walk_right":Spritesheet("../assets/enemy_sprites/skeleton_hunter/Right/SkeletonWithBowRightRun.png")
+                    },
+                "hurt": {
+                    "enemy_skeleton_hunter_spritesheet_hurt_down": Spritesheet("../assets/enemy_sprites/skeleton_hunter/Down/SkeletonWithBowDownHurt.png"),
+                    "enemy_skeleton_hunter_spritesheet_hurt_up":   Spritesheet("../assets/enemy_sprites/skeleton_hunter/Up/SkeletonWithBowUpHurt.png"),
+                    "enemy_skeleton_hunter_spritesheet_hurt_left": Spritesheet("../assets/enemy_sprites/skeleton_hunter/Left/SkeletonWithBowLefttHurt.png"),
+                    "enemy_skeleton_hunter_spritesheet_hurt_right":Spritesheet("../assets/enemy_sprites/skeleton_hunter/Right/SkeletonWithBowRightHurt.png")
+                    }
+                },
+
+            "culstist": {
+
+                "enemy_cultist_spritesheet": Spritesheet("../assets/enemy_sprites/cultist/Down/CultistDownWalk.png"),
+                "walk": {
+                    "enemy_cultist_spritesheet_walk_down": Spritesheet("../assets/enemy_sprites/cultist/Down/CultistDownWalk.png"),
+                    "enemy_cultist_spritesheet_walk_up":   Spritesheet("../assets/enemy_sprites/cultist/Up/CultistUpWalk.png"),
+                    "enemy_cultist_spritesheet_walk_left": Spritesheet("../assets/enemy_sprites/cultist/Left/CultistLefttRun.png"),
+                    "enemy_cultist_spritesheet_walk_right":Spritesheet("../assets/enemy_sprites/cultist/Right/CultistRightRun.png")
+                    },
+                "hurt": {
+                    "enemy_cultist_spritesheet_hurt_down": Spritesheet("../assets/enemy_sprites/cultist/Down/CultistDownHurt.png"),
+                    "enemy_cultist_spritesheet_hurt_up":   Spritesheet("../assets/enemy_sprites/cultist/Up/CultistUpHurt.png"),
+                    "enemy_cultist_spritesheet_hurt_left": Spritesheet("../assets/enemy_sprites/cultist/Left/CultistLefttHurt.png"),
+                    "enemy_cultist_spritesheet_hurt_right":Spritesheet("../assets/enemy_sprites/cultist/Right/CultistRightHurt.png")
+                    }
+                },
+
+            
+            "goblin": {
+
+                "enemy_goblin_spritesheet": Spritesheet("../assets/enemy_sprites/goblin/Down/GoblinDownWalk.png"),
+                "walk": {
+                    "enemy_goblin_spritesheet_walk_down": Spritesheet("../assets/enemy_sprites/goblin/Down/GoblinDownWalk.png"),
+                    "enemy_goblin_spritesheet_walk_up":   Spritesheet("../assets/enemy_sprites/goblin/Up/GoblinUpWalk.png"),
+                    "enemy_goblin_spritesheet_walk_left": Spritesheet("../assets/enemy_sprites/goblin/Left/GoblinLefttRun.png"),
+                    "enemy_goblin_spritesheet_walk_right":Spritesheet("../assets/enemy_sprites/goblin/Right/GoblinRightRun.png")
+                    },
+                "hurt": {
+                    "enemy_goblin_spritesheet_hurt_down": Spritesheet("../assets/enemy_sprites/goblin/Down/GoblinDownHurt.png"),
+                    "enemy_goblin_spritesheet_hurt_up":   Spritesheet("../assets/enemy_sprites/goblin/Up/GoblinUpHurt.png"),
+                    "enemy_goblin_spritesheet_hurt_left": Spritesheet("../assets/enemy_sprites/goblin/Left/GoblinLefttHurt.png"),
+                    "enemy_goblin_spritesheet_hurt_right":Spritesheet("../assets/enemy_sprites/goblin/Right/GoblinRightHurt.png")
+                    }
+                },
+
+
             "skeleton_boss": {
                 "enemy_skeleton_boss_spritesheet": Spritesheet("../assets/enemy_sprites/skeleton_boss/Down/Png/AncientSkeletonDownWalk.png"),
                 "walk": {
@@ -239,6 +292,63 @@ class Sprites:
                     }
                 
             },
+
+            "skeleton_hunter" : {
+                "walk_animations": {
+                    "walk_down_animations" : [  self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_down"].get_sprite( 15, 11, 17, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_down"].get_sprite( 64, 11, 16, 29),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_down"].get_sprite(112, 10, 16, 29),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_down"].get_sprite(159, 11, 17, 29),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_down"].get_sprite(206, 11, 17, 29),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_down"].get_sprite(254, 10, 17, 29)],
+                    
+                    "walk_up_animations" : [    self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_up"].get_sprite( 16, 11, 18, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_up"].get_sprite( 64, 11, 17, 29),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_up"].get_sprite(112, 10, 17, 29),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_up"].get_sprite(160, 11, 18, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_up"].get_sprite(209, 11, 17, 29),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_up"].get_sprite(257, 10, 17, 29)],
+                    
+                    "walk_right_animations" : [ self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_right"].get_sprite( 15, 11, 18, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_right"].get_sprite( 61, 11, 22, 29),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_right"].get_sprite(108, 10, 23, 27),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_right"].get_sprite(159, 11, 18, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_right"].get_sprite(209, 11, 15, 29),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_right"].get_sprite(257, 10, 15, 27)],
+                    
+                    "walk_left_animations" : [  self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_left"].get_sprite( 13, 11, 20, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_left"].get_sprite( 61, 11, 21, 29),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_left"].get_sprite(109, 10, 22, 27),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_left"].get_sprite(157, 10, 20, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_left"].get_sprite(206, 11, 18, 29),
+                                                self.enemy_sprites["skeleton_hunter"]["walk"]["enemy_skeleton_hunter_spritesheet_walk_left"].get_sprite(256, 10, 16, 27)]
+                    },
+
+                "hurt_animations":{
+                    "hurt_down_animations" : [  self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_down"].get_sprite( 15, 11, 17, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_down"].get_sprite( 63,  9, 18, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_down"].get_sprite(111,  8, 17, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_down"].get_sprite(159,  7, 18, 30)],
+                    
+                    "hurt_up_animations" : [    self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_up"].get_sprite( 16, 11, 18, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_up"].get_sprite( 63,  9, 20, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_up"].get_sprite(112,  8, 18, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_up"].get_sprite(159,  7, 20, 30)],
+                    
+                    "hurt_right_animations" : [ self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_right"].get_sprite( 15, 11, 18, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_right"].get_sprite( 61,  9, 21, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_right"].get_sprite(111,  8, 18, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_right"].get_sprite(157,  7, 21, 30)],
+                    
+                    "hurt_left_animations" : [  self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_left"].get_sprite( 13, 11, 20, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_left"].get_sprite( 60,  9, 22, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_left"].get_sprite(109,  8, 20, 30),
+                                                self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_left"].get_sprite(156,  7, 22, 30)]
+                    }
+                
+            },
+
+
             "skeleton_boss" : {
                 "walk_animations": {
                     "walk_down_animations" : [ self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_down"].get_sprite(  20, 8, 35, 55, config.size["enemies"]["skeleton_boss"]),

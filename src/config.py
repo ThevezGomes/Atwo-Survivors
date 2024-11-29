@@ -9,7 +9,8 @@ layers = {"player_layer": 3,
 max_health = {"player": 1000,
               "enemies": {
                   "skeleton": 1000,
-                  "skeleton_boss": 10000
+                  "skeleton_boss": 10000,
+                  "skeleton_hunter": 1000
                   }
               }
 
