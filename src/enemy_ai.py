@@ -43,7 +43,7 @@ class Enemy_AI:
 
     def target_detector(self): # Verifica se o player está próximo para liberar perseguição
 
-        if self.distance_vector(self.player) <= self.seach_distance and self.distance_vector(self.player) > 40:
+        if self.distance_vector(self.player) <= self.seach_distance and self.distance_vector(self.player) > 200:
                 self.track_player = True
                 return self.player
         elif self.distance_vector(self.player) > self.seach_distance: 

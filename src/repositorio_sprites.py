@@ -39,6 +39,7 @@ class Sprites:
                     "enemy_skeleton_spritesheet_hurt_left": Spritesheet("../assets/enemy_sprites/skeleton/Left/Png/SkeletonWithSwordLefttHurt.png"),
                     "enemy_skeleton_spritesheet_hurt_right": Spritesheet("../assets/enemy_sprites/skeleton/Right/Png/SkeletonWithSwordRightHurt.png")
                     }
+                
                 },
             "skeleton_boss": {
                 "enemy_skeleton_boss_spritesheet": Spritesheet("../assets/enemy_sprites/skeleton_boss/Down/Png/AncientSkeletonDownWalk.png"),
@@ -75,6 +76,12 @@ class Sprites:
             "shot_gun": {
                 "attack_spritesheet_shot_gun": Spritesheet("../assets\itens_sprites\ShotGun\shotgun.png"),
                 "icon": "../assets\itens_sprites\ShotGun\shotgun_icon.png"
+                }
+            }
+        
+        self.enemy_attack_sprites = {
+            "knife": {
+                "attack_spritesheet_knife": Spritesheet("../assets/enemy_sprites/attack_sprites/knife.png")
                 }
             }
         
@@ -334,5 +341,17 @@ class Sprites:
                                         self.attack_sprites["shot_gun"]["attack_spritesheet_shot_gun"].get_sprite(110, 378, 142, 148),
                                         self.attack_sprites["shot_gun"]["attack_spritesheet_shot_gun"].get_sprite(78, 208, 206, 144),
                                         self.attack_sprites["shot_gun"]["attack_spritesheet_shot_gun"].get_sprite(65, 24, 231, 169),]
+                }
+            }
+        
+        self.enemy_attack_animations = {
+            "knife": {
+                "attack_animations": [self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 154, 92, 263, config.size["enemies"]["knife"]),
+                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 154, 92, 263, config.size["enemies"]["knife"]),
+                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 154, 92, 263, config.size["enemies"]["knife"]),
+                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 154, 92, 263, config.size["enemies"]["knife"]),
+                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 154, 92, 263, config.size["enemies"]["knife"]),
+                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 154, 92, 263, config.size["enemies"]["knife"])
+                                      ]
                 }
             }

@@ -62,6 +62,7 @@ class Player(pygame.sprite.Sprite):
             self.movement()
             self.animate()
             self.collide_enemy()
+            self.collide_enemy_attacks()
             
             self.rect.x += self.x_change
             self.collide_blocks("x")
@@ -218,9 +219,23 @@ class Player(pygame.sprite.Sprite):
                 self.damage_time = pygame.time.get_ticks()
                 self.enemies = list(hits)
                 
+    def collide_enemy_attacks(self):
+        hits = pygame.sprite.spritecollide(self, self.game.enemy_attacks, False)
+        if hits:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.damage_time > config.damage_delay:
+                self.damage = True   
+                self.damage_index = 0
+                self.damage_time = pygame.time.get_ticks()
+                self.enemies = list(hits)
+                
     def damage_animation(self):
         for enemy in self.enemies:
-            self.health -= config.damage["enemies"][enemy.kind] * (1 - self.game.buffs["defense"])
+            if enemy.class_ == "EnemyAttack":
+                self.health -= config.damage["enemies_attack"][enemy.kind] * (1 - self.game.buffs["defense"])
+                enemy.kill()
+            elif enemy.class_ == "Enemy":
+                self.health -= config.damage["enemies"][enemy.kind] * (1 - self.game.buffs["defense"])
         [self.hurt_down_animations, self.hurt_up_animations, self.hurt_right_animations, self.hurt_left_animations] = self.game.sprites.warrior_animations["hurt_animations"].values()
         if self.facing == "down":
             current_time = pygame.time.get_ticks()
