@@ -10,7 +10,7 @@ class Enemy_AI:
         self.enemy = enemy
         self.game = enemy.game
         self.player = self.game.player
-        self.seach_distance = config.enemy_fov
+        self.seach_distance = enemy.fov
         self.facing = "down"
         self.track_player = False
         self.time_untracked = 0
@@ -69,9 +69,15 @@ class Enemy_AI:
 
         return vector_norm 
 
+class Boss_IA(Enemy_AI):
+    def __init__(self, enemy):
+        super().__init__(enemy)
+        
+    def target_detector(self): # Verifica se o player está próximo para liberar perseguição
 
-
-
+        if self.distance_vector(self.player) > 40:
+            self.track_player = True
+            return self.player
 
 
 

@@ -4,7 +4,7 @@ import math
 import random
 import config
 from main_character import Player
-from enemy_ai import Enemy_AI
+from enemy_ai import *
 import sprites
 import repositorio_sprites as rs
 
@@ -16,6 +16,7 @@ class Enemy(pygame.sprite.Sprite):
         self._layer = config.layers["enemy_layer"]
         self.groups = self.game.all_sprites, self.game.enemies
         self.kind = kind
+        self.fov = config.enemy_fov[self.kind]
         self.speed = config.enemy_speed[self.kind]
         self.health = config.max_health["enemies"][kind]
         
@@ -215,6 +216,7 @@ class Boss(Enemy):
         super().__init__(game, kind, x, y)
         self.name = name
         self.last_boss = last_boss
+        self.ai = Boss_IA(self)
         
     def check_health(self):
         if self.health <= 0:
@@ -225,3 +227,91 @@ class Boss(Enemy):
                 self.game.player.xp += config.enemy_xp[self.kind]
                 self.game.spawned_boss = False
                 self.game.allow_spawn_enemies = True
+               
+    def despawn(self):
+        pass
+                
+class Attack(pygame.sprite.Sprite):
+    def __init__(self, game, x, y, item, position, level):
+        
+        self.game = game
+        self._layer = config.layers["player_layer"]
+        self.groups = self.game.all_sprites, self.game.attacks
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.item = item
+        self.level = level
+        self.animation_speed = config.item_animation_speed[self.item]
+        self.count_enemies = 0
+        
+        keys_animations = list(self.game.sprites.attack_animations[self.item].keys())
+        self.image = self.game.sprites.attack_animations[self.item][keys_animations[0]][0]
+        
+        self.speed = config.itens_speed[self.item]
+        direction = pygame.math.Vector2(position[0] - x, position[1] - y)
+        self.velocity = direction.normalize() * self.speed
+        
+        x_attack = x + direction.normalize()[0] * self.game.player.rect.width
+        y_attack = y + direction.normalize()[1] * self.game.player.rect.height
+        
+        # Define tamanho e posicao do ataque
+        self.x = x_attack
+        self.y = y_attack
+        self.width = config.tilesize
+        self.height = config.tilesize
+        self.x_change = 0
+        self.y_change = 0
+        
+        self.animation_loop = 0
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x - self.rect.width/2
+        self.rect.y = self.y - self.rect.height/2
+        
+        
+    def update(self):
+        self.movement()
+        self.animate()
+        self.collide_enemy()
+        self.rect.x += self.x_change
+        self.rect.y += self.y_change
+        self.collide_blocks()
+        #DAVI
+        #self.attack_with_joystick()
+
+        self.x_change = 0
+        self.y_change = 0
+        
+    def movement(self):
+        self.x_change = self.velocity[0]
+        self.y_change = self.velocity[1]
+        
+    def animate(self):        
+        [self.attack_animations] = self.game.sprites.attack_animations[self.item].values()
+        
+        # Cria o loop de animacao
+        self.image = self.attack_animations[math.floor(self.animation_loop)]
+        angle = self.velocity.angle_to(pygame.math.Vector2(0, -1))  # Alinha com o eixo Y (apontando para cima)
+        self.image = pygame.transform.rotate(self.image, angle).convert_alpha()  # Rotaciona o sprite
+        # self.rect = self.image.get_rect(center=self.rect.center)  # Atualiza o retângulo
+        # Ajusta a velocidade com que o loop ocorre nessa direcao
+        self.animation_loop += self.animation_speed
+        if self.animation_loop >= (len(self.attack_animations)- 1):
+            self.kill()
+            
+    def collide_enemy(self):
+        hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
+        if hits:
+            for sprite in hits:
+                if not sprite.damage and self.count_enemies <= config.enemies_attack_limit:
+                    sprite.damage = True
+                    sprite.damage_index = 0
+                    sprite.damage_reason = self
+                    sprite.damage_time = pygame.time.get_ticks()
+                    self.count_enemies += 1
+                
+                
+                
+    def collide_blocks(self):
+        hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
+        if hits:
+            self.kill()

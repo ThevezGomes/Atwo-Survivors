@@ -128,7 +128,10 @@ enemy_xp = {
     }
 
 # Campo de visão do inimigo
-enemy_fov = 800
+enemy_fov = {
+    "skeleton" : 800,
+    "skeleton_boss": 800
+}
 
 # Cor vermelha em rgb
 red = (255, 0 , 0)

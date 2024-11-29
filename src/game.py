@@ -97,8 +97,8 @@ class Game:
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
-        self.game_timer.add_event(55, self.MessageSpawnBoss)
-        self.game_timer.add_event(60, self.SpawnBoss)
+        self.game_timer.add_event(5, self.MessageSpawnBoss)
+        self.game_timer.add_event(10, self.SpawnBoss)
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()

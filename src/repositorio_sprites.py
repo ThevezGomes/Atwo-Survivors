@@ -250,7 +250,7 @@ class Sprites:
                                                self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_down"].get_sprite(498, 10, 35, 55, config.size["enemies"]["skeleton_boss"]),
                                                self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_down"].get_sprite(578, 11, 35, 55, config.size["enemies"]["skeleton_boss"])],
                     
-                    "walk_up_animations" : [ self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite( 15, 8, 35, 55, config.size["enemies"]["skeleton_boss"]),
+                    "walk_up_animations" : [ self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite( 25, 8, 35, 55, config.size["enemies"]["skeleton_boss"]),
                                              self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite( 104, 9, 35, 55, config.size["enemies"]["skeleton_boss"]),
                                              self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite(183, 10, 35, 55, config.size["enemies"]["skeleton_boss"]),
                                              self.enemy_sprites["skeleton_boss"]["walk"]["enemy_skeleton_boss_spritesheet_walk_up"].get_sprite(263, 11, 35, 55, config.size["enemies"]["skeleton_boss"]),
