@@ -4,7 +4,7 @@ import math
 import random
 import config
 from main_character import Player
-from enemy_ai import Enemy_AI
+from enemy_ai import *
 import sprites
 import repositorio_sprites as rs
 
@@ -16,8 +16,12 @@ class Enemy(pygame.sprite.Sprite):
         self._layer = config.layers["enemy_layer"]
         self.groups = self.game.all_sprites, self.game.enemies
         self.kind = kind
+        self.class_ = "Enemy"
+        self.fov = config.enemy_fov[self.kind]
         self.speed = config.enemy_speed[self.kind]
         self.health = config.max_health["enemies"][kind]
+        self.attacking = False
+        self.attack_time = 0
         
         self.damage = False
         self.damage_time = 0
@@ -69,11 +73,23 @@ class Enemy(pygame.sprite.Sprite):
             self.x_change = 0
             self.y_change = 0
             
+            if self.ai.track_player:
+                self.atacar(self.game)
+            
             self.check_health()
             self.despawn()
 
-    def attack(self):
-        pass
+    def atacar(self, game):
+        if config.enemies_attack_list[self.kind] != []:
+            if not self.attacking:
+                self.attacking = True
+                attack = random.choice(config.enemies_attack_list[self.kind])
+                EnemyAttack(game, attack, self)
+                self.attack_time = pygame.time.get_ticks()
+            else:
+                current_time = pygame.time.get_ticks()
+                if current_time - self.attack_time > config.enemy_attack_delay[self.kind]:
+                    self.attacking = False
 
     def collide_blocks(self, direction):
         # Para cada direcao, se o personagem colide com o cenario, entao ajusta a posicao do jogador para fora do objeto colidido
@@ -215,6 +231,7 @@ class Boss(Enemy):
         super().__init__(game, kind, x, y)
         self.name = name
         self.last_boss = last_boss
+        self.ai = Boss_IA(self)
         
     def check_health(self):
         if self.health <= 0:
@@ -225,3 +242,77 @@ class Boss(Enemy):
                 self.game.player.xp += config.enemy_xp[self.kind]
                 self.game.spawned_boss = False
                 self.game.allow_spawn_enemies = True
+               
+    def despawn(self):
+        pass
+                
+class EnemyAttack(pygame.sprite.Sprite):
+    def __init__(self, game, kind, enemy):
+        
+        self.game = game
+        self.kind = kind
+        self.class_ = "EnemyAttack"
+        self.enemy = enemy
+        self._layer = config.layers["enemy_layer"]
+        self.groups = self.game.all_sprites, self.game.enemy_attacks
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.animation_speed = config.enemy_attack_animation_speed[self.kind]
+        
+        keys_animations = list(self.game.sprites.enemy_attack_animations[self.kind].keys())
+        self.image = self.game.sprites.enemy_attack_animations[self.kind][keys_animations[0]][0]
+        
+        self.speed = config.enemy_attack_speed[self.kind]
+        direction = pygame.math.Vector2(self.game.player.rect.x - self.enemy.rect.x, self.game.player.rect.y - self.enemy.rect.y)
+        self.velocity = direction.normalize() * self.speed
+        
+        x_attack = self.enemy.rect.x + direction.normalize()[0] * self.enemy.rect.width
+        y_attack = self.enemy.rect.y + direction.normalize()[1] * self.enemy.rect.height
+        
+        # Define tamanho e posicao do ataque
+        self.x = x_attack
+        self.y = y_attack
+        self.width = config.tilesize
+        self.height = config.tilesize
+        self.x_change = 0
+        self.y_change = 0
+        
+        self.animation_loop = 0
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x - self.rect.width/2
+        self.rect.y = self.y - self.rect.height/2
+        
+        
+    def update(self):
+        self.movement()
+        self.animate()
+        self.rect.x += self.x_change
+        self.rect.y += self.y_change
+        self.collide_blocks()
+        #DAVI
+        #self.attack_with_joystick()
+
+        self.x_change = 0
+        self.y_change = 0
+        
+    def movement(self):
+        self.x_change = self.velocity[0]
+        self.y_change = self.velocity[1]
+        
+    def animate(self):        
+        [self.attack_animations] = self.game.sprites.enemy_attack_animations[self.kind].values()
+        
+        # Cria o loop de animacao
+        self.image = self.attack_animations[math.floor(self.animation_loop)]
+        angle = self.velocity.angle_to(pygame.math.Vector2(0, -1))  # Alinha com o eixo Y (apontando para cima)
+        self.image = pygame.transform.rotate(self.image, angle).convert_alpha()  # Rotaciona o sprite
+        # self.rect = self.image.get_rect(center=self.rect.center)  # Atualiza o retângulo
+        # Ajusta a velocidade com que o loop ocorre nessa direcao
+        self.animation_loop += self.animation_speed
+        if self.animation_loop >= (len(self.attack_animations)- 1):
+            self.kill()              
+                
+    def collide_blocks(self):
+        hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
+        if hits:
+            self.kill()

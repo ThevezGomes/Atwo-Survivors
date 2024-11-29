@@ -97,8 +97,8 @@ class Game:
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
-        self.game_timer.add_event(55, self.MessageSpawnBoss)
-        self.game_timer.add_event(60, self.SpawnBoss)
+        self.game_timer.add_event(5, self.MessageSpawnBoss)
+        self.game_timer.add_event(10, self.SpawnBoss)
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()
@@ -123,6 +123,7 @@ class Game:
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.blocks = pygame.sprite.LayeredUpdates()
         self.enemies = pygame.sprite.LayeredUpdates()
+        self.enemy_attacks = pygame.sprite.LayeredUpdates()
         self.attacks = pygame.sprite.LayeredUpdates()
 
         #Carrega os tiles e define colisões com base nas camadas
@@ -645,7 +646,7 @@ class Game:
             self.clock.tick(60)
             
     def spawn_enemies(self):
-        if len(self.enemies_list) <= 20:
+        if len(self.enemies_list) < 20:
             if not self.spawning:
                 self.spawning = True
                 self.enemies_list.append(Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) * random.random(), (self.screen.get_height() - config.char_size[1]) * random.random()))

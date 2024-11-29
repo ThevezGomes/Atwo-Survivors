@@ -19,6 +19,9 @@ damage = {
         "skeleton": 10,
         "skeleton_boss": 30
         },
+    "enemies_attack": {
+        "knife": 20
+        },
     "itens": {
         "wave": {
             1: 10
@@ -131,7 +134,28 @@ enemy_xp = {
     }
 
 # Campo de visão do inimigo
-enemy_fov = 800
+enemy_fov = {
+    "skeleton" : 800,
+    "skeleton_boss": 800
+}
+
+enemies_attack_list = {
+    "skeleton": ["knife"],
+    "skeleton_boss": []
+    }
+
+enemy_attack_speed = {
+    "knife": 10
+    }
+
+enemy_attack_animation_speed = {
+    "knife": 0.1,
+    }
+
+enemy_attack_delay = {
+    "skeleton": 5000,
+    "skeleton_boss": 550
+    }
 
 # Cor vermelha em rgb
 red = (255, 0 , 0)
@@ -144,12 +168,13 @@ char_size = (width, (width*32)/22)
 
 # Tmanho base para os personagens
 size = {"player": 60,
-              "enemies": {
-                  "skeleton": 60,
-                  "skeleton_boss": 100,
-                  "skeleton_hunter": 60
-                  }
-              }
+        "enemies": {
+            "skeleton": 60,
+            "skeleton_boss": 100,
+            "skeleton_hunter": 60,
+            "knife": 30
+            }
+        }
 
 damage_delay = 400
 
