@@ -122,6 +122,10 @@ itens_delay = {
     }
 
 # Variavel que define a velocidade base dos inimigos
+enemy_list = ["skeleton",
+              "skeleton_hunter"
+              ]
+
 enemy_speed = {
     "skeleton" : 3,
     "skeleton_boss": 5,
@@ -140,6 +144,12 @@ enemy_fov = {
     "skeleton_boss": 800,
     "skeleton_hunter" : 1000
 }
+
+enemy_range = {
+    "skeleton" : 40,
+    "skeleton_boss": 40,
+    "skeleton_hunter" : 200
+    }
 
 enemies_attack_list = {
     "skeleton": [],
