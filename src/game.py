@@ -244,7 +244,7 @@ class Game:
 
     def load_map(self):
         # Coordenadas do centro do mapa e da tela
-        target_x, target_y = 1250, 1589
+        target_x, target_y = 1260, 1610
         
         #Coordenadas do centro da tela
         screen_center_x, screen_center_y = 460, 454
@@ -302,12 +302,31 @@ class Game:
                 rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
                 self.blocked_rects.append(rect)
 
-
     def spawn_item(self):
         #Quantidade de tentativas para o item encontra o local ideal para nascer
         spawn_attempts = 8
         spawn_probability = 0.8
 
+        # Controla o tempo para o spawn de Giantpotion
+        current_time = pygame.time.get_ticks()
+
+        # Inicializa o tempo do último spawn da Giantpotion
+        if not hasattr(self, 'last_giantpotion_spawn'):
+            self.last_giantpotion_spawn = 0
+
+        spawn_positions = [(315, -208)]  # Posições fixas para o Giantpotion
+
+        # Spawna Giantpotion a cada 15 segundos em uma posição fixa
+        if current_time - self.last_giantpotion_spawn >= 10000:
+            self.last_giantpotion_spawn = current_time
+            for pos in spawn_positions:
+                spawn_x, spawn_y = pos
+                # Cria a Giantpotion nas posições fixas
+                giantpotion = ItemDrop(spawn_x, spawn_y, "Giantpotion")
+                self.item_sprites.add(giantpotion)
+                self.all_sprites.add(giantpotion)
+            return
+            
         if random.random() > spawn_probability:
             return
 
@@ -325,7 +344,7 @@ class Game:
             self.item_sprites.add(item)
             self.all_sprites.add(item)
             return  
-        
+
     def intro_screen(self):
         intro = True
         title = self.font_title.render('Jogo da A2', True, pygame.Color('white'))
