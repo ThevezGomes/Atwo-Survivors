@@ -119,12 +119,14 @@ itens_delay = {
 # Variavel que define a velocidade base dos inimigos
 enemy_speed = {
     "skeleton" : 3,
-    "skeleton_boss": 5
+    "skeleton_boss": 5,
+    "skeleton_hunter": 2
 }
 
 enemy_xp = {
     "skeleton": 150,
-    "skeleton_boss": 1000
+    "skeleton_boss": 1000,
+    "skeleton_hunter": 200
     }
 
 # Campo de visão do inimigo
@@ -143,7 +145,8 @@ char_size = (width, (width*32)/22)
 size = {"player": 60,
               "enemies": {
                   "skeleton": 60,
-                  "skeleton_boss": 100
+                  "skeleton_boss": 100,
+                  "skeleton_hunter": 60
                   }
               }
 
