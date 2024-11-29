@@ -98,7 +98,7 @@ class Game:
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
         self.game_timer.add_event(5, self.MessageSpawnBoss)
-        self.game_timer.add_event(10, self.SpawnBoss)
+        self.game_timer.add_event(100000, self.SpawnBoss)
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()
@@ -649,7 +649,18 @@ class Game:
         if len(self.enemies_list) < 20:
             if not self.spawning:
                 self.spawning = True
-                self.enemies_list.append(Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) * random.random(), (self.screen.get_height() - config.char_size[1]) * random.random()))
+                enemies_to_spawn = [Enemy(
+                                                    self,"skeleton" ,
+                                                    (self.screen.get_width() - config.char_size[0]) * random.random(), 
+                                                    (self.screen.get_height() - config.char_size[1]) * random.random()),
+                                    Enemy(
+                                                    self,"skeleton_hunter" ,
+                                                    (self.screen.get_width() - config.char_size[0]) * random.random(), 
+                                                    (self.screen.get_height() - config.char_size[1]) * random.random())  
+                                    ]
+                for enemy in enemies_to_spawn:
+                    self.enemies_list.append(enemy)
+
                 self.spawn_time = pygame.time.get_ticks()
             else:
                 current_time = pygame.time.get_ticks()

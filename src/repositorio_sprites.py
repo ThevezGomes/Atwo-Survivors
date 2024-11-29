@@ -47,8 +47,8 @@ class Sprites:
                 "walk": {
                     "enemy_skeleton_hunter_spritesheet_walk_down": Spritesheet("../assets/enemy_sprites/skeleton_hunter/Down/SkeletonWithBowDownWalk.png"),
                     "enemy_skeleton_hunter_spritesheet_walk_up":   Spritesheet("../assets/enemy_sprites/skeleton_hunter/Up/SkeletonWithBowUpWalk.png"),
-                    "enemy_skeleton_hunter_spritesheet_walk_left": Spritesheet("../assets/enemy_sprites/skeleton_hunter/Left/SkeletonWithBowLefttRun.png"),
-                    "enemy_skeleton_hunter_spritesheet_walk_right":Spritesheet("../assets/enemy_sprites/skeleton_hunter/Right/SkeletonWithBowRightRun.png")
+                    "enemy_skeleton_hunter_spritesheet_walk_left": Spritesheet("../assets/enemy_sprites/skeleton_hunter/Left/SkeletonWithBowLeftWalk.png"),
+                    "enemy_skeleton_hunter_spritesheet_walk_right":Spritesheet("../assets/enemy_sprites/skeleton_hunter/Right/SkeletonWithBowRightWalk.png")
                     },
                 "hurt": {
                     "enemy_skeleton_hunter_spritesheet_hurt_down": Spritesheet("../assets/enemy_sprites/skeleton_hunter/Down/SkeletonWithBowDownHurt.png"),
@@ -64,13 +64,13 @@ class Sprites:
                 "walk": {
                     "enemy_cultist_spritesheet_walk_down": Spritesheet("../assets/enemy_sprites/cultist/Down/CultistDownWalk.png"),
                     "enemy_cultist_spritesheet_walk_up":   Spritesheet("../assets/enemy_sprites/cultist/Up/CultistUpWalk.png"),
-                    "enemy_cultist_spritesheet_walk_left": Spritesheet("../assets/enemy_sprites/cultist/Left/CultistLefttRun.png"),
-                    "enemy_cultist_spritesheet_walk_right":Spritesheet("../assets/enemy_sprites/cultist/Right/CultistRightRun.png")
+                    "enemy_cultist_spritesheet_walk_left": Spritesheet("../assets/enemy_sprites/cultist/Left/CultistLeftWalk.png"),
+                    "enemy_cultist_spritesheet_walk_right":Spritesheet("../assets/enemy_sprites/cultist/Right/CultistRightWalk.png")
                     },
                 "hurt": {
                     "enemy_cultist_spritesheet_hurt_down": Spritesheet("../assets/enemy_sprites/cultist/Down/CultistDownHurt.png"),
                     "enemy_cultist_spritesheet_hurt_up":   Spritesheet("../assets/enemy_sprites/cultist/Up/CultistUpHurt.png"),
-                    "enemy_cultist_spritesheet_hurt_left": Spritesheet("../assets/enemy_sprites/cultist/Left/CultistLefttHurt.png"),
+                    "enemy_cultist_spritesheet_hurt_left": Spritesheet("../assets/enemy_sprites/cultist/Left/CultistLeftHurt.png"),
                     "enemy_cultist_spritesheet_hurt_right":Spritesheet("../assets/enemy_sprites/cultist/Right/CultistRightHurt.png")
                     }
                 },
@@ -82,13 +82,13 @@ class Sprites:
                 "walk": {
                     "enemy_goblin_spritesheet_walk_down": Spritesheet("../assets/enemy_sprites/goblin/Down/GoblinDownWalk.png"),
                     "enemy_goblin_spritesheet_walk_up":   Spritesheet("../assets/enemy_sprites/goblin/Up/GoblinUpWalk.png"),
-                    "enemy_goblin_spritesheet_walk_left": Spritesheet("../assets/enemy_sprites/goblin/Left/GoblinLefttRun.png"),
-                    "enemy_goblin_spritesheet_walk_right":Spritesheet("../assets/enemy_sprites/goblin/Right/GoblinRightRun.png")
+                    "enemy_goblin_spritesheet_walk_left": Spritesheet("../assets/enemy_sprites/goblin/Left/GoblinLeftWalk.png"),
+                    "enemy_goblin_spritesheet_walk_right":Spritesheet("../assets/enemy_sprites/goblin/Right/GoblinRightWalk.png")
                     },
                 "hurt": {
                     "enemy_goblin_spritesheet_hurt_down": Spritesheet("../assets/enemy_sprites/goblin/Down/GoblinDownHurt.png"),
                     "enemy_goblin_spritesheet_hurt_up":   Spritesheet("../assets/enemy_sprites/goblin/Up/GoblinUpHurt.png"),
-                    "enemy_goblin_spritesheet_hurt_left": Spritesheet("../assets/enemy_sprites/goblin/Left/GoblinLefttHurt.png"),
+                    "enemy_goblin_spritesheet_hurt_left": Spritesheet("../assets/enemy_sprites/goblin/Left/GoblinLeftHurt.png"),
                     "enemy_goblin_spritesheet_hurt_right":Spritesheet("../assets/enemy_sprites/goblin/Right/GoblinRightHurt.png")
                     }
                 },

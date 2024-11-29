@@ -17,7 +17,8 @@ max_health = {"player": 1000,
 damage = {
     "enemies": {
         "skeleton": 10,
-        "skeleton_boss": 30
+        "skeleton_boss": 30,
+        "skeleton_hunter": 10
         },
     "enemies_attack": {
         "knife": 20
@@ -136,12 +137,14 @@ enemy_xp = {
 # Campo de visão do inimigo
 enemy_fov = {
     "skeleton" : 800,
-    "skeleton_boss": 800
+    "skeleton_boss": 800,
+    "skeleton_hunter" : 1000
 }
 
 enemies_attack_list = {
-    "skeleton": ["knife"],
-    "skeleton_boss": []
+    "skeleton": [],
+    "skeleton_boss": [],
+    "skeleton_hunter": ["knife"]
     }
 
 enemy_attack_speed = {
@@ -154,7 +157,8 @@ enemy_attack_animation_speed = {
 
 enemy_attack_delay = {
     "skeleton": 5000,
-    "skeleton_boss": 550
+    "skeleton_boss": 550,
+    "skeleton_hunter": 15000
     }
 
 # Cor vermelha em rgb
