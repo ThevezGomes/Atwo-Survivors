@@ -58,7 +58,7 @@ class Sprites:
                     }
                 },
 
-            "culstist": {
+            "cultist": {
 
                 "enemy_cultist_spritesheet": Spritesheet("../assets/enemy_sprites/cultist/Down/CultistDownWalk.png"),
                 "walk": {
@@ -351,6 +351,135 @@ class Sprites:
                                                 self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_left"].get_sprite( 60,  9, 22, 30),
                                                 self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_left"].get_sprite(109,  8, 20, 30),
                                                 self.enemy_sprites["skeleton_hunter"]["hurt"]["enemy_skeleton_hunter_spritesheet_hurt_left"].get_sprite(156,  7, 22, 30)]
+                    }
+                
+            },
+
+            "cultist" : {
+                "walk_animations": {
+                    "walk_down_animations" : [  self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_down"].get_sprite( 17, 10, 14, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_down"].get_sprite( 65, 10, 14, 29),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_down"].get_sprite(113, 11, 14, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_down"].get_sprite(161, 11, 14, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_down"].get_sprite(209, 10, 14, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_down"].get_sprite(257, 10, 14, 29),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_down"].get_sprite(305, 11, 14, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_down"].get_sprite(353, 11, 14, 28)
+                                                
+                                                ],
+                    
+                    "walk_up_animations" : [    self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_up"].get_sprite( 17, 10, 14, 29),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_up"].get_sprite( 65, 10, 14, 29),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_up"].get_sprite(113, 11, 14, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_up"].get_sprite(161, 11, 14, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_up"].get_sprite(209, 10, 14, 29),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_up"].get_sprite(257, 10, 14, 29),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_up"].get_sprite(305, 11, 14, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_up"].get_sprite(353, 11, 14, 28)
+                                                ],
+                    
+                    "walk_right_animations" : [ self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_right"].get_sprite( 18,  9, 12, 29),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_right"].get_sprite( 65,  9, 14, 29),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_right"].get_sprite(113, 10, 14, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_right"].get_sprite(161, 10, 14, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_right"].get_sprite(210,  9, 12, 29),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_right"].get_sprite(258,  9, 12, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_right"].get_sprite(306, 10, 12, 27),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_right"].get_sprite(354, 10, 12, 27)
+                                                ],
+                    
+                    "walk_left_animations" : [  self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_left"].get_sprite( 18,  9, 12, 29),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_left"].get_sprite( 65,  9, 14, 29),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_left"].get_sprite(113, 10, 14, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_left"].get_sprite(161, 10, 14, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_left"].get_sprite(210,  9, 12, 29),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_left"].get_sprite(258,  9, 12, 28),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_left"].get_sprite(306, 10, 12, 27),
+                                                self.enemy_sprites["cultist"]["walk"]["enemy_cultist_spritesheet_walk_left"].get_sprite(354, 10, 12, 27)
+                                                
+                                                ]
+                    },
+
+                "hurt_animations":{
+                    "hurt_down_animations" : [  self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_down"].get_sprite( 17, 10, 14, 29),
+                                                self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_down"].get_sprite( 64,  9, 16, 29),
+                                                self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_down"].get_sprite(112,  8, 16, 29),
+                                                self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_down"].get_sprite(160, 10, 16, 29)],
+                    
+                    "hurt_up_animations" : [    self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_up"].get_sprite( 17, 10, 14, 29),
+                                                self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_up"].get_sprite( 65,  9, 14, 29),
+                                                self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_up"].get_sprite(113,  8, 14, 29),
+                                                self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_up"].get_sprite(161,  7, 14, 29)],
+                    
+                    "hurt_right_animations" : [ self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_right"].get_sprite( 18,  9, 12, 29),
+                                                self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_right"].get_sprite( 65,  8, 14, 29),
+                                                self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_right"].get_sprite(114,  7, 12, 29),
+                                                self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_right"].get_sprite(161,  6, 14, 29)],
+                    
+                    "hurt_left_animations" : [  self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_left"].get_sprite( 18,  9, 12, 29),
+                                                self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_left"].get_sprite( 65,  8, 14, 29),
+                                                self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_left"].get_sprite(114,  7, 12, 29),
+                                                self.enemy_sprites["cultist"]["hurt"]["enemy_cultist_spritesheet_hurt_left"].get_sprite(161,  6, 14, 29)]
+                    }
+                
+            },
+
+            "goblin" : {
+                "walk_animations": {
+                    "walk_down_animations" : [  self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_down"].get_sprite(  7, 13, 34, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_down"].get_sprite( 56, 12, 34, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_down"].get_sprite(105, 12, 31, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_down"].get_sprite(151, 13, 34, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_down"].get_sprite(199, 12, 33, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_down"].get_sprite(248, 12, 31, 28)
+                                                ],
+                    
+                    "walk_up_animations" : [    self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_up"].get_sprite(  7, 13, 34, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_up"].get_sprite( 56, 12, 34, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_up"].get_sprite(105, 12, 31, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_up"].get_sprite(151, 13, 34, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_up"].get_sprite(199, 12, 33, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_up"].get_sprite(248, 12, 31, 28)
+                                                ],
+                    
+                    "walk_right_animations" : [ self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_right"].get_sprite( 15, 13, 27, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_right"].get_sprite( 64, 12, 24, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_right"].get_sprite(110, 12, 24, 27),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_right"].get_sprite(159, 13, 27, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_right"].get_sprite(205, 12, 31, 29),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_right"].get_sprite(253, 12, 31, 29)
+                                                ],
+                    
+                    "walk_left_animations" : [  self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_left"].get_sprite(  6, 13, 27, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_left"].get_sprite( 56, 12, 24, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_left"].get_sprite(106, 12, 24, 27),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_left"].get_sprite(150, 13, 27, 28),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_left"].get_sprite(196, 12, 31, 29),
+                                                self.enemy_sprites["goblin"]["walk"]["enemy_goblin_spritesheet_walk_left"].get_sprite(244, 12, 31, 29)
+                                                
+                                                ]
+                    },
+
+                "hurt_animations":{
+                    "hurt_down_animations" : [  self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_down"].get_sprite(  7, 13, 34, 28),
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_down"].get_sprite( 54, 12, 36, 28),
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_down"].get_sprite(103, 11, 34, 28),
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_down"].get_sprite(150, 11, 36, 2)],
+                    
+                    "hurt_up_animations" : [    self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_up"].get_sprite(  7, 13, 34, 28),
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_up"].get_sprite( 54, 12, 36, 28),
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_up"].get_sprite(103, 11, 34, 28),
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_up"].get_sprite(150, 11, 36, 28)],
+                    
+                    "hurt_right_animations" : [ self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_right"].get_sprite( 15, 13, 27, 28),
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_right"].get_sprite( 62, 12, 29, 28),
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_right"].get_sprite(111, 11, 27, 28),
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_right"].get_sprite(158, 10, 29, 28)],
+                    
+                    "hurt_left_animations" : [  self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_left"].get_sprite(  6, 13, 27, 28),
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_left"].get_sprite( 53, 12, 29, 28),
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_left"].get_sprite(102, 11, 27, 28),
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_left"].get_sprite(149, 10, 29, 28)]
                     }
                 
             },

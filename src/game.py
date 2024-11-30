@@ -33,6 +33,7 @@ class Game:
         self.spawned_boss = False
         self.show_message = False
         self.enemies_list = []
+        self.difficulty_ratio = 1
         
         self.buffs = {
             "attack": 0,
@@ -98,7 +99,7 @@ class Game:
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
         self.game_timer.add_event(5, self.MessageSpawnBoss)
-        self.game_timer.add_event(100000, self.SpawnBoss)
+        self.game_timer.add_event(100, self.SpawnBoss)
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()

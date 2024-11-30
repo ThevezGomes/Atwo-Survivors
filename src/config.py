@@ -10,7 +10,9 @@ max_health = {"player": 1000,
               "enemies": {
                   "skeleton": 1000,
                   "skeleton_boss": 10000,
-                  "skeleton_hunter": 1000
+                  "skeleton_hunter": 1000,
+                  "cultist": 2000,
+                  "goblin": 1500,
                   }
               }
 
@@ -18,7 +20,9 @@ damage = {
     "enemies": {
         "skeleton": 10,
         "skeleton_boss": 30,
-        "skeleton_hunter": 10
+        "skeleton_hunter": 10,
+        "cultist": 15,
+        "goblin": 20,
         },
     "enemies_attack": {
         "knife": 20
@@ -125,40 +129,54 @@ itens_delay = {
 enemy_speed = {
     "skeleton" : 3,
     "skeleton_boss": 5,
-    "skeleton_hunter": 2
+    "skeleton_hunter": 2,
+    "cultist": 2,
+    "goblin": 4,
 }
 
 enemy_xp = {
     "skeleton": 150,
     "skeleton_boss": 1000,
-    "skeleton_hunter": 200
+    "skeleton_hunter": 200,
+    "cultist": 250,
+    "goblin": 250,
     }
 
 # Campo de visão do inimigo
 enemy_fov = {
     "skeleton" : 800,
     "skeleton_boss": 800,
-    "skeleton_hunter" : 1000
+    "skeleton_hunter" : 1000,
+    "cultist": 900,
+    "goblin": 400
 }
 
 enemies_attack_list = {
     "skeleton": [],
     "skeleton_boss": [],
-    "skeleton_hunter": ["knife"]
+    "skeleton_hunter": ["knife"],
+    "cultist": [], # uma possível potion?
+    "goblin": [], # uma possível arma de machado?
     }
 
 enemy_attack_speed = {
-    "knife": 10
+    "knife": 10,
+    "potion" : 10,
+    "axe" : 10
     }
 
 enemy_attack_animation_speed = {
     "knife": 0.1,
+    "potion": 0.1,
+    "axe" : 0.1
     }
 
 enemy_attack_delay = {
     "skeleton": 5000,
     "skeleton_boss": 550,
-    "skeleton_hunter": 15000
+    "skeleton_hunter": 15000,
+    "cultist": 5000,
+    "goblin": 5000,
     }
 
 # Cor vermelha em rgb
@@ -176,6 +194,8 @@ size = {"player": 60,
             "skeleton": 60,
             "skeleton_boss": 100,
             "skeleton_hunter": 60,
+            "cultist": 60,
+            "goblin": 70,
             "knife": 30
             }
         }

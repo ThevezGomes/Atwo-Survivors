@@ -232,10 +232,10 @@ class Player(pygame.sprite.Sprite):
     def damage_animation(self):
         for enemy in self.enemies:
             if enemy.class_ == "EnemyAttack":
-                self.health -= config.damage["enemies_attack"][enemy.kind] * (1 - self.game.buffs["defense"])
+                self.health -= config.damage["enemies_attack"][enemy.kind] * (1 - self.game.buffs["defense"]) * self.game.difficulty_ratio
                 enemy.kill()
             elif enemy.class_ == "Enemy":
-                self.health -= config.damage["enemies"][enemy.kind] * (1 - self.game.buffs["defense"])
+                self.health -= config.damage["enemies"][enemy.kind] * (1 - self.game.buffs["defense"]) * self.game.difficulty_ratio
         [self.hurt_down_animations, self.hurt_up_animations, self.hurt_right_animations, self.hurt_left_animations] = self.game.sprites.warrior_animations["hurt_animations"].values()
         if self.facing == "down":
             current_time = pygame.time.get_ticks()

@@ -79,6 +79,9 @@ class Enemy(pygame.sprite.Sprite):
             self.check_health()
             self.despawn()
 
+            self.speed = self.speed * self.game.difficulty_ratio
+            self.health = self.health * self.game.difficulty_ratio
+
     def atacar(self, game):
         if config.enemies_attack_list[self.kind] != []:
             if not self.attacking:
