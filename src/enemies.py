@@ -237,6 +237,7 @@ class Boss(Enemy):
         if self.health <= 0:
             self.kill()
             if self.last_boss:
+                self.game.play_sound("victory_sound")
                 self.game.game_over("Parabéns, você venceu!")
             else:
                 self.game.player.xp += config.enemy_xp[self.kind]

@@ -126,8 +126,8 @@ class Sprites:
                 "attack_spritesheet_demon_sword": Spritesheet("../assets/itens_sprites/DemonSword/DemonSword.png"),
                 "icon": "../assets/itens_sprites/DemonSword/DemonSwordIcon.png"
                 },
-            "shot_gun": {
-                "attack_spritesheet_shot_gun": Spritesheet("../assets\itens_sprites\ShotGun\shotgun.png"),
+            "shotgun": {
+                "attack_spritesheet_shotgun": Spritesheet("../assets\itens_sprites\ShotGun\shotgun.png"),
                 "icon": "../assets\itens_sprites\ShotGun\shotgun_icon.png"
                 }
             }
@@ -446,11 +446,11 @@ class Sprites:
                                            self.attack_sprites["demon_sword"]["attack_spritesheet_demon_sword"].get_sprite(7, 141, 86, 64),
                                            self.attack_sprites["demon_sword"]["attack_spritesheet_demon_sword"].get_sprite(134, 16, 54, 60),]
                 },
-            "shot_gun": {
-                "shot_gun_animations": [self.attack_sprites["shot_gun"]["attack_spritesheet_shot_gun"].get_sprite(119, 543, 123, 120),
-                                        self.attack_sprites["shot_gun"]["attack_spritesheet_shot_gun"].get_sprite(110, 378, 142, 148),
-                                        self.attack_sprites["shot_gun"]["attack_spritesheet_shot_gun"].get_sprite(78, 208, 206, 144),
-                                        self.attack_sprites["shot_gun"]["attack_spritesheet_shot_gun"].get_sprite(65, 24, 231, 169),]
+            "shotgun": {
+                "shotgun_animations": [self.attack_sprites["shotgun"]["attack_spritesheet_shotgun"].get_sprite(119, 543, 123, 120),
+                                        self.attack_sprites["shotgun"]["attack_spritesheet_shotgun"].get_sprite(110, 378, 142, 148),
+                                        self.attack_sprites["shotgun"]["attack_spritesheet_shotgun"].get_sprite(78, 208, 206, 144),
+                                        self.attack_sprites["shotgun"]["attack_spritesheet_shotgun"].get_sprite(65, 24, 231, 169),]
                 }
             }
         

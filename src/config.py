@@ -41,7 +41,7 @@ damage = {
             4: 150,
             5: 200
             },
-        "shot_gun": {
+        "shotgun": {
             1: 50,
             2: 75,
             3: 100,
@@ -104,21 +104,21 @@ itens_speed = {
     "wave": 1,
     "energy_ball": 10,
     "demon_sword": 1,
-    "shot_gun": 5
+    "shotgun": 5
     }
 
 item_animation_speed = {
     "wave": 0.1,
     "energy_ball": 0.1,
     "demon_sword": 0.5,
-    "shot_gun": 0.6
+    "shotgun": 0.6
     }
 
 itens_delay = {
     "wave": 550,
     "energy_ball": 550,
     "demon_sword": 550,
-    "shot_gun": 750
+    "shotgun": 750
     }
 
 # Variavel que define a velocidade base dos inimigos
