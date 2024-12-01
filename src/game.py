@@ -12,6 +12,7 @@ from props import *
 from items_abilities import *
 from map import *
 import repositorio_sprites as rs
+import repositorio_sons as rsound
 import random
 import numpy as np
 from drop_item import * 
@@ -19,6 +20,7 @@ from drop_item import *
 class Game:
     def __init__(self):
         pygame.init()
+        pygame.mixer.init()
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
         self.clock = pygame.time.Clock()
@@ -27,6 +29,7 @@ class Game:
         self.level_up = False
         self.restart =False
         self.sprites = rs.Sprites()
+        self.sounds = rsound.Sound()
         self.spawn_time = 0
         self.spawning = False
         self.allow_spawn_enemies = True
@@ -99,7 +102,7 @@ class Game:
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
         self.game_timer.add_event(5, self.MessageSpawnBoss)
-        self.game_timer.add_event(100, self.SpawnBoss)
+        self.game_timer.add_event(10, self.SpawnBoss)
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()
@@ -215,6 +218,7 @@ class Game:
         
         if self.player.health <= 0:
             self.player.death = True
+            self.player.game_over_sound = True
         
         # Chance contínua de spawnar itens durante o jogo
         if random.random() < 0.01:  
@@ -326,7 +330,7 @@ class Game:
         #Verifica se a posição gerada não bate com a de um objeto
         if not any(spawn_pos.colliderect(rect) for rect in self.blocked_rects):
             item_type = random.choice(["Baconseed", "Baconfruit", "Starpotion", "Hugepotion"])
-            item = ItemDrop(spawn_x, spawn_y, item_type)
+            item = ItemDrop(spawn_x, spawn_y, item_type, self)
             
             #Adciona os itens no grupo de sprites
             self.item_sprites.add(item)
@@ -367,12 +371,14 @@ class Game:
             # Atualiza o botão e verifica se foi clicado
             play_button.update(mouse_pos)
             if play_button.is_pressed(mouse_pos, mouse_pressed):
+                self.play_sound("button_sound")
                 intro = False
                 self.new() # Inicia o jogo
                 self.game_timer.start() # Inicia o timer do jogo 
             
             quit_button.update(mouse_pos)
             if quit_button.is_pressed(mouse_pos, mouse_pressed):
+                self.play_sound("button_sound")
                 intro = False
                 self.running = False
             
@@ -433,11 +439,13 @@ class Game:
             # Atualiza o botão e verifica se foi clicado
             restart_button.update(mouse_pos)
             if restart_button.is_pressed(mouse_pos, mouse_pressed):
+                self.play_sound("button_sound")
                 over = False
                 self.restart = True
             
             quit_button.update(mouse_pos)
             if quit_button.is_pressed(mouse_pos, mouse_pressed):
+                self.play_sound("button_sound")
                 over = False
                 self.running = False
             
@@ -496,11 +504,14 @@ class Game:
                         self.paused = False  # Retomar o jogo
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if resume_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.play_sound("button_sound")
                         self.paused = False  # Retomar o jogo
                     if restart_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.play_sound("button_sound")
                         self.paused = False  # Retomar o jogo
                         self.restart = True
                     elif exit_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.play_sound("button_sound")
                         self.running = False
                         pygame.quit()
                         sys.exit()
@@ -546,6 +557,8 @@ class Game:
         item1 = SelectionItem(item2.rect.left - button_spacing - button_width, y_pos, button_width, button_height, pygame.Color('black'), itens[0], 24)
         item3 = SelectionItem(item2.rect.right + button_spacing, y_pos, button_width, button_height, pygame.Color('black'), itens[2], 24)
         
+        self.play_sound("level_up")
+        
         # Loop de pausa
         while self.level_up:
             for event in pygame.event.get():
@@ -555,6 +568,7 @@ class Game:
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if item1.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.play_sound("button_sound")
                         if self.level_up:
                             self.level_up = False  # Retomar o jogo
                             # TESTES PARA NIVEL MAXIMO
@@ -581,6 +595,7 @@ class Game:
                                 elif itens[0].kind == "Starpotion":
                                     self.player.xp += 10
                     elif item2.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.play_sound("button_sound")
                         if self.level_up:
                             self.level_up = False  # Retomar o jogo
                             if isinstance(itens[1], Item):
@@ -606,6 +621,7 @@ class Game:
                                 elif itens[1].kind == "Starpotion":
                                     self.player.xp += 10
                     elif item3.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.play_sound("button_sound")
                         if self.level_up:
                             self.level_up = False  # Retomar o jogo
                             if isinstance(itens[2], Item):
@@ -650,17 +666,12 @@ class Game:
         if len(self.enemies_list) < 20:
             if not self.spawning:
                 self.spawning = True
-                enemies_to_spawn = [Enemy(
-                                                    self,"skeleton" ,
-                                                    (self.screen.get_width() - config.char_size[0]) * random.random(), 
-                                                    (self.screen.get_height() - config.char_size[1]) * random.random()),
-                                    Enemy(
-                                                    self,"skeleton_hunter" ,
-                                                    (self.screen.get_width() - config.char_size[0]) * random.random(), 
-                                                    (self.screen.get_height() - config.char_size[1]) * random.random())  
-                                    ]
-                for enemy in enemies_to_spawn:
-                    self.enemies_list.append(enemy)
+                enemies_to_spawn = config.enemy_list
+                enemy_kind = random.choice(enemies_to_spawn)
+                self.enemies_list.append(Enemy(self,
+                                          enemy_kind,
+                                          (self.screen.get_width() - config.char_size[0]) * random.random(), 
+                                          (self.screen.get_height() - config.char_size[1]) * random.random()))
 
                 self.spawn_time = pygame.time.get_ticks()
             else:
@@ -676,9 +687,10 @@ class Game:
     def MessageSpawnBoss(self):
          # Exibir a mensagem no centro superior da tela
         self.message = "Prepare-se"
+        self.play_sound("boss_coming")
         self.show_message = True # Faz a messagem aparecer usando a função draw_message que está no loop do jogo
         self.message_time = pygame.time.get_ticks()  # Registra o tempo em que a mensagem foi exibida
-        self.message_duration = 1000 # Define o tempo que a menssagem fica na tela
+        self.message_duration = 3000 # Define o tempo que a menssagem fica na tela
 
     def draw_message(self):
         # Se show_message for True, exibe a mensagem
@@ -739,3 +751,6 @@ class Game:
                 pass
             enemy.kill()
         
+    def play_sound(self, sound, checker=True):
+        if checker:
+            self.sounds.all_sounds[sound].play()

@@ -17,15 +17,19 @@ class Player(pygame.sprite.Sprite):
         self.speed = config.player_speed
         self.health = config.max_health["player"]
         self.max_health = config.max_health["player"]
+        self.low_life = False
+        self.heart_beating = False
         self.level = 1
         self.xp = 0
         self.enemies = []
         self.damage = False
         self.damage_time = 0
         self.damage_index = 0
+        self.damage_sound = False
         self.death = False
         self.death_time = 0
         self.death_index = 0
+        self.game_over_sound = False
         self.attacking = False
         self.attack_time = 0
 
@@ -73,6 +77,7 @@ class Player(pygame.sprite.Sprite):
             self.y_change = 0
             
             self.check_xp_level()
+            self.check_low_life()
             
             
             self.max_health = config.max_health["player"] * (1 + self.game.buffs["life"])
@@ -214,7 +219,8 @@ class Player(pygame.sprite.Sprite):
         if hits:
             current_time = pygame.time.get_ticks()
             if current_time - self.damage_time > config.damage_delay:
-                self.damage = True   
+                self.damage = True
+                self.damage_sound = True
                 self.damage_index = 0
                 self.damage_time = pygame.time.get_ticks()
                 self.enemies = list(hits)
@@ -224,7 +230,8 @@ class Player(pygame.sprite.Sprite):
         if hits:
             current_time = pygame.time.get_ticks()
             if current_time - self.damage_time > config.damage_delay:
-                self.damage = True   
+                self.damage = True
+                self.damage_sound = True
                 self.damage_index = 0
                 self.damage_time = pygame.time.get_ticks()
                 self.enemies = list(hits)
@@ -236,6 +243,8 @@ class Player(pygame.sprite.Sprite):
                 enemy.kill()
             elif enemy.class_ == "Enemy":
                 self.health -= config.damage["enemies"][enemy.kind] * (1 - self.game.buffs["defense"]) * self.game.difficulty_ratio
+        self.game.play_sound("warrior_hurt_sound", self.damage_sound)
+        self.damage_sound = False
         [self.hurt_down_animations, self.hurt_up_animations, self.hurt_right_animations, self.hurt_left_animations] = self.game.sprites.warrior_animations["hurt_animations"].values()
         if self.facing == "down":
             current_time = pygame.time.get_ticks()
@@ -279,6 +288,8 @@ class Player(pygame.sprite.Sprite):
                     self.damage = False
 
     def death_animation(self):
+        self.game.play_sound("game_over_sound", self.game_over_sound)
+        self.game_over_sound = False
         [self.death_down_animations, self.death_up_animations, self.death_right_animations, self.death_left_animations] = self.game.sprites.warrior_animations["death_animations"].values()
         if self.facing == "down":
             current_time = pygame.time.get_ticks()
@@ -365,6 +376,21 @@ class Player(pygame.sprite.Sprite):
         elif level > 50:
             return 1000000
         
+    def check_low_life(self):
+        if (self.health / self.max_health) <= 0.2:
+            self.low_life = True
+        else:
+            self.low_life = False
+            
+        if not self.heart_beating and self.low_life:
+            self.game.sounds.all_sounds["low_life"].play(loops=-1)
+            self.heart_beating = True
+            
+        if self.heart_beating and not self.low_life:
+            self.game.sounds.all_sounds["low_life"].stop()
+            self.heart_beating = False
+            
+        
                 
 class Attack(pygame.sprite.Sprite):
     def __init__(self, game, x, y, item, position, level):
@@ -377,6 +403,7 @@ class Attack(pygame.sprite.Sprite):
         self.level = level
         self.animation_speed = config.item_animation_speed[self.item]
         self.count_enemies = 0
+        self.attack_sound = True
         
         keys_animations = list(self.game.sprites.attack_animations[self.item].keys())
         self.image = self.game.sprites.attack_animations[self.item][keys_animations[0]][0]
@@ -422,6 +449,8 @@ class Attack(pygame.sprite.Sprite):
         
     def animate(self):        
         [self.attack_animations] = self.game.sprites.attack_animations[self.item].values()
+        self.game.play_sound(self.item, self.attack_sound)
+        self.attack_sound = False
         
         # Cria o loop de animacao
         self.image = self.attack_animations[math.floor(self.animation_loop)]
