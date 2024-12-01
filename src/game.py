@@ -662,7 +662,28 @@ class Game:
         if len(self.enemies_list) <= 20:
             if not self.spawning:
                 self.spawning = True
-                self.enemies_list.append(Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) * random.random(), (self.screen.get_height() - config.char_size[1]) * random.random()))
+                spawn_attempts = 10
+
+                for _ in range(spawn_attempts):
+                    spawn_x = (self.screen.get_width() - config.char_size[0]) * random.random()
+                    spawn_y = (self.screen.get_height() - config.char_size[1]) * random.random()
+                    
+                    # Define um retângulo representando a área do inimigo
+                    spawn_pos = pygame.Rect(
+                        spawn_x,  # Posição x
+                        spawn_y,  # Posição y
+                        config.char_size[0],  # Largura do inimigo
+                        config.char_size[1]   # Altura do inimigo
+                    )
+
+
+                    if not any(spawn_pos.colliderect(rect) for rect in self.blocked_rects):
+                        enemy = Enemy(self, "skeleton", spawn_x, spawn_y)  
+                        self.enemies_list.append(enemy)
+                        break
+
+                #self.enemies_list.append(Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) * random.random(), (self.screen.get_height() - config.char_size[1]) * random.random()))
+                
                 self.spawn_time = pygame.time.get_ticks()
             else:
                 current_time = pygame.time.get_ticks()
