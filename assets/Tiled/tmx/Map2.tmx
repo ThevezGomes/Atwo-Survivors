@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="488">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="489">
  <tileset firstgid="1" source="../tsx/Land.tsx"/>
  <tileset firstgid="225" source="../tsx/Objetos.tsx"/>
  <tileset firstgid="255" source="../tsx/Montanhas-1.tsx"/>
@@ -111,7 +111,7 @@
  </layer>
  <objectgroup id="2" name="Objetos">
   <object id="111" type="Vegetacao" gid="234" x="381.061" y="415.939" width="96.303" height="147.242"/>
-  <object id="112" type="Vegetacao" gid="234" x="2095.85" y="1034.38" width="96.303" height="147.242"/>
+  <object id="112" type="Vegetacao" gid="234" x="2098.35" y="1034.88" width="96.303" height="147.242"/>
   <object id="113" type="Vegetacao" gid="234" x="723.849" y="822.38" width="96.303" height="147.242"/>
   <object id="114" type="Vegetacao" gid="234" x="1328.33" y="2173.29" width="96.303" height="147.242"/>
   <object id="115" type="Vegetacao" gid="234" x="679.849" y="1898.38" width="96.303" height="147.242"/>
@@ -131,8 +131,8 @@
   <object id="353" type="Pedras" gid="233" x="1464.5" y="316" width="39" height="16"/>
   <object id="354" type="Pedras" gid="233" x="2188.5" y="2672" width="39" height="16"/>
   <object id="355" type="Pedras" gid="233" x="1364.5" y="2624" width="39" height="16"/>
-  <object id="356" type="Pedras" gid="233" x="1164.5" y="2920" width="39" height="16"/>
-  <object id="357" type="Pedras" gid="233" x="348.5" y="3020" width="39" height="16"/>
+  <object id="356" type="Pedras" gid="233" x="1164.5" y="4100.1" width="39" height="16"/>
+  <object id="357" type="Pedras" gid="233" x="348.5" y="4100.1" width="39" height="16"/>
   <object id="359" type="Pedras" gid="233" x="2917.5" y="2018" width="39" height="16"/>
   <object id="360" type="Pedras" gid="233" x="2448.5" y="868" width="39" height="16"/>
   <object id="361" type="Pedras" gid="240" x="311.606" y="796.758" width="74" height="18"/>
@@ -156,10 +156,10 @@
   <object id="422" type="Cerca" gid="235" x="2688.5" y="2584.01" width="76" height="24"/>
   <object id="423" type="Cerca" gid="235" x="2752.75" y="2584.01" width="76" height="24"/>
   <object id="424" type="Cerca" gid="235" x="2817" y="2584.01" width="62.9375" height="24"/>
-  <object id="425" type="Cerca" gid="235" x="2560.03" y="2880" width="76" height="24"/>
-  <object id="426" type="Cerca" gid="235" x="2624.28" y="2880" width="63.7222" height="24"/>
-  <object id="428" type="Cerca" gid="235" x="2752.09" y="2880" width="76.6957" height="24"/>
-  <object id="429" type="Cerca" gid="235" x="2817.03" y="2880" width="62.9375" height="24"/>
+  <object id="425" type="Cerca" gid="235" x="2560.03" y="4100.1" width="76" height="24"/>
+  <object id="426" type="Cerca" gid="235" x="2624.28" y="4100.1" width="63.7222" height="24"/>
+  <object id="428" type="Cerca" gid="235" x="2752.09" y="4100.1" width="76.6957" height="24"/>
+  <object id="429" type="Cerca" gid="235" x="2817.03" y="4100.1" width="62.9375" height="24"/>
   <object id="430" type="Lapide" gid="253" x="2594.75" y="2623.88" width="30" height="40"/>
   <object id="431" type="Lapide" gid="228" x="2661.88" y="2623.38" width="20" height="30"/>
   <object id="432" type="Lapide" gid="248" x="2721.13" y="2623" width="30" height="30"/>
@@ -187,14 +187,14 @@
   <object id="458" type="Cerca" gid="235" x="1032.03" y="951.734" width="60.2071" height="22.6761"/>
   <object id="459" type="Cerca" gid="235" x="1152.79" y="951.734" width="72.4649" height="22.6761"/>
   <object id="460" type="Cerca" gid="235" x="1214.14" y="951.734" width="59.4657" height="22.6761"/>
-  <object id="461" type="Lapide" gid="253" x="1004.13" y="709.742" width="28.3451" height="37.7935"/>
-  <object id="462" type="Lapide" gid="228" x="1067.55" y="709.27" width="18.8967" height="28.3451"/>
+  <object id="461" type="Lapide" gid="253" x="995.13" y="705.242" width="28.3451" height="37.7935"/>
+  <object id="462" type="Lapide" gid="228" x="1064.13" y="705.624" width="18.8967" height="28.3451"/>
   <object id="463" type="Lapide" gid="248" x="1123.53" y="708.911" width="28.3451" height="28.3451"/>
   <object id="464" type="Lapide" gid="252" x="1188.92" y="707.22" width="26.4554" height="19.8416"/>
-  <object id="465" type="Lapide" gid="241" x="1003.18" y="838.354" width="75.5869" height="75.5869"/>
-  <object id="466" type="Lapide" gid="226" x="1096.13" y="830.719" width="25.5106" height="34.959"/>
-  <object id="467" type="Lapide" gid="250" x="1153.33" y="830.795" width="28.3451" height="27.4003"/>
-  <object id="468" type="Lapide" gid="253" x="1214.59" y="830.322" width="28.3451" height="37.7935"/>
+  <object id="465" type="Lapide" gid="241" x="997.18" y="832.604" width="75.5869" height="75.5869"/>
+  <object id="466" type="Lapide" gid="226" x="1093.63" y="832.219" width="25.5106" height="34.959"/>
+  <object id="467" type="Lapide" gid="250" x="1155.58" y="833.045" width="28.3451" height="27.4003"/>
+  <object id="468" type="Lapide" gid="253" x="1218.09" y="833.322" width="28.3451" height="37.7935"/>
   <object id="469" type="Vegetacao" gid="230" x="1152.45" y="988.818" width="31" height="26"/>
   <object id="470" type="Vegetacao" gid="230" x="1056" y="988.333" width="31" height="26"/>
   <object id="471" type="Cerca" gid="245" x="320" y="2646" width="31" height="86"/>
@@ -202,43 +202,44 @@
   <object id="473" type="Cerca" gid="245" x="320" y="2780.18" width="31" height="86"/>
   <object id="474" type="Cerca" gid="245" x="320" y="2847" width="31" height="86"/>
   <object id="475" type="Cerca" gid="245" x="320" y="2880.02" width="31" height="51.6619"/>
-  <object id="476" type="Cerca" gid="242" x="331.438" y="2880.06" width="70" height="24"/>
+  <object id="476" type="Cerca" gid="242" x="331.438" y="4100.1" width="70" height="24"/>
   <object id="477" type="Cerca" gid="245" x="609" y="2646" width="31" height="86"/>
   <object id="478" type="Cerca" gid="245" x="609" y="2713.09" width="31" height="86"/>
   <object id="479" type="Cerca" gid="245" x="609" y="2780.18" width="31" height="86"/>
   <object id="480" type="Cerca" gid="245" x="609" y="2847" width="31" height="86"/>
   <object id="481" type="Cerca" gid="245" x="609" y="2880.02" width="31" height="51.6619"/>
-  <object id="482" type="Cerca" gid="242" x="556.563" y="2880.19" width="70" height="24"/>
+  <object id="482" type="Cerca" gid="242" x="556.563" y="4100.1" width="70" height="24"/>
   <object id="483" type="Cerca" gid="242" x="331" y="2584" width="70" height="24"/>
   <object id="484" type="Cerca" gid="242" x="394.973" y="2584" width="70" height="24"/>
   <object id="485" type="Cerca" gid="242" x="459" y="2584" width="70" height="24"/>
   <object id="486" type="Cerca" gid="242" x="522.984" y="2584.01" width="70" height="24"/>
   <object id="487" type="Cerca" gid="242" x="587.156" y="2584" width="39.0909" height="24"/>
+  <object id="488" type="Lapide" gid="253" x="1121.33" y="759.103" width="28.3451" height="37.7935"/>
  </objectgroup>
  <objectgroup id="8" name="Fundo">
-  <object id="344" type="Montanha" gid="268" x="1280.4" y="0" width="640.2" height="500"/>
-  <object id="371" type="Montanha" gid="269" x="640.2" y="0" width="640.2" height="500"/>
-  <object id="372" type="Montanha" gid="269" x="-52.2917" y="0" width="692.492" height="500"/>
-  <object id="373" type="Montanha" gid="269" x="1919.72" y="0" width="641.075" height="500"/>
-  <object id="374" type="Montanha" gid="269" x="2560.8" y="0" width="702.2" height="500"/>
-  <object id="392" type="Montanha" gid="270" x="3200" y="640.2" width="800" height="640.2"/>
-  <object id="394" type="Montanha" gid="270" x="3200" y="1280.4" width="800" height="640.2"/>
-  <object id="395" type="Montanha" gid="270" x="3200" y="1920.6" width="800" height="648.2"/>
-  <object id="396" type="Montanha" gid="270" x="3200" y="2560.8" width="800" height="645.7"/>
-  <object id="397" type="Montanha" gid="270" x="3200" y="3201" width="800" height="640.2"/>
-  <object id="399" type="Montanha" gid="271" x="2560" y="3700.1" width="707.2" height="500"/>
-  <object id="400" type="Montanha" gid="271" x="1919.8" y="3700.1" width="640.2" height="500"/>
-  <object id="401" type="Montanha" gid="271" x="1279.6" y="3700.1" width="640.2" height="500"/>
-  <object id="402" type="Montanha" gid="271" x="639.4" y="3700.1" width="640.2" height="500"/>
-  <object id="403" type="Montanha" gid="271" x="-69.8" y="3700.1" width="709.2" height="500"/>
-  <object id="404" type="Montanha" gid="272" x="-800" y="3201" width="800" height="640.2"/>
-  <object id="405" type="Montanha" gid="272" x="-800" y="2630.3" width="800" height="716.7"/>
-  <object id="406" type="Montanha" gid="272" x="-800" y="1920.6" width="800" height="640.2"/>
-  <object id="407" type="Montanha" gid="272" x="-800" y="1280.4" width="800" height="640.2"/>
-  <object id="408" type="Montanha" gid="272" x="-800" y="640.2" width="800" height="640.2"/>
-  <object id="438" type="Montanha" gid="269" x="3201" y="0" width="798.87" height="500"/>
-  <object id="439" type="Montanha" gid="269" x="-798.867" y="0" width="798.867" height="500"/>
-  <object id="440" type="Montanha" gid="271" x="3201" y="3700.1" width="798.87" height="500"/>
-  <object id="441" type="Montanha" gid="271" x="-799.666" y="3700.1" width="798.87" height="500"/>
+  <object id="344" type="Montanha" gid="268" x="1280.4" y="0" width="640.2" height="900"/>
+  <object id="371" type="Montanha" gid="269" x="640.2" y="0" width="640.2" height="900"/>
+  <object id="372" type="Montanha" gid="269" x="-52.2917" y="0" width="692.492" height="900"/>
+  <object id="373" type="Montanha" gid="269" x="1919.72" y="0" width="641.075" height="900"/>
+  <object id="374" type="Montanha" gid="269" x="2560.8" y="0" width="702.2" height="900"/>
+  <object id="392" type="Montanha" gid="270" x="3200" y="640.2" width="1200" height="640.2"/>
+  <object id="394" type="Montanha" gid="270" x="3200" y="1280.4" width="1200" height="640.2"/>
+  <object id="395" type="Montanha" gid="270" x="3200" y="1920.6" width="1200" height="648.2"/>
+  <object id="396" type="Montanha" gid="270" x="3200" y="2560.8" width="1200" height="645.7"/>
+  <object id="397" type="Montanha" gid="270" x="3200" y="3201" width="1200" height="646.867"/>
+  <object id="399" type="Montanha" gid="271" x="2560" y="4100.1" width="707.2" height="900"/>
+  <object id="400" type="Montanha" gid="271" x="1919.8" y="4100.1" width="640.2" height="900"/>
+  <object id="401" type="Montanha" gid="271" x="1279.6" y="4100.1" width="640.2" height="900"/>
+  <object id="402" type="Montanha" gid="271" x="639.4" y="4100.1" width="640.2" height="900"/>
+  <object id="403" type="Montanha" gid="271" x="-69.8" y="4100.1" width="709.2" height="900"/>
+  <object id="404" type="Montanha" gid="272" x="-1200" y="3201" width="1200" height="640.2"/>
+  <object id="405" type="Montanha" gid="272" x="-1200" y="2630.3" width="1200" height="716.7"/>
+  <object id="406" type="Montanha" gid="272" x="-1200" y="1920.6" width="1200" height="640.2"/>
+  <object id="407" type="Montanha" gid="272" x="-1200" y="1280.4" width="1200" height="640.2"/>
+  <object id="408" type="Montanha" gid="272" x="-1200" y="640.2" width="1200" height="640.2"/>
+  <object id="438" type="Montanha" gid="269" x="3201" y="0" width="798.87" height="900"/>
+  <object id="439" type="Montanha" gid="269" x="-798.867" y="0" width="798.867" height="900"/>
+  <object id="440" type="Montanha" gid="271" x="3201" y="4100.1" width="798.87" height="900"/>
+  <object id="441" type="Montanha" gid="271" x="-799.666" y="4100.1" width="798.87" height="900"/>
  </objectgroup>
 </map>

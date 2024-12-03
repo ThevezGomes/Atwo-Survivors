@@ -30,6 +30,9 @@
  </tile>
  <tile id="9">
   <image source="../objects-assets/tree.png" width="50" height="59"/>
+  <objectgroup draworder="index" id="4">
+   <object id="4" x="11.4545" y="-0.363636" width="25.9091" height="58.3636"/>
+  </objectgroup>
  </tile>
  <tile id="10">
   <image source="../objects-assets/bfence_1.png" width="76" height="24"/>
