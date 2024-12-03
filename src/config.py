@@ -29,7 +29,13 @@ damage = {
         "envoy_of_the_divine_beast": 30
         },
     "enemies_attack": {
-        "knife": 20
+        "knife": 20,
+        "arrow": 20,
+        "axe": 40,
+        "fire_ball": 30,
+        "sword": 50,
+        "sword_slash": 30,
+        "acid": 30
         },
     "itens": {
         "wave": {
@@ -140,6 +146,14 @@ enemy_list = ["skeleton",
               "goblin"
               ]
 
+boss_list = ["skeleton_boss",
+             "envoy_of_the_divine_beast"]
+
+boss_name = {
+    "skeleton_boss": "Guerreiro morto sem nome",
+    "envoy_of_the_divine_beast": "Enviada da Besta Divina"
+    }
+
 # Define a velocidade dos inimigos
 enemy_speed = {
     "skeleton" : 3,
@@ -200,32 +214,40 @@ enemy_range = {
 
 # Lista de ataques inimigos para cada inimigo
 enemies_attack_list = {
-    "skeleton": [],
-    "skeleton_boss": [],
-    "skeleton_hunter": ["knife"],
-    "cultist": [], # uma possível potion?
-    "goblin": [], # uma possível arma de machado?
-    "envoy_of_the_divine_beast": ["knife"]
+    "skeleton": ["acid"],
+    "skeleton_boss": ["sword", "knife", "sword_slash"],
+    "skeleton_hunter": ["arrow"],
+    "cultist": ["fire_ball"], # uma possível potion?
+    "goblin": ["axe"], # uma possível arma de machado?
+    "envoy_of_the_divine_beast": ["acid"]
     }
 
 # Alcance dos ataques inimigos
 enemy_attack_speed = {
     "knife": 10,
-    "potion" : 10,
-    "axe" : 10
+    "arrow": 10,
+    "axe": 10,
+    "fire_ball": 10,
+    "sword": 10,
+    "sword_slash": 3,
+    "acid": 10
     }
 
 # Velocidade de animação dos ataques inimigos
 enemy_attack_animation_speed = {
     "knife": 0.1,
-    "potion": 0.1,
-    "axe" : 0.1
+    "arrow": 0.1,
+    "fire_ball": 0.1,
+    "axe" : 0.2,
+    "sword": 0.1,
+    "sword_slash": 0.1,
+    "acid": 0.2
     }
 
 # Delay dos ataques inimigos
 enemy_attack_delay = {
     "skeleton": 5000,
-    "skeleton_boss": 550,
+    "skeleton_boss": 2000,
     "skeleton_hunter": 15000,
     "cultist": 5000,
     "goblin": 5000,
@@ -249,7 +271,13 @@ size = {"player": 60,
             "skeleton_hunter": 60,
             "cultist": 60,
             "goblin": 70,
-            "knife": 30,
+            "knife": 40,
+            "arrow": 40,
+            "axe": 60,
+            "fire_ball": 50,
+            "sword": 100,
+            "sword_slash": 20,
+            "acid": 120,
             "envoy_of_the_divine_beast": 100
             }
         }

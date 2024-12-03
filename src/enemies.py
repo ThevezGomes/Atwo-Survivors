@@ -265,7 +265,9 @@ class Boss(Enemy):
                 # Adiciona o xp ao player, permite o spawn de inimigos e cancela o evento do boss
                 self.game.player.xp += config.enemy_xp[self.kind]
                 self.game.spawned_boss = False
+                self.game.game_timer.resume()
                 self.game.allow_spawn_enemies = True
+                self.game.boss_list.remove(self.kind)
                
     def despawn(self):
         # Não despawna o boss

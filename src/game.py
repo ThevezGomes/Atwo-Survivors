@@ -84,6 +84,8 @@ class Game:
         self.all_itens_max = ItemsArmazenamento().itens_player_max
         self.update_items = True
         self.update_abilities = True
+        
+        self.boss_list = boss_list
 
         #Criação do inventário (posição, tamanho do slot e número de slots)
         self.inventory = Inventory(x=10, y=self.screen.get_height() - 60, slot_size=50, max_slots=5)
@@ -105,8 +107,10 @@ class Game:
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
-        self.game_timer.add_event(5, self.MessageSpawnBoss)
-        self.game_timer.add_event(10, self.SpawnBoss)
+        self.game_timer.add_event(25, self.MessageSpawnBoss)
+        self.game_timer.add_event(30, self.SpawnBoss(False))
+        self.game_timer.add_event(55, self.MessageSpawnBoss)
+        self.game_timer.add_event(60, self.SpawnBoss(True))
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()
@@ -118,13 +122,17 @@ class Game:
         # Define uma lista aleatória de itens que podem aparecer no menu de Level Up
         self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
 
-    def SpawnBoss(self):
-        # Despawna todos os inimigos e spawna o boss
-        self.despawn_all_enemies()
-        self.boss = Boss(self, "envoy_of_the_divine_beast", (self.screen.get_width()) // 2, (self.screen.get_height()) // 2, "Enviada da Besta Divina", True)
-        # Barra de vida do Boss
-        self.boss_bar = BossBar(max=config.max_health["enemies"]["envoy_of_the_divine_beast"], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=75, boss_name=self.boss.name)
-        self.spawned_boss = True
+    def SpawnBoss(self, final_boss):
+        def Spawnar_Boss():
+            # Despawna todos os inimigos e spawna o boss
+            self.despawn_all_enemies()
+            boss_kind = random.choice(self.boss_list)
+            self.boss = Boss(self, boss_kind, (self.screen.get_width()) // 2, (self.screen.get_height()) // 2, boss_name[boss_kind], final_boss)
+            # Barra de vida do Boss
+            self.boss_bar = BossBar(max=config.max_health["enemies"][boss_kind], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=75, boss_name=self.boss.name)
+            self.spawned_boss = True
+            
+        return Spawnar_Boss   
 
     def new(self):
         self.playing = True
@@ -355,7 +363,7 @@ class Game:
         
     def intro_screen(self):
         intro = True
-        title = self.font_title.render('Jogo da A2', True, pygame.Color('white'))
+        title = self.font_title.render('Nexus', True, pygame.Color('white'))
         title_rect = title.get_rect(topleft=(10, 10))
 
         # Dimensoes da tela
