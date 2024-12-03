@@ -5,8 +5,9 @@ from main_character import *
 
 
 class ItemDrop(pygame.sprite.Sprite):
-    def __init__(self, x, y, item_type):
+    def __init__(self, x, y, item_type, game):
         super().__init__()
+        self.game = game
         self.item_type = item_type  # 
         self.spawn_time = pygame.time.get_ticks()
         self.lifetime = 15000
@@ -47,21 +48,24 @@ class ItemDrop(pygame.sprite.Sprite):
     def apply_effect(self, player):
         # Aplica o efeito do item no jogador
         if self.item_type == 'Baconseed':
+            self.game.play_sound("pig_sound")
+            self.game.play_sound("eating_sound")
             if player.health + (player.max_health // 2) > player.max_health:
                 player.health = player.max_health
             else:
                 player.health += (player.max_health // 2)
         elif self.item_type == 'Baconfruit':
+            self.game.play_sound("eating_sound")
             if player.health + (player.max_health) > player.max_health:
                 player.health = player.max_health
             else:
                 player.health += (player.max_health) 
         elif self.item_type == 'Starpotion':
-            player.xp += player.xp +player.xp *0.4   
+            self.game.play_sound("xp_potion_sound")
+            player.xp += 60   
         elif self.item_type == 'Hugepotion':
-            player.xp += player.xp +player.xp *0.6 
-        elif self.item_type == 'Giantpotion':
-            player.xp += player.xp * 3
+            self.game.play_sound("xp_potion_sound")
+            player.xp += 120
 
 
         
