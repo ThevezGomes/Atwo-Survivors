@@ -127,7 +127,9 @@ itens_delay = {
 
 # Variavel que define a velocidade base dos inimigos
 enemy_list = ["skeleton",
-              "skeleton_hunter"
+              "skeleton_hunter",
+              "goblin",
+              "cultist"
               ]
 
 enemy_speed = {
@@ -158,7 +160,9 @@ enemy_fov = {
 enemy_range = {
     "skeleton" : 40,
     "skeleton_boss": 40,
-    "skeleton_hunter" : 200
+    "skeleton_hunter" : 200,
+    "cultist": 50,
+    "goblin": 30
     }
 
 enemies_attack_list = {
