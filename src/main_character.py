@@ -14,6 +14,7 @@ class Player(pygame.sprite.Sprite):
         self.groups = self.game.all_sprites
         pygame.sprite.Sprite.__init__(self, self.groups)
         
+        # Define propriedades que serão essencias para o jogador
         self.speed = config.player_speed
         self.health = config.max_health["player"]
         self.max_health = config.max_health["player"]
@@ -57,17 +58,24 @@ class Player(pygame.sprite.Sprite):
 
     # Atualiza todas as propriedades do jogador, como movimento, animacao, mudanca de posicao e colisao
     def update(self):
+        # Se tiver morto ou receber dano, ativa as animações
         if self.death:
             self.death_animation()
         elif self.damage:
             self.damage_animation()
+            
         else:
+            # Atualiza a velocidade do jogador com os buffs
             self.speed = config.player_speed * (1 + self.game.buffs["speed"])
+            # Atualiza o deslocamento do jogador e a câmera
             self.movement()
+            # Atualiza as animações do jogador
             self.animate()
+            # Verifica colisão com inimigos e ataques de inimigos
             self.collide_enemy()
             self.collide_enemy_attacks()
             
+            # Atualiza a posição do jogador e colisão
             self.rect.x += self.x_change
             self.collide_blocks("x")
             self.rect.y += self.y_change
@@ -76,16 +84,16 @@ class Player(pygame.sprite.Sprite):
             self.x_change = 0
             self.y_change = 0
             
+            # Verifica se o jogador está com pouca vida ou se subiu de nível
             self.check_xp_level()
             self.check_low_life()
             
-            
+            # Atualiza a vida máxima do jogador
             self.max_health = config.max_health["player"] * (1 + self.game.buffs["life"])
 
     # Cria o movimento do jogador
     def movement(self):
-        # Para cada tecla que ele pressiona, define para onde o personagem vai olhar e a variacao da posicao
-        # PRECISA DESCOMENTAR AS PROXIMAS LINHAS DE CODIGO, FAZEM A CAMERA SEGUIR O JOGADOR
+        # Para cada tecla que ele pressiona, define para onde o personagem vai olhar e a variacao da posicao, além de mover tudo na direção oposta para criar a câmera
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             for sprite in self.game.all_sprites:
@@ -108,7 +116,7 @@ class Player(pygame.sprite.Sprite):
             self.y_change += self.speed
             self.facing = "down"
         
-        #Caso for iplementar o controle, uma base para a movimentação
+        #Caso for implementar o controle, uma base para a movimentação
         """
         # Inicializa o joystick (caso ainda não tenha sido iniciado)
         if pygame.joystick.get_count() > 0:
@@ -215,10 +223,13 @@ class Player(pygame.sprite.Sprite):
                      self.animation_loop = 1
             
     def collide_enemy(self):
+        # Verifica se o personagem colidiu com um inimigo
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
         if hits:
             current_time = pygame.time.get_ticks()
+            # Aplica um delay entre os danos
             if current_time - self.damage_time > config.damage_delay:
+                # Ativa o dano e coleta as informações necessárias para contabilizar o dano
                 self.damage = True
                 self.damage_sound = True
                 self.damage_index = 0
@@ -226,10 +237,13 @@ class Player(pygame.sprite.Sprite):
                 self.enemies = list(hits)
                 
     def collide_enemy_attacks(self):
+        # Verifica se o personagem colidiu com um ataque inimigo
         hits = pygame.sprite.spritecollide(self, self.game.enemy_attacks, False)
         if hits:
             current_time = pygame.time.get_ticks()
+            # Aplica um delay entre os danos
             if current_time - self.damage_time > config.damage_delay:
+                # Ativa o dano e coleta as informações necessárias para contabilizar o dano
                 self.damage = True
                 self.damage_sound = True
                 self.damage_index = 0
@@ -237,18 +251,21 @@ class Player(pygame.sprite.Sprite):
                 self.enemies = list(hits)
                 
     def damage_animation(self):
+        # Para cada inimigo ou ataque colidido, remove da vida do jogador o dano do ataque, considerando os buffs
         for enemy in self.enemies:
             if enemy.class_ == "EnemyAttack":
                 self.health -= config.damage["enemies_attack"][enemy.kind] * (1 - self.game.buffs["defense"]) * self.game.difficulty_ratio
                 enemy.kill()
             elif enemy.class_ == "Enemy":
                 self.health -= config.damage["enemies"][enemy.kind] * (1 - self.game.buffs["defense"]) * self.game.difficulty_ratio
+        # Aplica o som de dano
         self.game.play_sound("warrior_hurt_sound", self.damage_sound)
         self.damage_sound = False
+        # Aplica a animação de dano, considerando delay e direção do jogador
         [self.hurt_down_animations, self.hurt_up_animations, self.hurt_right_animations, self.hurt_left_animations] = self.game.sprites.warrior_animations["hurt_animations"].values()
         if self.facing == "down":
             current_time = pygame.time.get_ticks()
-            if current_time - self.damage_time > 50:  # Troca de frame a cada 100ms
+            if current_time - self.damage_time > 50:  # Troca de frame a cada 50ms
                 self.damage_time = current_time
                 self.damage_index = (self.damage_index + 1)
                 if self.damage_index < len(self.hurt_down_animations):
@@ -259,7 +276,7 @@ class Player(pygame.sprite.Sprite):
 
         if self.facing == "up":
             current_time = pygame.time.get_ticks()
-            if current_time - self.damage_time > 50:  # Troca de frame a cada 100ms
+            if current_time - self.damage_time > 50:  # Troca de frame a cada 50ms
                 self.damage_time = current_time
                 self.damage_index = (self.damage_index + 1)
                 if self.damage_index < len(self.hurt_up_animations):
@@ -269,7 +286,7 @@ class Player(pygame.sprite.Sprite):
                
         if self.facing == "right":
             current_time = pygame.time.get_ticks()
-            if current_time - self.damage_time > 50:  # Troca de frame a cada 100ms
+            if current_time - self.damage_time > 50:  # Troca de frame a cada 50ms
                 self.damage_time = current_time
                 self.damage_index = (self.damage_index + 1)
                 if self.damage_index < len(self.hurt_right_animations):
@@ -279,7 +296,7 @@ class Player(pygame.sprite.Sprite):
                 
         if self.facing == "left":
             current_time = pygame.time.get_ticks()
-            if current_time - self.damage_time > 50:  # Troca de frame a cada 100ms
+            if current_time - self.damage_time > 50:  # Troca de frame a cada 50ms
                 self.damage_time = current_time
                 self.damage_index = (self.damage_index + 1)
                 if self.damage_index < len(self.hurt_left_animations):
@@ -288,8 +305,11 @@ class Player(pygame.sprite.Sprite):
                     self.damage = False
 
     def death_animation(self):
+        # Aplica o som de morte
         self.game.play_sound("game_over_sound", self.game_over_sound)
         self.game_over_sound = False
+        
+        # Aplica a animação de morte
         [self.death_down_animations, self.death_up_animations, self.death_right_animations, self.death_left_animations] = self.game.sprites.warrior_animations["death_animations"].values()
         if self.facing == "down":
             current_time = pygame.time.get_ticks()
@@ -299,6 +319,7 @@ class Player(pygame.sprite.Sprite):
                 if self.death_index < len(self.death_down_animations):
                     self.image = self.death_down_animations[self.death_index]  
                 else:
+                    # Mostra a tela de game over
                     self.game.draw()
                     self.game.game_over()
 
@@ -310,6 +331,7 @@ class Player(pygame.sprite.Sprite):
                 if self.death_index < len(self.death_up_animations):
                     self.image = self.death_up_animations[self.death_index]
                 else:
+                    # Mostra a tela de game over
                     self.game.draw()
                     self.game.game_over()
                
@@ -321,6 +343,7 @@ class Player(pygame.sprite.Sprite):
                 if self.death_index < len(self.death_right_animations):
                     self.image = self.death_right_animations[self.death_index]
                 else:
+                    # Mostra a tela de game over
                     self.game.draw()
                     self.game.game_over()
                 
@@ -332,10 +355,12 @@ class Player(pygame.sprite.Sprite):
                 if self.death_index < len(self.death_left_animations):
                     self.image = self.death_left_animations[self.death_index]
                 else:
+                    # Mostra a tela de game over
                     self.game.draw()
                     self.game.game_over()
                     
     def atacar(self, game, x, y, item, position, level=1):
+        # Invoca o ataque do jogador, considerando os buffs e delay
         if not self.attacking:
             self.attacking = True
             Attack(game, x, y, item, position, level)
@@ -362,12 +387,14 @@ class Player(pygame.sprite.Sprite):
             """
 
     def check_xp_level(self):
+        # Verifica se o personagem subiu de nível
         if self.xp >= self.levels(self.level):
             self.xp = self.xp - self.levels(self.level)
             self.level += 1
             self.game.level_up = True
             
     def levels(self, level):
+        # Define a experiência necessária para subir de nível
         xp_level_1 = 100
         
         #return int(xp_level_1*(1.5)**level)
@@ -377,11 +404,13 @@ class Player(pygame.sprite.Sprite):
             return 1000000
         
     def check_low_life(self):
+        # Verifica se a vida do jogador está baixa
         if (self.health / self.max_health) <= 0.2:
             self.low_life = True
         else:
             self.low_life = False
             
+        # Se estiver toca o som de coracao batendo
         if not self.heart_beating and self.low_life:
             self.game.sounds.all_sounds["low_life"].play(loops=-1)
             self.heart_beating = True
@@ -395,6 +424,7 @@ class Player(pygame.sprite.Sprite):
 class Attack(pygame.sprite.Sprite):
     def __init__(self, game, x, y, item, position, level):
         
+        # Define propriedades do ataque
         self.game = game
         self._layer = config.layers["player_layer"]
         self.groups = self.game.all_sprites, self.game.attacks
@@ -405,13 +435,16 @@ class Attack(pygame.sprite.Sprite):
         self.count_enemies = 0
         self.attack_sound = True
         
+        # Define a imagem inicial do ataque
         keys_animations = list(self.game.sprites.attack_animations[self.item].keys())
         self.image = self.game.sprites.attack_animations[self.item][keys_animations[0]][0]
         
+        # Calcula velocidade e direção do ataque usando vetores
         self.speed = config.itens_speed[self.item]
         direction = pygame.math.Vector2(position[0] - x, position[1] - y)
         self.velocity = direction.normalize() * self.speed
         
+        # Define a posição de ataque fora do jogador
         x_attack = x + direction.normalize()[0] * self.game.player.rect.width
         y_attack = y + direction.normalize()[1] * self.game.player.rect.height
         
@@ -431,9 +464,13 @@ class Attack(pygame.sprite.Sprite):
         
         
     def update(self):
+        # Atualiza o movimento do ataque
         self.movement()
+        # Atualiza a animação do ataque
         self.animate()
+        # Verifica se o ataque acertou algum inimigo
         self.collide_enemy()
+        # Atualiza a posição e verifica a colisão do ataque
         self.rect.x += self.x_change
         self.rect.y += self.y_change
         self.collide_blocks()
@@ -444,11 +481,13 @@ class Attack(pygame.sprite.Sprite):
         self.y_change = 0
         
     def movement(self):
+        # Calcula o descolamento nos eixos do ataque
         self.x_change = self.velocity[0]
         self.y_change = self.velocity[1]
         
     def animate(self):        
         [self.attack_animations] = self.game.sprites.attack_animations[self.item].values()
+        # Aplica o som do ataque
         self.game.play_sound(self.item, self.attack_sound)
         self.attack_sound = False
         
@@ -464,8 +503,10 @@ class Attack(pygame.sprite.Sprite):
             
     def collide_enemy(self):
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
+        # Verifica se o ataque acertou algum inimigo
         if hits:
             for sprite in hits:
+                # Se o inimigo tiver sido atingido e tiver dentro do limite de inimigos do ataque, ativa o dano do inimigo
                 if not sprite.damage and self.count_enemies <= config.enemies_attack_limit:
                     sprite.damage = True
                     sprite.damage_index = 0
@@ -476,6 +517,7 @@ class Attack(pygame.sprite.Sprite):
                 
                 
     def collide_blocks(self):
+        # Verifica se o ataque colidiu com o cenário, se colidir, destroi o ataque
         hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
         if hits:
             self.kill()

@@ -6,6 +6,7 @@ layers = {"player_layer": 3,
           "enemy_layer": 2,
           "block_layer": 1}
 
+# Define a vida maxima das entidades
 max_health = {"player": 1000,
               "enemies": {
                   "skeleton": 1000,
@@ -16,6 +17,7 @@ max_health = {"player": 1000,
                   }
               }
 
+# Define o dano dos objetos
 damage = {
     "enemies": {
         "skeleton": 10,
@@ -55,6 +57,7 @@ damage = {
         }
     }
 
+# Define os buffs das habilidades por nível
 buff = {
         "nice_boots": {
             1: 0.1 ,
@@ -104,6 +107,7 @@ buff = {
 # Variavel que define a velocidade do jogador
 player_speed = 9
 
+# Define o alcance dos itens
 itens_speed = {
     "wave": 1,
     "energy_ball": 10,
@@ -111,6 +115,7 @@ itens_speed = {
     "shotgun": 5
     }
 
+# Define a velocidade de animação dos itens
 item_animation_speed = {
     "wave": 0.1,
     "energy_ball": 0.1,
@@ -118,6 +123,7 @@ item_animation_speed = {
     "shotgun": 0.6
     }
 
+# Define os delays dos itens
 itens_delay = {
     "wave": 550,
     "energy_ball": 550,
@@ -125,11 +131,12 @@ itens_delay = {
     "shotgun": 750
     }
 
-# Variavel que define a velocidade base dos inimigos
+# Variavel que armazena todos os inimigos
 enemy_list = ["skeleton",
               "skeleton_hunter"
               ]
 
+# Define a velocidade dos inimigos
 enemy_speed = {
     "skeleton" : 3,
     "skeleton_boss": 5,
@@ -138,6 +145,7 @@ enemy_speed = {
     "goblin": 4,
 }
 
+# Variavel que define o xp dos inimigos
 enemy_xp = {
     "skeleton": 150,
     "skeleton_boss": 1000,
@@ -155,12 +163,14 @@ enemy_fov = {
     "goblin": 400
 }
 
+# Distancia minima dos inimigos para perseguir o jogador
 enemy_range = {
     "skeleton" : 40,
     "skeleton_boss": 40,
     "skeleton_hunter" : 200
     }
 
+# Lista de ataques inimigos para cada inimigo
 enemies_attack_list = {
     "skeleton": [],
     "skeleton_boss": [],
@@ -169,18 +179,21 @@ enemies_attack_list = {
     "goblin": [], # uma possível arma de machado?
     }
 
+# Alcance dos ataques inimigos
 enemy_attack_speed = {
     "knife": 10,
     "potion" : 10,
     "axe" : 10
     }
 
+# Velocidade de animação dos ataques inimigos
 enemy_attack_animation_speed = {
     "knife": 0.1,
     "potion": 0.1,
     "axe" : 0.1
     }
 
+# Delay dos ataques inimigos
 enemy_attack_delay = {
     "skeleton": 5000,
     "skeleton_boss": 550,
@@ -210,9 +223,12 @@ size = {"player": 60,
             }
         }
 
+# Delay de dano
 damage_delay = 400
 
+# Delay de spawn de despawn de inimigos
 spawn_delay = 400
 despawn_delay = 1000
 
+# Limite de inimigos por ataque
 enemies_attack_limit = 3

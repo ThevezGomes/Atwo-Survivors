@@ -2,6 +2,7 @@ from sprites import *
 
 class Sprites:
     def __init__(self):
+        # Armazena a localização dos sprites
         self.warrior_sprites = {
             "walk":{
                 "main_character_spritesheet": Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png"),
@@ -155,6 +156,7 @@ class Sprites:
             "Hugepotion": "../assets/drop_itens_sprites/hugepotion.png"
             }
         
+        # Armazena as posições dos sprites nas imagens para criar a animação
         self.warrior_animations = {
             "walk_animations": {
                 "walk_down_animations": [self.warrior_sprites["walk"]["main_character_spritesheet_walk_down"].get_sprite(12, 7, 22, 32),

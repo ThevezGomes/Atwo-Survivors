@@ -19,10 +19,12 @@ from drop_item import *
 
 class Game:
     def __init__(self):
+        # Inicia o pygame, o mixer de sons e a tela
         pygame.init()
         pygame.mixer.init()
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
+        # Define propriedades essenciais para o jogo
         self.clock = pygame.time.Clock()
         self.running = True
         self.paused = False
@@ -38,6 +40,7 @@ class Game:
         self.enemies_list = []
         self.difficulty_ratio = 1
         
+        # Define os buffs das habilidades
         self.buffs = {
             "attack": 0,
             "defense": 0,
@@ -75,6 +78,7 @@ class Game:
         self.dark_overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
         self.dark_overlay.fill((0, 0, 0, 180))  # Escure a tela de fundo
         
+        # Armazena os itens e armas que podem aparecer
         self.all_itens_classes = ["attacks", "abilities"]
         self.all_itens = ItemsArmazenamento().itens
         self.all_itens_max = ItemsArmazenamento().itens_player_max
@@ -111,9 +115,11 @@ class Game:
         #Grupo do sprites de colisão
         self.collidable_sprites = pygame.sprite.Group()
         
+        # Define uma lista aleatória de itens que podem aparecer no menu de Level Up
         self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
 
     def SpawnBoss(self):
+        # Despawna todos os inimigos e spawna o boss
         self.despawn_all_enemies()
         self.boss = Boss(self, "skeleton_boss", (self.screen.get_width()) // 2, (self.screen.get_height()) // 2, "Puro Osso", True)
         # Barra de vida do Boss
@@ -169,15 +175,20 @@ class Game:
         #Atualiza a barra de vida do jogador
         self.health_bar.amount = self.player.health 
         self.health_bar.max = self.player.max_health 
+        # Atualiza a barra de experiência do jogador
         self.experience_bar.level = self.player.level
         self.experience_bar.max = self.experience_bar.levels(self.player.level)
         self.experience_bar.amount = self.player.xp
+        # Atualiza os itens que apareceram no menu de Level Up
         self.items_list_choice()
         self.game_timer.update() # Atualisa o timer
+        
+        # Spawna os inimigos
         if self.allow_spawn_enemies:
             self.spawn_enemies()
         self.cheats()
         
+        # Atualiza a barra de vida do boss
         if self.spawned_boss:
             self.boss_bar.amount = self.boss.health
         
@@ -200,22 +211,27 @@ class Game:
                         self.game_timer.resume() # Retorna o relogio
                 if event.key == pygame.K_e:
                     self.buffs["life"] += 0.2
-                    
+            
+            # Cria o ataque do jogador quando é apertado o botao direito do mouse        
             elif pygame.mouse.get_pressed()[0]:
+                # Ataca com o ataque base se nada tiver selecionado
                 if self.inventory.selected_item_index != None:
                     self.mouse_position = pygame.mouse.get_pos()
                     self.player.atacar(self, self.player.rect.x + self.player.rect.width/2, self.player.rect.y + self.player.rect.height/2, self.inventory.items[self.inventory.selected_item_index][0].kind, self.mouse_position, self.inventory.items[self.inventory.selected_item_index][0].level)
+                # Ataca com a arma selecionada
                 else:
                     self.mouse_position = pygame.mouse.get_pos()
                     self.player.atacar(self, self.player.rect.x + self.player.rect.width/2, self.player.rect.y + self.player.rect.height/2, "wave", self.mouse_position)
             self.inventory.selection_event(event)
 
+        # Chama o menu de Level Up quando subir de nível
         if self.level_up == True:
                 self.game_timer.pause() 
                 pygame.time.delay(350)
                 self.level_up_menu(self.itens)
                 self.game_timer.resume()
         
+        # Se o jogador tiver com a vida zerada, ativa a morte do jogador e o som de game over
         if self.player.health <= 0:
             self.player.death = True
             self.player.game_over_sound = True
@@ -504,13 +520,16 @@ class Game:
                         self.paused = False  # Retomar o jogo
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if resume_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        # Aplica o som de botao
                         self.play_sound("button_sound")
                         self.paused = False  # Retomar o jogo
                     if restart_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        # Aplica o som de botao
                         self.play_sound("button_sound")
                         self.paused = False  # Retomar o jogo
                         self.restart = True
                     elif exit_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        # Aplica o som de botao
                         self.play_sound("button_sound")
                         self.running = False
                         pygame.quit()
@@ -567,13 +586,17 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    # Primeiro Item Selecionado
                     if item1.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        # Aplica o som de botao
                         self.play_sound("button_sound")
+                        # Evita upar mais de uma vez
                         if self.level_up:
                             self.level_up = False  # Retomar o jogo
-                            # TESTES PARA NIVEL MAXIMO
+                            # Coloca o item selecionado no seu inventario
                             if isinstance(itens[0], Item):
                                 self.inventory.add_item(itens[0])
+                                # Se o item tiver no maximo remove o item da lista de itens que podem aparecer
                                 if itens[0].level == itens[0].max_level:
                                     try:
                                         self.all_itens["attacks"].pop(itens[0].kind)
@@ -581,11 +604,13 @@ class Game:
                                         pass
                             if isinstance(itens[0], Ability):
                                 self.skills_hub.add_item(itens[0])
+                                # Se o item tiver no maximo remove o item da lista de itens que podem aparecer
                                 if itens[0].level == itens[0].max_level:
                                     try:
                                         self.all_itens["abilities"].pop(itens[0].kind)
                                     except ValueError:
                                         pass
+                            # Se for um consumivel, aplica o consumivel
                             if isinstance(itens[0], Consumible):
                                 if itens[0].kind == "Baconseed":
                                     if self.player.health + (self.player.max_health // 2) > self.player.max_health:
@@ -594,12 +619,17 @@ class Game:
                                         self.player.health += (self.player.max_health // 2)
                                 elif itens[0].kind == "Starpotion":
                                     self.player.xp += 10
+                    # Segundo Item Selecionado
                     elif item2.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        # Aplica o som de botao
                         self.play_sound("button_sound")
+                        # Evita upar mais de uma vez
                         if self.level_up:
                             self.level_up = False  # Retomar o jogo
+                            # Adiciona o item no seu inventário
                             if isinstance(itens[1], Item):
                                 self.inventory.add_item(itens[1])
+                                # Se o item tiver no maximo remove o item da lista de itens que podem aparecer
                                 if itens[1].level == itens[1].max_level:
                                     try:
                                         self.all_itens["attacks"].pop(itens[1].kind)
@@ -607,11 +637,13 @@ class Game:
                                         pass
                             if isinstance(itens[1], Ability):
                                 self.skills_hub.add_item(itens[1])
+                                # Se o item tiver no maximo remove o item da lista de itens que podem aparecer
                                 if itens[1].level == itens[1].max_level:
                                     try:
                                         self.all_itens["abilities"].pop(itens[1].kind)
                                     except ValueError:
                                         pass
+                            # Se for consumivel, aplica o consumivel
                             if isinstance(itens[1], Consumible):
                                 if itens[1].kind == "Baconseed":
                                     if self.player.health + (self.player.max_health // 2) > self.player.max_health:
@@ -620,12 +652,17 @@ class Game:
                                         self.player.health += (self.player.max_health // 2)
                                 elif itens[1].kind == "Starpotion":
                                     self.player.xp += 10
+                    # Terceiro Item Selecionado                
                     elif item3.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        # Aplica o som de botao
                         self.play_sound("button_sound")
+                        # Evita que upa mais de uma vez
                         if self.level_up:
                             self.level_up = False  # Retomar o jogo
+                            # Adiciona o item ao seu inventário
                             if isinstance(itens[2], Item):
                                 self.inventory.add_item(itens[2])
+                                # Se o item tiver no maximo remove o item da lista de itens que podem aparecer
                                 if itens[2].level == itens[2].max_level:
                                     try:
                                         self.all_itens["attacks"].pop(itens[2].kind)
@@ -633,11 +670,13 @@ class Game:
                                         pass
                             if isinstance(itens[2], Ability):
                                 self.skills_hub.add_item(itens[2])
+                                # Se o item tiver no maximo remove o item da lista de itens que podem aparecer
                                 if itens[2].level == itens[2].max_level:
                                     try:
                                         self.all_itens["abilities"].pop(itens[2].kind)
                                     except ValueError:
                                         pass
+                            # Se for um consumivel, aplica o consumivel
                             if isinstance(itens[2], Consumible):
                                 if itens[2].kind == "Baconseed":
                                     if self.player.health + (self.player.max_health // 2) > self.player.max_health:
@@ -663,17 +702,21 @@ class Game:
             self.clock.tick(60)
             
     def spawn_enemies(self):
+        # Enquanto tiver menos que o limite de inimigos
         if len(self.enemies_list) < 20:
             if not self.spawning:
                 self.spawning = True
                 enemies_to_spawn = config.enemy_list
+                # Escolhe aleatoriamente o inimigo para spawn
                 enemy_kind = random.choice(enemies_to_spawn)
+                # Spawna o inimigo
                 self.enemies_list.append(Enemy(self,
                                           enemy_kind,
                                           (self.screen.get_width() - config.char_size[0]) * random.random(), 
                                           (self.screen.get_height() - config.char_size[1]) * random.random()))
 
                 self.spawn_time = pygame.time.get_ticks()
+            # Adiciona um delay entre cada spawn de inimigo
             else:
                 current_time = pygame.time.get_ticks()
                 if current_time - self.spawn_time > config.spawn_delay:
@@ -681,6 +724,7 @@ class Game:
                     
                     
     def buffs_apply(self):
+        # Altera o valor dos buffs conforme o nível da habilidade
         for ability in self.skills_hub.items:
             self.buffs[ability[0].buff] = config.buff[ability[0].kind][ability[0].level]
 
@@ -715,6 +759,7 @@ class Game:
             self.player.health = self.player.max_health
             
     def items_list_choice(self):
+        # Se o inventario de armas tiver cheio, coloca apenas os itens que já estão no inventário para aparecerem
         if len(self.inventory.items) >= self.inventory.max_slots:
             if self.update_items:
                 items = {}
@@ -722,6 +767,7 @@ class Game:
                     items[item[0].kind] = item[0]
                 self.all_itens["attacks"] = items
                 self.update_items = False
+        # Se o inventario de habilidades tiver cheio, coloca apenas os itens que já estão no inventário para aparecerem        
         if len(self.skills_hub.items) >= self.skills_hub.max_slots:
             if self.update_abilities:
                 abilities = {}
@@ -729,21 +775,29 @@ class Game:
                     abilities[ability[0].kind] = ability[0]
                 self.all_itens["abilities"] = abilities
                 self.update_abilities = False
+        # Se todos os ataques já estão no máximo, remove os ataques dos itens que podem aparecer        
         if "attacks" in self.all_itens_classes:
             if self.all_itens["attacks"] == {}:
                 self.all_itens_classes.remove("attacks")
+        # Se todos as habilidades já estão no máximo, remove as habilidades dos itens que podem aparecer
         if "abilities" in self.all_itens_classes:
             if self.all_itens["abilities"] == {}:
                 self.all_itens_classes.remove("abilities")
+        # Se todos itens estiverem no máximo, remove todos itens
         if self.all_itens_classes == []:
             self.itens = {}
+            
+        # Se tiver itens que não estão no máximo, escolhe itens para aparecerem no menu de Level Up
         if self.itens != {}:
             self.itens = [random.choice(list(self.all_itens[random.choice(self.all_itens_classes)].values())), random.choice(list(self.all_itens[random.choice(self.all_itens_classes)].values())), random.choice(list(self.all_itens[random.choice(self.all_itens_classes)].values()))]
+        # Se todos os itens já estiverem no máximo, escolhe itens de nível máximo para aparecerem no menu de Level Up
         else:
             self.itens = [random.choice(list(self.all_itens_max.values())), random.choice(list(self.all_itens_max.values())), random.choice(list(self.all_itens_max.values()))]
            
     def despawn_all_enemies(self):
+        # Impede o nascimento de inimigos
         self.allow_spawn_enemies = False
+        # Remove todos os inimigos
         for enemy in self.enemies_list:
             try:
                 self.enemies_list.remove(self)
@@ -752,5 +806,6 @@ class Game:
             enemy.kill()
         
     def play_sound(self, sound, checker=True):
+        # Caso seja validado, toca o som recebido
         if checker:
             self.sounds.all_sounds[sound].play()
