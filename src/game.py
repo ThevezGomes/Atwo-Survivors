@@ -304,35 +304,15 @@ class Game:
 
     def spawn_item(self):
         #Quantidade de tentativas para o item encontra o local ideal para nascer
-        spawn_attempts = 8
+        spawn_attempts = 12
         spawn_probability = 0.8
-
-        # Controla o tempo para o spawn de Giantpotion
-        current_time = pygame.time.get_ticks()
-
-        # Inicializa o tempo do último spawn da Giantpotion
-        if not hasattr(self, 'last_giantpotion_spawn'):
-            self.last_giantpotion_spawn = 0
-
-        spawn_positions = [(315, -208)]  # Posições fixas para o Giantpotion
-
-        # Spawna Giantpotion a cada 15 segundos em uma posição fixa
-        if current_time - self.last_giantpotion_spawn >= 10000:
-            self.last_giantpotion_spawn = current_time
-            for pos in spawn_positions:
-                spawn_x, spawn_y = pos
-                # Cria a Giantpotion nas posições fixas
-                giantpotion = ItemDrop(spawn_x, spawn_y, "Giantpotion")
-                self.item_sprites.add(giantpotion)
-                self.all_sprites.add(giantpotion)
-            return
             
         if random.random() > spawn_probability:
             return
 
         for _ in range(spawn_attempts):
-            spawn_x = random.randint(5,3080)
-            spawn_y = random.randint(5,3080)
+            spawn_x = random.randint(-20, 50)
+            spawn_y = random.randint(-20, 50)
             spawn_pos = pygame.Rect(spawn_x, spawn_y, 1, 1)
 
         #Verifica se a posição gerada não bate com a de um objeto
