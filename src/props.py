@@ -3,11 +3,11 @@ from repositorio_sprites import *
 
 class Item:
     def __init__(self, kind, name, description, level= 1, max_level = 5):
-        self.kind = kind
+        self.kind = kind  # Tipo do item
         self.name = name  # Nome do item
         self.description = description  # Descrição do item
-        self.level = level
-        self.max_level = max_level
+        self.level = level  # Nivel
+        self.max_level = max_level  # Nivel maximo
         
         # Carrega o sprite do item a partir de um caminho de imagem
         self.sprite = Sprites().attack_sprites[kind]["icon"]
@@ -15,12 +15,12 @@ class Item:
 
 class Ability:
     def __init__(self, kind, name, description, buff, level= 1, max_level = 5):
-        self.kind = kind
+        self.kind = kind  # Tipo do item
         self.name = name  # Nome do item
         self.description = description  # Descrição do item
-        self.buff = buff
-        self.level = level
-        self.max_level = max_level
+        self.buff = buff  # Buff
+        self.level = level  # Nivel
+        self.max_level = max_level  # Nivel maximo
         
         # Carrega o sprite do item a partir de um caminho de imagem
         self.sprite = Sprites().abilities_sprites[kind]
@@ -28,7 +28,7 @@ class Ability:
         
 class Consumible:
     def __init__(self, kind, name, description):
-        self.kind = kind
+        self.kind = kind  # Tipo do item
         self.name = name  # Nome do item
         self.description = description  # Descrição do item
         

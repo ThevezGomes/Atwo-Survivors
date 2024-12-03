@@ -1,6 +1,7 @@
 import pygame
 
 class Sound:
+    # Armazena todos os efeitos sonoros e musicas, assim como ajusta os volumes
     def __init__(self):
         self.all_sounds = {"warrior_hurt_sound": pygame.mixer.Sound("../assets/sounds/warrior_hurt_sound.wav"),
                            "game_over_sound": pygame.mixer.Sound("../assets/sounds/game_over_sound.wav"),
