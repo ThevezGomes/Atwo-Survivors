@@ -162,7 +162,8 @@ enemy_range = {
     "skeleton_boss": 40,
     "skeleton_hunter" : 200,
     "cultist": 50,
-    "goblin": 30
+    "goblin": 40,
+    "test_kind": 20
     }
 
 enemies_attack_list = {

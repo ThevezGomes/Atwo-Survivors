@@ -9,6 +9,8 @@ import sprites
 import repositorio_sprites as rs
 
 class Enemy(pygame.sprite.Sprite):
+
+    
     def __init__(self, game, kind, x, y):
 
         # Invocação
