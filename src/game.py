@@ -121,9 +121,9 @@ class Game:
     def SpawnBoss(self):
         # Despawna todos os inimigos e spawna o boss
         self.despawn_all_enemies()
-        self.boss = Boss(self, "skeleton_boss", (self.screen.get_width()) // 2, (self.screen.get_height()) // 2, "Puro Osso", True)
+        self.boss = Boss(self, "envoy_of_the_divine_beast", (self.screen.get_width()) // 2, (self.screen.get_height()) // 2, "Enviada da Besta Divina", True)
         # Barra de vida do Boss
-        self.boss_bar = BossBar(max=config.max_health["enemies"]["skeleton_boss"], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=75, boss_name=self.boss.name)
+        self.boss_bar = BossBar(max=config.max_health["enemies"]["envoy_of_the_divine_beast"], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=75, boss_name=self.boss.name)
         self.spawned_boss = True
 
     def new(self):

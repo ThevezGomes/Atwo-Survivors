@@ -23,6 +23,8 @@ class Enemy(pygame.sprite.Sprite):
         self.health = config.max_health["enemies"][kind]
         self.attacking = False
         self.attack_time = 0
+        self.animation_speed = config.enemy_animation_speed[self.kind]
+        self.damage_animation_speed = config.enemy_damage_animation_speed[self.kind]
         
         self.damage = False
         self.damage_time = 0
@@ -126,7 +128,6 @@ class Enemy(pygame.sprite.Sprite):
 
     
     def animate(self):
-
         [self.walk_down_animations, self.walk_up_animations, self.walk_right_animations, self.walk_left_animations]  = self.game.sprites.enemy_animations[self.kind]["walk_animations"].values()
 
         # Para cada direcao que o inimigo olha, ajusta a animacao correspondente e o tamanho da imagem
@@ -137,7 +138,7 @@ class Enemy(pygame.sprite.Sprite):
                  # Cria o loop de animacao
                  self.image = self.walk_down_animations[math.floor(self.animation_loop)]
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
-                 self.animation_loop += 0.2
+                 self.animation_loop += self.animation_speed
                  if self.animation_loop >= (len(self.walk_down_animations) - 1):
                      self.animation_loop = 1
             
@@ -148,7 +149,7 @@ class Enemy(pygame.sprite.Sprite):
                  # Cria o loop de animacao
                  self.image = self.walk_up_animations[math.floor(self.animation_loop)]
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
-                 self.animation_loop += 0.2
+                 self.animation_loop += self.animation_speed
                  if self.animation_loop >= (len(self.walk_up_animations) - 1):
                      self.animation_loop = 1
                      
@@ -159,7 +160,7 @@ class Enemy(pygame.sprite.Sprite):
                  # Cria o loop de animacao
                  self.image = self.walk_right_animations[math.floor(self.animation_loop)]
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
-                 self.animation_loop += 0.2
+                 self.animation_loop += self.animation_speed
                  if self.animation_loop >= (len(self.walk_right_animations) - 1):
                      self.animation_loop = 1
                      
@@ -170,7 +171,7 @@ class Enemy(pygame.sprite.Sprite):
                  # Cria o loop de animacao
                  self.image = self.walk_left_animations[math.floor(self.animation_loop)]
                  # Ajusta a velocidade com que o loop ocorre nessa direcao
-                 self.animation_loop += 0.2
+                 self.animation_loop += self.animation_speed
                  if self.animation_loop >= (len(self.walk_left_animations) - 1):
                      self.animation_loop = 1
                      
@@ -205,7 +206,7 @@ class Enemy(pygame.sprite.Sprite):
         # Cria a animação do inimigo
         if self.facing == "down":
             current_time = pygame.time.get_ticks()
-            if current_time - self.damage_time > 50:  # Troca de frame a cada 50ms
+            if current_time - self.damage_time > self.damage_animation_speed:  # Troca de frame a cada 50ms
                 self.damage_time = current_time
                 if self.damage_index < len(self.hurt_down_animations):
                     self.image = self.hurt_down_animations[self.damage_index]
@@ -216,7 +217,7 @@ class Enemy(pygame.sprite.Sprite):
 
         if self.facing == "up":
             current_time = pygame.time.get_ticks()
-            if current_time - self.damage_time > 50:  # Troca de frame a cada 50ms
+            if current_time - self.damage_time > self.damage_animation_speed:  # Troca de frame a cada 50ms
                 self.damage_time = current_time
                 if self.damage_index < len(self.hurt_up_animations):
                     self.image = self.hurt_up_animations[self.damage_index]
@@ -226,7 +227,7 @@ class Enemy(pygame.sprite.Sprite):
                
         if self.facing == "right":
             current_time = pygame.time.get_ticks()
-            if current_time - self.damage_time > 50:  # Troca de frame a cada 50ms
+            if current_time - self.damage_time > self.damage_animation_speed:  # Troca de frame a cada 50ms
                 self.damage_time = current_time
                 if self.damage_index < len(self.hurt_right_animations):
                     self.image = self.hurt_right_animations[self.damage_index]
@@ -236,7 +237,7 @@ class Enemy(pygame.sprite.Sprite):
                 
         if self.facing == "left":
             current_time = pygame.time.get_ticks()
-            if current_time - self.damage_time > 50:  # Troca de frame a cada 50ms
+            if current_time - self.damage_time > self.damage_animation_speed:  # Troca de frame a cada 50ms
                 self.damage_time = current_time
                 if self.damage_index < len(self.hurt_left_animations):
                     self.image = self.hurt_left_animations[self.damage_index]

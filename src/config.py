@@ -14,6 +14,7 @@ max_health = {"player": 1000,
                   "skeleton_hunter": 1000,
                   "cultist": 2000,
                   "goblin": 1500,
+                  "envoy_of_the_divine_beast": 10000
                   }
               }
 
@@ -25,6 +26,7 @@ damage = {
         "skeleton_hunter": 10,
         "cultist": 15,
         "goblin": 20,
+        "envoy_of_the_divine_beast": 30
         },
     "enemies_attack": {
         "knife": 20
@@ -133,7 +135,9 @@ itens_delay = {
 
 # Variavel que armazena todos os inimigos
 enemy_list = ["skeleton",
-              "skeleton_hunter"
+              "skeleton_hunter",
+              "cultist",
+              "goblin"
               ]
 
 # Define a velocidade dos inimigos
@@ -143,7 +147,26 @@ enemy_speed = {
     "skeleton_hunter": 2,
     "cultist": 2,
     "goblin": 4,
+    "envoy_of_the_divine_beast": 5
 }
+
+enemy_animation_speed = {
+    "skeleton" : 0.2,
+    "skeleton_boss": 0.2,
+    "skeleton_hunter": 0.2,
+    "cultist": 0.2,
+    "goblin": 0.2,
+    "envoy_of_the_divine_beast": 0.2
+    }
+
+enemy_damage_animation_speed = {
+    "skeleton" : 50,
+    "skeleton_boss": 50,
+    "skeleton_hunter": 50,
+    "cultist": 50,
+    "goblin": 50,
+    "envoy_of_the_divine_beast": 50
+    }
 
 # Variavel que define o xp dos inimigos
 enemy_xp = {
@@ -152,6 +175,7 @@ enemy_xp = {
     "skeleton_hunter": 200,
     "cultist": 250,
     "goblin": 250,
+    "envoy_of_the_divine_beast": 2000
     }
 
 # Campo de visão do inimigo
@@ -160,14 +184,18 @@ enemy_fov = {
     "skeleton_boss": 800,
     "skeleton_hunter" : 1000,
     "cultist": 900,
-    "goblin": 400
+    "goblin": 800,
+    "envoy_of_the_divine_beast": 800
 }
 
 # Distancia minima dos inimigos para perseguir o jogador
 enemy_range = {
     "skeleton" : 40,
     "skeleton_boss": 40,
-    "skeleton_hunter" : 200
+    "cultist": 40,
+    "goblin": 40,
+    "skeleton_hunter" : 200,
+    "envoy_of_the_divine_beast": 40
     }
 
 # Lista de ataques inimigos para cada inimigo
@@ -177,6 +205,7 @@ enemies_attack_list = {
     "skeleton_hunter": ["knife"],
     "cultist": [], # uma possível potion?
     "goblin": [], # uma possível arma de machado?
+    "envoy_of_the_divine_beast": ["knife"]
     }
 
 # Alcance dos ataques inimigos
@@ -200,6 +229,7 @@ enemy_attack_delay = {
     "skeleton_hunter": 15000,
     "cultist": 5000,
     "goblin": 5000,
+    "envoy_of_the_divine_beast": 2000
     }
 
 # Cor vermelha em rgb
@@ -219,7 +249,8 @@ size = {"player": 60,
             "skeleton_hunter": 60,
             "cultist": 60,
             "goblin": 70,
-            "knife": 30
+            "knife": 30,
+            "envoy_of_the_divine_beast": 100
             }
         }
 
