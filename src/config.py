@@ -212,14 +212,34 @@ enemy_range = {
     "envoy_of_the_divine_beast": 40
     }
 
+enemy_range_attack = {
+    "skeleton" : 200,
+    "skeleton_boss": 200,
+    "cultist": 40,
+    "goblin": 200,
+    "skeleton_hunter" : 40,
+    "envoy_of_the_divine_beast": 200
+    }
+
 # Lista de ataques inimigos para cada inimigo
 enemies_attack_list = {
-    "skeleton": ["acid"],
-    "skeleton_boss": ["sword", "knife", "sword_slash"],
+    "skeleton": ["sword_slash"],
+    "skeleton_boss": ["sword", "knife", "sword_slash", "spawn_minions"],
     "skeleton_hunter": ["arrow"],
     "cultist": ["fire_ball"], # uma possível potion?
     "goblin": ["axe"], # uma possível arma de machado?
-    "envoy_of_the_divine_beast": ["acid"]
+    "envoy_of_the_divine_beast": ["acid", "spawn_minions"]
+    }
+
+enemies_attack_kind = {
+    "knife": "far",
+    "arrow": "far",
+    "axe": "far",
+    "fire_ball": "far",
+    "sword": "far",
+    "sword_slash": "near",
+    "acid": "far",
+    "spawn_minions": "spawn"
     }
 
 # Alcance dos ataques inimigos
@@ -252,6 +272,11 @@ enemy_attack_delay = {
     "cultist": 5000,
     "goblin": 5000,
     "envoy_of_the_divine_beast": 2000
+    }
+
+minions_list = {
+    "skeleton_boss": ["skeleton"],
+    "envoy_of_the_divine_beast": ["cultist"]
     }
 
 # Cor vermelha em rgb

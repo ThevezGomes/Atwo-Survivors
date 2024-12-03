@@ -25,6 +25,8 @@ class Enemy(pygame.sprite.Sprite):
         self.attack_time = 0
         self.animation_speed = config.enemy_animation_speed[self.kind]
         self.damage_animation_speed = config.enemy_damage_animation_speed[self.kind]
+        self.spawning = False
+        self.spawn_minions_time = 0
         
         self.damage = False
         self.damage_time = 0
@@ -37,6 +39,8 @@ class Enemy(pygame.sprite.Sprite):
         # Invocar IA
 
         self.ai = Enemy_AI(self)
+        
+        self.minions_list = []
   
         pygame.sprite.Sprite.__init__(self, self.groups)
 
@@ -98,8 +102,15 @@ class Enemy(pygame.sprite.Sprite):
             if not self.attacking:
                 self.attacking = True
                 attack = random.choice(config.enemies_attack_list[self.kind])
-                EnemyAttack(game, attack, self)
-                self.attack_time = pygame.time.get_ticks()
+                if config.enemies_attack_kind[attack] == "near":
+                    if self.ai.distance_vector(self.game.player) <= config.enemy_range_attack[self.kind]:
+                        EnemyAttack(game, attack, self)
+                        self.attack_time = pygame.time.get_ticks()
+                elif config.enemies_attack_kind[attack] == "spawn":
+                    self.spawn_minions()
+                else:
+                    EnemyAttack(game, attack, self)
+                    self.attack_time = pygame.time.get_ticks()
             # Aplica delay no ataque
             else:
                 current_time = pygame.time.get_ticks()
@@ -245,6 +256,25 @@ class Enemy(pygame.sprite.Sprite):
                 else:
                     self.damage = False
                     
+    def spawn_minions(self):
+        if not self.spawning:
+            self.spawning = True
+            # Enquanto tiver menos que o limite de inimigos
+            if len(self.minions_list) < 20:
+                enemies_to_spawn = config.minions_list[self.kind]
+                # Escolhe aleatoriamente o inimigo para spawn
+                enemy_kind = random.choice(enemies_to_spawn)
+                # Spawna o inimigo
+                self.minions_list.append(Minion(self.game,
+                                          enemy_kind,
+                                          (self.rect.width + (self.rect.x/2)), 
+                                          (self.rect.height + (self.rect.y/2)), self))
+                self.spawn_minions_time = pygame.time.get_ticks()
+        else:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.spawn_minions_time > config.enemy_attack_delay[self.kind]:
+                self.spawning = False
+                    
 class Boss(Enemy):
     def __init__(self, game, kind, x, y, name, last_boss=False):
         # Inicializa o boss assim como um inimigo, apenas alterando a IA, o nome e a condição de último boss
@@ -352,3 +382,33 @@ class EnemyAttack(pygame.sprite.Sprite):
         hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
         if hits:
             self.kill()
+            
+class Minion(Enemy):
+    def __init__(self, game, kind, x, y, enemy):
+        # Inicializa o boss assim como um inimigo, apenas alterando a IA, o nome e a condição de último boss
+        super().__init__(game, kind, x, y)
+        self.enemy = enemy
+        
+    def check_health(self):
+        # Verifica se o inimigo foi morto, se morrer, remove o inimigo e adiciona o xp ao player
+        if self.health <= 0:
+            try:
+                self.enemy.minions_list.remove(self)
+            except ValueError:
+                pass
+            self.kill()
+            self.game.player.xp += config.enemy_xp[self.kind]
+            
+            
+    def despawn(self):
+        # Se o inimigo parar de seguir o jogador por conta da grande distância, apaga o inimigo
+        if not self.ai.track_player:
+            current_time = pygame.time.get_ticks()
+            # Aplica delay no despawn
+            if current_time - self.ai.time_untracked > config.despawn_delay:
+                try:
+                    self.enemy.minions_list.remove(self)
+                except ValueError:
+                    pass
+                self.kill()
+        
