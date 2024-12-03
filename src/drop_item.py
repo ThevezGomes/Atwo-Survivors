@@ -5,7 +5,24 @@ from main_character import *
 import math
 
 class ItemDrop(pygame.sprite.Sprite):
+    """
+    Classe para representar um item dropado no jogo. 
+    Cada item possui um tipo, uma imagem associada, um tempo de vida e pode aplicar efeitos no jogador.
+
+    Args:
+        x (int): Coordenada x da posição inicial do item.
+        y (int): Coordenada y da posição inicial do item.
+        item_type (str): Tipo do item (e.g., 'Baconseed', 'Baconfruit', 'Starpotion', 'Hugepotion').
+
+    Attributes:
+        item_type (str): Tipo do item.
+        spawn_time (int): Momento (em milissegundos) em que o item foi criado.
+        lifetime (int): Tempo de vida total do item, em milissegundos.
+        image (pygame.Surface): Imagem que representa o item.
+        rect (pygame.Rect): Retângulo delimitador para posicionamento e colisão do item.
+    """
     def __init__(self, x, y, item_type):
+        
         super().__init__()
         self.item_type = item_type  # 
         self.spawn_time = pygame.time.get_ticks()
@@ -29,6 +46,12 @@ class ItemDrop(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(x, y))  # Define a posição do item
     
     def update(self):
+
+        """
+        Atualiza o estado do item, incluindo o controle de tempo de vida e efeitos visuais.
+        Remove o item caso seu tempo de vida expire.
+        """
+
         current_time = pygame.time.get_ticks()
         time_left = self.lifetime - (current_time - self.spawn_time)
     
@@ -43,6 +66,20 @@ class ItemDrop(pygame.sprite.Sprite):
         
 
     def apply_effect(self, player):
+        
+        """
+        Aplica o efeito do item no jogador.
+        
+        Args:
+            player (Player): Objeto do jogador que coletou o item.
+
+        Efeitos:
+            - Baconseed: Recupera 50% da vida máxima do jogador.
+            - Baconfruit: Recupera 100% da vida máxima do jogador.
+            - Starpotion: Aumenta o XP atual em 40%.
+            - Hugepotion: Aumenta o XP atual em 60%.
+        """
+
         # Aplica o efeito do item no jogador
         if self.item_type == 'Baconseed':
             if player.health + (player.max_health // 2) > player.max_health:
