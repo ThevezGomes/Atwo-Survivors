@@ -15,6 +15,7 @@ import repositorio_sprites as rs
 import repositorio_sons as rsound
 import random
 import numpy as np
+import math
 from drop_item import * 
 
 class Game:
@@ -205,6 +206,8 @@ class Game:
         for item in collided_items:
             # Aplica o efeito do item
             item.apply_effect(self.player)  
+            
+        print(len(self.enemies_list))
 
     def run(self):
         for event in pygame.event.get():
@@ -717,11 +720,15 @@ class Game:
                 enemies_to_spawn = config.enemy_list
                 # Escolhe aleatoriamente o inimigo para spawn
                 enemy_kind = random.choice(enemies_to_spawn)
+                angle = random.uniform(0, 2 * math.pi)
+                radius = (self.screen.get_height() ** 2 + self.screen.get_width() ** 2) ** 0.5 / 2
+                x = radius * math.cos(angle)
+                y = radius * math.sin(angle)
                 # Spawna o inimigo
                 self.enemies_list.append(Enemy(self,
                                           enemy_kind,
-                                          (self.screen.get_width() - config.char_size[0]) * random.random(), 
-                                          (self.screen.get_height() - config.char_size[1]) * random.random()))
+                                          (x + self.player.rect.x + self.player.rect.width / 2), 
+                                          (y + self.player.rect.y + self.player.rect.height / 2)))
 
                 self.spawn_time = pygame.time.get_ticks()
             # Adiciona um delay entre cada spawn de inimigo
@@ -807,11 +814,12 @@ class Game:
         self.allow_spawn_enemies = False
         # Remove todos os inimigos
         for enemy in self.enemies_list:
-            try:
-                self.enemies_list.remove(self)
-            except ValueError:
-                pass
+            # try:
+            #     self.enemies_list.remove(enemy)
+            # except ValueError:
+            #     pass
             enemy.kill()
+        self.enemies_list = []
         
     def play_sound(self, sound, checker=True):
         # Caso seja validado, toca o som recebido

@@ -14,7 +14,8 @@ max_health = {"player": 1000,
                   "skeleton_hunter": 1000,
                   "cultist": 2000,
                   "goblin": 1500,
-                  "envoy_of_the_divine_beast": 10000
+                  "envoy_of_the_divine_beast": 10000,
+                  "cockroach": 500
                   }
               }
 
@@ -26,7 +27,8 @@ damage = {
         "skeleton_hunter": 10,
         "cultist": 15,
         "goblin": 20,
-        "envoy_of_the_divine_beast": 30
+        "envoy_of_the_divine_beast": 30,
+        "cockroach": 10
         },
     "enemies_attack": {
         "knife": 20,
@@ -161,7 +163,8 @@ enemy_speed = {
     "skeleton_hunter": 2,
     "cultist": 2,
     "goblin": 4,
-    "envoy_of_the_divine_beast": 5
+    "envoy_of_the_divine_beast": 5,
+    "cockroach": 6
 }
 
 enemy_animation_speed = {
@@ -170,7 +173,8 @@ enemy_animation_speed = {
     "skeleton_hunter": 0.2,
     "cultist": 0.2,
     "goblin": 0.2,
-    "envoy_of_the_divine_beast": 0.2
+    "envoy_of_the_divine_beast": 0.2,
+    "cockroach": 0.2
     }
 
 enemy_damage_animation_speed = {
@@ -179,7 +183,8 @@ enemy_damage_animation_speed = {
     "skeleton_hunter": 50,
     "cultist": 50,
     "goblin": 50,
-    "envoy_of_the_divine_beast": 50
+    "envoy_of_the_divine_beast": 50,
+    "cockroach": 50
     }
 
 # Variavel que define o xp dos inimigos
@@ -189,18 +194,10 @@ enemy_xp = {
     "skeleton_hunter": 200,
     "cultist": 250,
     "goblin": 250,
-    "envoy_of_the_divine_beast": 2000
+    "envoy_of_the_divine_beast": 2000,
+    "cockroach": 50
     }
 
-# Campo de visão do inimigo
-enemy_fov = {
-    "skeleton" : 800,
-    "skeleton_boss": 800,
-    "skeleton_hunter" : 1000,
-    "cultist": 900,
-    "goblin": 800,
-    "envoy_of_the_divine_beast": 800
-}
 
 # Distancia minima dos inimigos para perseguir o jogador
 enemy_range = {
@@ -209,7 +206,8 @@ enemy_range = {
     "cultist": 40,
     "goblin": 40,
     "skeleton_hunter" : 200,
-    "envoy_of_the_divine_beast": 40
+    "envoy_of_the_divine_beast": 40,
+    "cockroach": 40
     }
 
 enemy_range_attack = {
@@ -218,17 +216,19 @@ enemy_range_attack = {
     "cultist": 40,
     "goblin": 200,
     "skeleton_hunter" : 40,
-    "envoy_of_the_divine_beast": 200
+    "envoy_of_the_divine_beast": 200,
+    "cockroach": 40
     }
 
 # Lista de ataques inimigos para cada inimigo
 enemies_attack_list = {
-    "skeleton": ["sword_slash"],
-    "skeleton_boss": ["sword", "knife", "sword_slash", "spawn_minions"],
+    "skeleton": [],
+    "skeleton_boss": ["sword", "knife", "sword_slash"],
     "skeleton_hunter": ["arrow"],
     "cultist": ["fire_ball"], # uma possível potion?
     "goblin": ["axe"], # uma possível arma de machado?
-    "envoy_of_the_divine_beast": ["acid", "spawn_minions"]
+    "envoy_of_the_divine_beast": ["acid", "spawn_minions"],
+    "cockroach": []
     }
 
 enemies_attack_kind = {
@@ -271,12 +271,12 @@ enemy_attack_delay = {
     "skeleton_hunter": 15000,
     "cultist": 5000,
     "goblin": 5000,
-    "envoy_of_the_divine_beast": 2000
+    "envoy_of_the_divine_beast": 2000,
+    "cockroach": 5000
     }
 
 minions_list = {
-    "skeleton_boss": ["skeleton"],
-    "envoy_of_the_divine_beast": ["cultist"]
+    "envoy_of_the_divine_beast": ["cockroach"]
     }
 
 # Cor vermelha em rgb
@@ -303,7 +303,8 @@ size = {"player": 60,
             "sword": 100,
             "sword_slash": 20,
             "acid": 120,
-            "envoy_of_the_divine_beast": 100
+            "envoy_of_the_divine_beast": 100,
+            "cockroach": 40
             }
         }
 

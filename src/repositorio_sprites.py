@@ -623,6 +623,54 @@ class Sprites:
                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 903, 147, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(993, 147, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"])]
                     }
+                },
+            "cockroach": {
+                "walk_animations": {
+                    "walk_down_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  289, 33, 51, 60, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 379, 36, 51, 57, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(469, 33, 51, 60, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  289, 33, 51, 60, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 379, 36, 51, 57, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(469, 33, 51, 60, config.size["enemies"]["cockroach"] * 3/2)],
+                    
+                    "walk_up_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 290, 315, 51, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 383, 315, 45, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(473, 315, 45, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 290, 315, 51, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 383, 315, 45, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(473, 315, 45, 69, config.size["enemies"]["cockroach"] * 3/2)],
+                    
+                    "walk_right_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 273, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 363, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(453, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 273, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 363, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(453, 243, 84, 42, config.size["enemies"]["cockroach"])],
+                    
+                    "walk_left_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  273, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 363, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(453, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  273, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 363, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(453, 147, 84, 42, config.size["enemies"]["cockroach"])]
+                    },
+                "hurt_animations":{
+                    "hurt_down_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  829, 33, 51, 60, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 919, 36, 51, 57, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(1009, 33, 51, 60, config.size["enemies"]["cockroach"] * 3/2)],
+                    
+                    "hurt_up_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 830, 315, 51, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 923, 315, 45, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(1013, 315, 45, 69, config.size["enemies"]["cockroach"] * 3/2)],
+                    
+                    "hurt_right_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 813, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 903, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(993, 243, 84, 42, config.size["enemies"]["cockroach"])],
+                    
+                    "hurt_left_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  813, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 903, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(993, 147, 84, 42, config.size["enemies"]["cockroach"])]
+                    }
                 }
         }
         

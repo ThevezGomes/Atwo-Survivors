@@ -14,11 +14,23 @@ class Enemy(pygame.sprite.Sprite):
         # Invocação
         # Define propriedades essenciais para os inimigos
         self.game = game
+        
+        # Campo de visão do inimigo
+        enemy_fov = {
+            "skeleton" : (self.game.screen.get_height() ** 2 + self.game.screen.get_width() ** 2) ** 0.5 / 2 + 100,
+            "skeleton_boss": (self.game.screen.get_height() ** 2 + self.game.screen.get_width() ** 2) ** 0.5 / 2 + 100,
+            "skeleton_hunter" : (self.game.screen.get_height() ** 2 + self.game.screen.get_width() ** 2) ** 0.5 / 2 + 100,
+            "cultist": (self.game.screen.get_height() ** 2 + self.game.screen.get_width() ** 2) ** 0.5 / 2 + 100,
+            "goblin": (self.game.screen.get_height() ** 2 + self.game.screen.get_width() ** 2) ** 0.5 / 2 + 100,
+            "envoy_of_the_divine_beast": (self.game.screen.get_height() ** 2 + self.game.screen.get_width() ** 2) ** 0.5 / 2 + 100,
+            "cockroach": (self.game.screen.get_height() ** 2 + self.game.screen.get_width() ** 2) ** 0.5 / 2 + 100
+        }
+        
         self._layer = config.layers["enemy_layer"]
         self.groups = self.game.all_sprites, self.game.enemies
         self.kind = kind
         self.class_ = "Enemy"
-        self.fov = config.enemy_fov[self.kind]
+        self.fov = enemy_fov[self.kind]
         self.speed = config.enemy_speed[self.kind]
         self.health = config.max_health["enemies"][kind]
         self.attacking = False
@@ -35,10 +47,15 @@ class Enemy(pygame.sprite.Sprite):
         # self.death = False
         # self.death_time = 0
         # self.death_index = 0
+        
+        
+
 
         # Invocar IA
 
         self.ai = Enemy_AI(self)
+        
+        
         
         self.minions_list = []
   
@@ -264,11 +281,15 @@ class Enemy(pygame.sprite.Sprite):
                 enemies_to_spawn = config.minions_list[self.kind]
                 # Escolhe aleatoriamente o inimigo para spawn
                 enemy_kind = random.choice(enemies_to_spawn)
+                angle = random.uniform(0, 2 * math.pi)
+                radius = (self.rect.height ** 2 + self.rect.width ** 2) ** 0.5
+                x = radius * math.cos(angle)
+                y = radius * math.sin(angle)
                 # Spawna o inimigo
                 self.minions_list.append(Minion(self.game,
                                           enemy_kind,
-                                          (self.rect.width + (self.rect.x/2)), 
-                                          (self.rect.height + (self.rect.y/2)), self))
+                                          (x + self.rect.x + self.rect.width/2), 
+                                          (y + self.rect.y + self.rect.height/2), self))
                 self.spawn_minions_time = pygame.time.get_ticks()
         else:
             current_time = pygame.time.get_ticks()
@@ -293,10 +314,13 @@ class Boss(Enemy):
                 self.game.game_over("Parabéns, você venceu!")
             else:
                 # Adiciona o xp ao player, permite o spawn de inimigos e cancela o evento do boss
+                for minion in self.minions_list:
+                    minion.kill()
+                self.minions_list = []
                 self.game.player.xp += config.enemy_xp[self.kind]
                 self.game.spawned_boss = False
-                self.game.game_timer.resume()
                 self.game.allow_spawn_enemies = True
+                self.game.game_timer.resume()
                 self.game.boss_list.remove(self.kind)
                
     def despawn(self):
