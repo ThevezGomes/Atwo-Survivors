@@ -9,8 +9,45 @@ import sprites
 import repositorio_sprites as rs
 
 class Enemy(pygame.sprite.Sprite):
+
+    """
+        Classe que define inimigos a serem inseridos no jogo
+
+        Aqui são programadas a maioria das mecânicas envolvidas nos inimigos (NPC's) do jogo.
+
+        Attributes:
+
+        game: (Objeto da classe Game); Jogo em que os inimigos serão inseridos
+        _layer: (int); Camada em que será inserido o inimigo na exibição
+        groups = (list, list); Listas que armazenam os inimigos e entidades
+        kind = (str); Tipo do inimigo
+        class_ = (str); Classificação geral
+        fov = (int); Campo de visão do inimigo
+        speed = (int); Velocidade de deslocamento do inimigo
+        health = (int); Vida máxima do inimigo
+        attacking = (bool); Se o personagem está atacando
+        attack_time = (int); Tempo de ataque
+        damage = (bool); Se houve dano
+        damage_time = (int); Tempo de dano
+        damage_index = (int); Índice de dano
+        damage_reason = (int); Índice de dificuldade do jogo
+        ai = (Objeto da classe Enemy_IA); Sistema de movimentação do personagem
+
+    """
+    
     def __init__(self, game, kind, x, y):
 
+        """
+        Inicializa um novo inimigo.
+
+        Configura os atributos principais, grupos de sprites e a inteligência artificial.
+
+        Parâmetros:
+            game (Game): Objeto principal do jogo.
+            kind (str): Tipo de inimigo (usado para acessar configurações específicas).
+            x (int): Posição inicial do inimigo no eixo X.
+            y (int): Posição inicial do inimigo no eixo Y.
+        """
         # Invocação
         # Define propriedades essenciais para os inimigos
         self.game = game
@@ -26,7 +63,7 @@ class Enemy(pygame.sprite.Sprite):
             "cockroach": (self.game.screen.get_height() ** 2 + self.game.screen.get_width() ** 2) ** 0.5 / 2 + 100
         }
         
-        self._layer = config.layers["enemy_layer"]
+        self._layer = config.layers["enemy_layer"] 
         self.groups = self.game.all_sprites, self.game.enemies
         self.kind = kind
         self.class_ = "Enemy"
@@ -82,7 +119,14 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.y = self.y
 
     def update(self):
-        # Atualiza animações de dano caso o inimigo tome dano
+
+        """
+        Atualiza o estado do inimigo em cada frame.
+
+        Realiza as ações do inimigo, como perseguir o jogador (utilizando os recursos de IA), atacar, 
+        verificar colisões e animações, além de monitorar sua saúde e remoção do jogo.
+        """
+
         if self.damage:
             self.damage_animation()
         else:
@@ -114,6 +158,17 @@ class Enemy(pygame.sprite.Sprite):
             self.health = self.health * self.game.difficulty_ratio
 
     def atacar(self, game):
+
+        """
+        Realiza um ataque contra o jogador.
+
+        Verifica se o inimigo pode atacar com base no tempo de recarga. Caso seja possível, 
+        cria uma instância de `EnemyAttack`.
+
+        Parâmetros:
+            game (Game): Objeto principal do jogo.
+        """
+
         if config.enemies_attack_list[self.kind] != []:
             # Escolhe um ataque aleatório para atacar
             if not self.attacking:
@@ -135,6 +190,16 @@ class Enemy(pygame.sprite.Sprite):
                     self.attacking = False
 
     def collide_blocks(self, direction):
+
+        """
+        Gerencia colisões do inimigo com blocos do cenário.
+
+        Ajusta a posição do inimigo ao colidir com objetos sólidos.
+
+        Parâmetros:
+        direction (str): Direção da colisão ("x" ou "y").
+        """
+        
         # Para cada direcao, se o personagem colide com o cenario, entao ajusta a posicao do jogador para fora do objeto colidido
         if direction == "x":
             hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
@@ -156,6 +221,14 @@ class Enemy(pygame.sprite.Sprite):
 
     
     def animate(self):
+
+        """
+        Controla a animação do inimigo com base na direção e movimento.
+
+        Alterna entre os frames de animação dependendo da direção em que o inimigo está olhando
+        e se está em movimento ou parado.
+        """
+
         [self.walk_down_animations, self.walk_up_animations, self.walk_right_animations, self.walk_left_animations]  = self.game.sprites.enemy_animations[self.kind]["walk_animations"].values()
 
         # Para cada direcao que o inimigo olha, ajusta a animacao correspondente e o tamanho da imagem
@@ -204,7 +277,13 @@ class Enemy(pygame.sprite.Sprite):
                      self.animation_loop = 1
                      
     def check_health(self):
-        # Verifica se o inimigo foi morto, se morrer, remove o inimigo e adiciona o xp ao player
+
+        """
+        Verifica se o inimigo ainda tem pontos de vida.
+
+        Caso o inimigo tenha sido derrotado, remove-o do jogo e adiciona experiência ao jogador.
+        """
+
         if self.health <= 0:
             try:
                 self.game.enemies_list.remove(self)
@@ -215,7 +294,13 @@ class Enemy(pygame.sprite.Sprite):
             
             
     def despawn(self):
-        # Se o inimigo parar de seguir o jogador por conta da grande distância, apaga o inimigo
+            
+        """
+        Remove o inimigo do jogo se ele estiver fora do campo de visão do jogador por muito tempo.
+
+        Esta funcionalidade ajuda a liberar memória e evitar inimigos desnecessários.
+        """
+
         if not self.ai.track_player:
             current_time = pygame.time.get_ticks()
             # Aplica delay no despawn
@@ -228,7 +313,13 @@ class Enemy(pygame.sprite.Sprite):
                 
         
     def damage_animation(self):
-        # Remove da vida do inimigo o dano tomado, considerando os buffs
+
+        """
+        Executa a animação de dano ao inimigo.
+
+        Reduz a saúde do inimigo e alterna entre os frames de animação de dano, 
+        dependendo da direção em que ele está olhando.
+        """
         self.health -= config.damage["itens"][self.damage_reason.item][self.damage_reason.level] * (1 + self.game.buffs["attack"])
         [self.hurt_down_animations, self.hurt_up_animations, self.hurt_right_animations, self.hurt_left_animations] = self.game.sprites.enemy_animations[self.kind]["hurt_animations"].values()
         # Cria a animação do inimigo
@@ -302,14 +393,34 @@ class Enemy(pygame.sprite.Sprite):
                     
 class Boss(Enemy):
     def __init__(self, game, kind, x, y, name, last_boss=False):
-        # Inicializa o boss assim como um inimigo, apenas alterando a IA, o nome e a condição de último boss
+
+        """
+        Inicializa um inimigo do tipo Boss.
+
+        Configura atributos específicos do Boss, como nome e status de "último chefe".
+
+        Parâmetros:
+            game (Game): Objeto principal do jogo.
+            kind (str): Tipo do Boss.
+            x (int): Posição inicial no eixo X (em tiles).
+            y (int): Posição inicial no eixo Y (em tiles).
+            name (str): Nome do Boss.
+            last_boss (bool): Indica se este é o último Boss do jogo (padrão: False).
+        """
         super().__init__(game, kind, x, y)
         self.name = name
         self.last_boss = last_boss
         self.ai = Boss_IA(self)
         
     def check_health(self):
-        # Verifica se o boss morreu, se morrer, apaga o boss
+            
+        """
+        Verifica se o Boss ainda está vivo.
+
+        Caso seja derrotado, realiza ações específicas, como tocar um som de vitória 
+        ou permitir o spawn de outros inimigos.
+        """
+
         if self.health <= 0:
             self.kill()
             # Se for o último boss, mostra a tela de vitória e aplica a música de vitória
@@ -328,13 +439,18 @@ class Boss(Enemy):
                 self.game.boss_list.remove(self.kind)
                
     def despawn(self):
-        # Não despawna o boss
+        """
+        Evita que o Boss seja removido automaticamente do jogo.
+
+        Este método sobrescreve o comportamento padrão da classe `Enemy`.
+        """
         pass
                 
 class EnemyAttack(pygame.sprite.Sprite):
+
+    
     def __init__(self, game, kind, enemy):
         
-        # Define propriedades dos ataques dos inimigos
         self.game = game
         self.kind = kind
         self.class_ = "EnemyAttack"
@@ -373,7 +489,13 @@ class EnemyAttack(pygame.sprite.Sprite):
         
         
     def update(self):
-        # Atualiza o movimento do ataque
+
+        """
+        Atualiza o estado do ataque em cada frame.
+
+        Controla o movimento, animação, e detecção de colisões do ataque.
+        """
+
         self.movement()
         # Atualiza a animação do ataque
         self.animate()
@@ -388,11 +510,20 @@ class EnemyAttack(pygame.sprite.Sprite):
         self.y_change = 0
         
     def movement(self):
-        # Calcula os deslocamentos nos eixos do ataque
+        """
+        Define o movimento do ataque com base na direção do jogador.
+
+        Calcula os deslocamentos nos eixos X e Y para cada frame.
+        """
         self.x_change = self.velocity[0]
         self.y_change = self.velocity[1]
         
-    def animate(self):        
+    def animate(self):
+        """
+        Controla a animação do ataque.
+
+        Alterna os frames de animação e rotaciona o sprite com base na direção do ataque.
+        """                
         [self.attack_animations] = self.game.sprites.enemy_attack_animations[self.kind].values()
         
         # Cria o loop de animacao
@@ -406,7 +537,12 @@ class EnemyAttack(pygame.sprite.Sprite):
             self.kill()              
                 
     def collide_blocks(self):
-        # Se o ataque colidir, apaga o ataque
+        """
+        Detecta colisões do ataque com blocos do cenário.
+
+        Remove o ataque do jogo caso colida com um bloco sólido.
+        """
+
         hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
         if hits:
             self.kill()
