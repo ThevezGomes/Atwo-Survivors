@@ -1,7 +1,7 @@
 # Jogo da A2
 
 ## Visão Geral do Projeto
-Este projeto de jogo é uma estrutura abrangente para o desenvolvimento de um jogo 2D. Inclui recursos, base de código e materiais organizados para facilitar o desenvolvimento, testes e expansão do jogo.
+Este é um jogo RPG em 2D desenvolvido em Python utilizando a biblioteca Pygame. O jogo apresenta mecânicas de combate, exploração, sistema de níveis, inventário, habilidades e spawn de inimigos e itens. 
 
 ## Estrutura do Projeto
 
@@ -27,13 +27,13 @@ Contém documentação e anotações relacionadas ao projeto.
 
 ### 4. **`src/`**
 O código fonte principal do jogo.
+- **`main.py`**: Ponto de entrada do jogo, iniciando o loop principal.
 - **`config.py`**: Configurações do jogo (ex.: tamanho da janela, parâmetros do jogo).
 - **`drop_item.py`**: Código relacionado à lógica de queda de itens.
 - **`enemies.py`**: Definições e propriedades das classes de inimigos.
 - **`enemy_ai.py`**: Lógica para a inteligência artificial dos inimigos.
 - **`game.py`**: Lógica principal do jogo e código de inicialização.
 - **`items_abilities.py`**: Lógica para gerenciamento de itens e habilidades do jogo.
-- **`main.py`**: Ponto de entrada do jogo, iniciando o loop principal.
 - **`main_character.py`**: Código para o personagem do jogador (ex.: movimento, interações).
 - **`map.py`**: Lógica para gerenciamento de mapas e tiles.
 - **`props.py`**: Código para lidar com objetos interativos no ambiente do jogo.
@@ -54,7 +54,7 @@ Para instalar as dependências do projeto, utilize o seguinte comando:
 pip install pygame
 ```
 
-## Instruções de Uso
+## Instruções de Instalação
 1. Clone o repositório:
    ```bash
    git clone https://github.com/HenryGasparelo/A2-LP-2024.git
@@ -63,7 +63,7 @@ pip install pygame
    ```bash
    cd A2-LP-2024
    ```
-3. Instale as dependências necessárias:
+3. Instale as bibliotecas necessárias:
    ```bash
    pip install -r requirements.txt
    ```
