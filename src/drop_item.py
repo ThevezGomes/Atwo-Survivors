@@ -2,10 +2,27 @@ import pygame
 from main_character import *
 from config import *
 from main_character import *
-
+import math
 
 class ItemDrop(pygame.sprite.Sprite):
+    """
+    Classe para representar um item dropado no jogo. 
+    Cada item possui um tipo, uma imagem associada, um tempo de vida e pode aplicar efeitos no jogador.
+
+    Args:
+        x (int): Coordenada x da posição inicial do item.
+        y (int): Coordenada y da posição inicial do item.
+        item_type (str): Tipo do item (e.g., 'Baconseed', 'Baconfruit', 'Starpotion', 'Hugepotion').
+
+    Attributes:
+        item_type (str): Tipo do item.
+        spawn_time (int): Momento (em milissegundos) em que o item foi criado.
+        lifetime (int): Tempo de vida total do item, em milissegundos.
+        image (pygame.Surface): Imagem que representa o item.
+        rect (pygame.Rect): Retângulo delimitador para posicionamento e colisão do item.
+    """
     def __init__(self, x, y, item_type, game):
+        
         super().__init__()
         self.game = game
         self.item_type = item_type  # 
@@ -22,16 +39,20 @@ class ItemDrop(pygame.sprite.Sprite):
             self.image = pygame.image.load('../assets/drop_itens_sprites/starpotion.png').convert_alpha()
         elif self.item_type == 'Hugepotion':
             self.image = pygame.image.load('../assets/drop_itens_sprites/hugepotion.png').convert_alpha()
-        elif sel.item == 'Giantpotion':
-            self.image =pygame.image.load('../assets/drop_itens_sprites/Giantpot.png')
         else:
-            self.image = pygame.Surface((20, 20))  # Caso nenhum tipo seja válido, cria uma superfície vazia
+            self.image = pygame.Surface((20, 20)) 
 
         # Ajustando o tamanho da imagem
         self.image = pygame.transform.scale(self.image, (35, 35))  # Ajusta o tamanho
         self.rect = self.image.get_rect(center=(x, y))  # Define a posição do item
     
     def update(self):
+
+        """
+        Atualiza o estado do item, incluindo o controle de tempo de vida e efeitos visuais.
+        Remove o item caso seu tempo de vida expire.
+        """
+
         current_time = pygame.time.get_ticks()
         time_left = self.lifetime - (current_time - self.spawn_time)
     
@@ -46,6 +67,20 @@ class ItemDrop(pygame.sprite.Sprite):
         
 
     def apply_effect(self, player):
+        
+        """
+        Aplica o efeito do item no jogador.
+        
+        Args:
+            player (Player): Objeto do jogador que coletou o item.
+
+        Efeitos:
+            - Baconseed: Recupera 50% da vida máxima do jogador.
+            - Baconfruit: Recupera 100% da vida máxima do jogador.
+            - Starpotion: Aumenta o XP atual em 40%.
+            - Hugepotion: Aumenta o XP atual em 60%.
+        """
+
         # Aplica o efeito do item no jogador
         if self.item_type == 'Baconseed':
             self.game.play_sound("pig_sound")
@@ -64,8 +99,6 @@ class ItemDrop(pygame.sprite.Sprite):
             self.game.play_sound("xp_potion_sound")
             player.xp += 60   
         elif self.item_type == 'Hugepotion':
-            self.game.play_sound("xp_potion_sound")
-            player.xp += 120
-
-
+            player.xp += player.xp +player.xp *0.6 
+       
         

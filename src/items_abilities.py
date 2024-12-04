@@ -3,6 +3,7 @@ from props import *
 from game import *
         
 class ItemsArmazenamento:
+    # Armazena todos os itens que podem aparecer e os itens de nivel maximo
     def __init__(self):
         self.itens = {"attacks": {"energy_ball": Item("energy_ball","Bola de energia", "Destroi tudo no caminho.", max_level=5),
                       "demon_sword": Item("demon_sword", "Espada Demoníaca", "O poder do inferno", max_level=5),
