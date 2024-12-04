@@ -1,4 +1,4 @@
-# Documentação do Projeto de Jogo
+# Jogo da A2
 
 ## Visão Geral do Projeto
 Este projeto de jogo é uma estrutura abrangente para o desenvolvimento de um jogo 2D. Inclui recursos, base de código e materiais organizados para facilitar o desenvolvimento, testes e expansão do jogo.
@@ -72,3 +72,5 @@ pip install pygame
    python src/main.py
    ```
 
+## Captura de Tela
+*Insira aqui uma captura de tela do jogo.*
