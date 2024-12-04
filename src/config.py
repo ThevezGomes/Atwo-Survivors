@@ -279,6 +279,11 @@ minions_list = {
     "envoy_of_the_divine_beast": ["cockroach"]
     }
 
+music_theme = {
+    "skeleton_boss": "../assets/sounds/skeleton_boss_theme.mp3",
+    "envoy_of_the_divine_beast": "../assets/sounds/main_theme.mp3"
+    }
+
 # Cor vermelha em rgb
 red = (255, 0 , 0)
 

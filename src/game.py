@@ -101,8 +101,8 @@ class Game:
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
-        self.game_timer.add_event(25, self.MessageSpawnBoss)
-        self.game_timer.add_event(30, self.SpawnBoss(False))
+        self.game_timer.add_event(5, self.MessageSpawnBoss)
+        self.game_timer.add_event(10, self.SpawnBoss(False))
         self.game_timer.add_event(55, self.MessageSpawnBoss)
         self.game_timer.add_event(60, self.SpawnBoss(True))
 
@@ -125,6 +125,7 @@ class Game:
             Remove todos os inimigos e gera o chefe no centro da tela.
             """
             # Despawna todos os inimigos e spawna o boss
+            pygame.mixer.music.stop()
             self.despawn_all_enemies()
             boss_kind = random.choice(self.boss_list)
             while not self.spawned_boss:
@@ -141,6 +142,8 @@ class Game:
             self.boss = Boss(self, boss_kind, (x + self.player.rect.x + self.player.rect.width / 2), (y + self.player.rect.y + self.player.rect.height / 2), boss_name[boss_kind], final_boss)
             # Barra de vida do Boss
             self.boss_bar = BossBar(max=config.max_health["enemies"][boss_kind], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=75, boss_name=self.boss.name)
+            pygame.mixer.music.load(music_theme[boss_kind])
+            pygame.mixer.music.play(loops=-1)
         return Spawnar_Boss   
 
     def new(self):
@@ -149,6 +152,8 @@ class Game:
         """
 
         self.playing = True # Define como True para indicar que o jogo está em execução.
+        pygame.mixer.music.load("../assets/sounds/ambient_theme.mp3")
+        pygame.mixer.music.play(loops=-1)
 
         # Define grupos de sprites com propriedades que serao utilizadas
         self.all_sprites = pygame.sprite.LayeredUpdates() # Grupo de todos os sprites no jogo.
@@ -480,6 +485,9 @@ class Game:
         # Cria o botao Play centralizado
         play_button = Button(button_x, button_y, button_width, button_height, pygame.Color('white'), 'Jogar', 32)
         quit_button = Button(button_x, button_y + button_height + 20, button_width, button_height, pygame.Color('white'), 'Sair', 32)
+        
+        pygame.mixer.music.load("../assets/sounds/main_theme.mp3")
+        pygame.mixer.music.play(loops=-1)
 
         # Loop da tela de introção, espera que uma das opções seja escolida para iniciar o jogo ou fechar ele
         while intro:
@@ -495,6 +503,7 @@ class Game:
             play_button.update(mouse_pos)
             if play_button.is_pressed(mouse_pos, mouse_pressed):
                 self.play_sound("button_sound")
+                pygame.mixer.music.stop()
                 intro = False
                 self.new() # Inicia o jogo
                 self.game_timer.start() # Inicia o timer do jogo 
@@ -535,6 +544,7 @@ class Game:
         
         # Define que a tela de Game Over deve aparecer
         over = True
+        pygame.mixer.music.stop()
 
         paused_surface = self.screen.copy()  # Captura o estado atual do jogo
         self.blur(paused_surface, 200)
@@ -629,6 +639,8 @@ class Game:
         restart_button = Button(menu_rect.centerx - button_width // 2, resume_button.rect.bottom + button_spacing, button_width, button_height, pygame.Color('white'), 'Resetar', 24)
         exit_button = Button(menu_rect.centerx - button_width // 2, restart_button.rect.bottom + button_spacing, button_width, button_height, pygame.Color('white'), 'Sair', 24)
         
+        pygame.mixer.music.pause()
+        
         # Loop de pausa: substitui temporariamente o loop principal do jogo, impedindo qualquer atualização.
         while self.paused:
             for event in pygame.event.get():
@@ -639,16 +651,19 @@ class Game:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.paused = False  # Retomar o jogo
+                        pygame.mixer.music.unpause()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if resume_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         # Aplica o som de botao
                         self.play_sound("button_sound")
                         self.paused = False  # Retomar o jogo
+                        pygame.mixer.music.unpause()
                     if restart_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         # Aplica o som de botao
                         self.play_sound("button_sound")
                         self.paused = False  # Retomar o jogo
                         self.restart = True
+                        pygame.mixer.music.stop()
                     elif exit_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         # Aplica o som de botao
                         self.play_sound("button_sound")

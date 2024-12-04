@@ -325,6 +325,9 @@ class Boss(Enemy):
                 self.game.spawned_boss = False
                 self.game.allow_spawn_enemies = True
                 self.game.game_timer.resume()
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load("../assets/sounds/ambient_theme.mp3")
+                pygame.mixer.music.play(loops=-1)
                 self.game.boss_list.remove(self.kind)
                
     def despawn(self):
