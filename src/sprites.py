@@ -16,5 +16,6 @@ class Spritesheet:
         sprite.blit(self.sheet, (0,0), (x, y, width, height))
         # Define o fundo da imagem para o mesmo fundo do game
         sprite.set_colorkey((0,0,0))
+        # Ajusta o tamanho da imagem
         sprite = pygame.transform.scale(sprite, (size*width/height, size))
         return sprite

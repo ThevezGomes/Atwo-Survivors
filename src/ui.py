@@ -2,6 +2,7 @@
 import pygame
 from abc import ABC, abstractmethod
 import config
+import math
 
 class Button:
     """
@@ -469,13 +470,9 @@ class ExperienceBar(Bar):
         Returns:
             int: O valor máximo de experiência necessário para o nível dado.
         """
-        xp_level_1 = 100
+        xp_level_1 = 200
         
-        #return int(xp_level_1*(1.5)**level)
-        if level <= 50:
-            return 100
-        elif level > 50:
-            return 1000000
+        return int(xp_level_1*math.log(level + 1, 2))
 
 class BossBar(Bar):
     """

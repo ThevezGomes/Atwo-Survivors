@@ -2,6 +2,7 @@ from sprites import *
 
 class Sprites:
     def __init__(self):
+        # Armazena a localização dos sprites
         self.warrior_sprites = {
             "walk":{
                 "main_character_spritesheet": Spritesheet("../assets/warrior_sprites/Down/Png/WarriorDownWalk.png"),
@@ -108,6 +109,9 @@ class Sprites:
                     "enemy_skeleton_boss_spritesheet_hurt_left": Spritesheet("../assets/enemy_sprites/skeleton_boss/Left/Png/AncientSkeletonLeftHurt.png"),
                     "enemy_skeleton_boss_spritesheet_hurt_right": Spritesheet("../assets/enemy_sprites/skeleton_boss/Right/Png/AncientSkeletonRightHurt.png")
                     }
+                },
+            "envoy_of_the_divine_beast": {
+                "boss_envoy_of_the_divine_beast_spritesheet": Spritesheet("../assets/enemy_sprites/envoy_of_the_divine_beast/envoy_of_the_divine_beast.png")
                 }
             }
         
@@ -135,6 +139,31 @@ class Sprites:
         self.enemy_attack_sprites = {
             "knife": {
                 "attack_spritesheet_knife": Spritesheet("../assets/enemy_sprites/attack_sprites/knife.png")
+                },
+            "arrows": {
+                "attack_spritesheet_arrows": Spritesheet("../assets/enemy_sprites/attack_sprites/Arrows_pack.png")
+                },
+            "axe": {
+                "attack_spritesheet_axe_1": Spritesheet("../assets/enemy_sprites/attack_sprites/axe/Axe_1.png"),
+                "attack_spritesheet_axe_2": Spritesheet("../assets/enemy_sprites/attack_sprites/axe/Axe_2.png"),
+                "attack_spritesheet_axe_3": Spritesheet("../assets/enemy_sprites/attack_sprites/axe/Axe_3.png"),
+                "attack_spritesheet_axe_4": Spritesheet("../assets/enemy_sprites/attack_sprites/axe/Axe_4.png")
+                },
+            "fire_ball": {
+                "attack_spritesheet_fire_ball_1": Spritesheet("../assets/enemy_sprites/attack_sprites/fire_ball/fire_ball_1.png"),
+                "attack_spritesheet_fire_ball_2": Spritesheet("../assets/enemy_sprites/attack_sprites/fire_ball/fire_ball_2.png"),
+                "attack_spritesheet_fire_ball_3": Spritesheet("../assets/enemy_sprites/attack_sprites/fire_ball/fire_ball_3.png"),
+                "attack_spritesheet_fire_ball_4": Spritesheet("../assets/enemy_sprites/attack_sprites/fire_ball/fire_ball_4.png"),
+                "attack_spritesheet_fire_ball_5": Spritesheet("../assets/enemy_sprites/attack_sprites/fire_ball/fire_ball_5.png"),
+                },
+            "sword": {
+                "attack_spritesheet_sword": Spritesheet("../assets/enemy_sprites/attack_sprites/sword.png")
+                },
+            "sword_slash": {
+                "attack_spritesheet_sword_slash": Spritesheet("../assets/enemy_sprites/attack_sprites/sword_slash.png")
+                },
+            "acid": {
+                "attack_spritesheet_acid": Spritesheet("../assets/enemy_sprites/attack_sprites/acid.png")
                 }
             }
         
@@ -155,6 +184,7 @@ class Sprites:
             "Hugepotion": "../assets/drop_itens_sprites/hugepotion.png"
             }
         
+        # Armazena as posições dos sprites nas imagens para criar a animação
         self.warrior_animations = {
             "walk_animations": {
                 "walk_down_animations": [self.warrior_sprites["walk"]["main_character_spritesheet_walk_down"].get_sprite(12, 7, 22, 32),
@@ -464,7 +494,7 @@ class Sprites:
                     "hurt_down_animations" : [  self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_down"].get_sprite(  7, 13, 34, 28),
                                                 self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_down"].get_sprite( 54, 12, 36, 28),
                                                 self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_down"].get_sprite(103, 11, 34, 28),
-                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_down"].get_sprite(150, 11, 36, 2)],
+                                                self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_down"].get_sprite(150, 11, 36, 28)],
                     
                     "hurt_up_animations" : [    self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_up"].get_sprite(  7, 13, 34, 28),
                                                 self.enemy_sprites["goblin"]["hurt"]["enemy_goblin_spritesheet_hurt_up"].get_sprite( 54, 12, 36, 28),
@@ -545,7 +575,103 @@ class Sprites:
                                                self.enemy_sprites["skeleton_boss"]["hurt"]["enemy_skeleton_boss_spritesheet_hurt_left"].get_sprite(241, 5, 55, 57, config.size["enemies"]["skeleton_boss"])]
                     }
                 
-            }
+            },
+            "envoy_of_the_divine_beast": {
+                "walk_animations": {
+                    "walk_down_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  19, 33, 51, 60, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 109, 36, 51, 57, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(199, 33, 51, 60, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  19, 33, 51, 60, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 109, 36, 51, 57, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(199, 33, 51, 60, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2)],
+                    
+                    "walk_up_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 20, 315, 51, 69, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 113, 315, 45, 69, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(203, 315, 45, 69, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 20, 315, 51, 69, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 113, 315, 45, 69, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(203, 315, 45, 69, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2)],
+                    
+                    "walk_right_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 3, 243, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 93, 243, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(183, 243, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 3, 243, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 93, 243, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(183, 243, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"])],
+                    
+                    "walk_left_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  3, 147, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 93, 147, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(183, 147, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  3, 147, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 93, 147, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(183, 147, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"])]
+                    },
+                "hurt_animations":{
+                    "hurt_down_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  829, 33, 51, 60, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 919, 36, 51, 57, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(1009, 33, 51, 60, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2)],
+                    
+                    "hurt_up_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 830, 315, 51, 69, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 923, 315, 45, 69, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(1013, 315, 45, 69, config.size["enemies"]["envoy_of_the_divine_beast"] * 3/2)],
+                    
+                    "hurt_right_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 813, 243, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 903, 243, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(993, 243, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"])],
+                    
+                    "hurt_left_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  813, 147, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 903, 147, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(993, 147, 84, 42, config.size["enemies"]["envoy_of_the_divine_beast"])]
+                    }
+                },
+            "cockroach": {
+                "walk_animations": {
+                    "walk_down_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  289, 33, 51, 60, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 379, 36, 51, 57, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(469, 33, 51, 60, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  289, 33, 51, 60, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 379, 36, 51, 57, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(469, 33, 51, 60, config.size["enemies"]["cockroach"] * 3/2)],
+                    
+                    "walk_up_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 290, 315, 51, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 383, 315, 45, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(473, 315, 45, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 290, 315, 51, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 383, 315, 45, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(473, 315, 45, 69, config.size["enemies"]["cockroach"] * 3/2)],
+                    
+                    "walk_right_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 273, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 363, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(453, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 273, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 363, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(453, 243, 84, 42, config.size["enemies"]["cockroach"])],
+                    
+                    "walk_left_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  273, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 363, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(453, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  273, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 363, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(453, 147, 84, 42, config.size["enemies"]["cockroach"])]
+                    },
+                "hurt_animations":{
+                    "hurt_down_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  829, 33, 51, 60, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 919, 36, 51, 57, config.size["enemies"]["cockroach"] * 3/2),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(1009, 33, 51, 60, config.size["enemies"]["cockroach"] * 3/2)],
+                    
+                    "hurt_up_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 830, 315, 51, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 923, 315, 45, 69, config.size["enemies"]["cockroach"] * 3/2),
+                                             self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(1013, 315, 45, 69, config.size["enemies"]["cockroach"] * 3/2)],
+                    
+                    "hurt_right_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 813, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 903, 243, 84, 42, config.size["enemies"]["cockroach"]),
+                                                self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(993, 243, 84, 42, config.size["enemies"]["cockroach"])],
+                    
+                    "hurt_left_animations" : [ self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(  813, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite( 903, 147, 84, 42, config.size["enemies"]["cockroach"]),
+                                               self.enemy_sprites["envoy_of_the_divine_beast"]["boss_envoy_of_the_divine_beast_spritesheet"].get_sprite(993, 147, 84, 42, config.size["enemies"]["cockroach"])]
+                    }
+                }
         }
         
         self.attack_animations = {
@@ -585,12 +711,70 @@ class Sprites:
         
         self.enemy_attack_animations = {
             "knife": {
-                "attack_animations": [self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 154, 92, 263, config.size["enemies"]["knife"]),
-                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 154, 92, 263, config.size["enemies"]["knife"]),
-                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 154, 92, 263, config.size["enemies"]["knife"]),
-                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 154, 92, 263, config.size["enemies"]["knife"]),
-                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 154, 92, 263, config.size["enemies"]["knife"]),
-                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 154, 92, 263, config.size["enemies"]["knife"])
+                "attack_animations": [self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 54, 92, 265, config.size["enemies"]["knife"]),
+                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 54, 92, 265, config.size["enemies"]["knife"]),
+                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 54, 92, 265, config.size["enemies"]["knife"]),
+                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 54, 92, 265, config.size["enemies"]["knife"]),
+                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 54, 92, 265, config.size["enemies"]["knife"]),
+                                      self.enemy_attack_sprites["knife"]["attack_spritesheet_knife"].get_sprite(  154, 54, 92, 265, config.size["enemies"]["knife"])
+                                      ]
+                },
+            "arrow": {
+                "attack_animations": [self.enemy_attack_sprites["arrows"]["attack_spritesheet_arrows"].get_sprite(  415, 288, 162, 544, config.size["enemies"]["arrow"]),
+                                      self.enemy_attack_sprites["arrows"]["attack_spritesheet_arrows"].get_sprite(  415, 288, 162, 544, config.size["enemies"]["arrow"]),
+                                      self.enemy_attack_sprites["arrows"]["attack_spritesheet_arrows"].get_sprite(  415, 288, 162, 544, config.size["enemies"]["arrow"]),
+                                      self.enemy_attack_sprites["arrows"]["attack_spritesheet_arrows"].get_sprite(  415, 288, 162, 544, config.size["enemies"]["arrow"]),
+                                      self.enemy_attack_sprites["arrows"]["attack_spritesheet_arrows"].get_sprite(  415, 288, 162, 544, config.size["enemies"]["arrow"]),
+                                      self.enemy_attack_sprites["arrows"]["attack_spritesheet_arrows"].get_sprite(  415, 288, 162, 544, config.size["enemies"]["arrow"])
+                                      ]
+                },
+            "axe": {
+                "attack_animations": [self.enemy_attack_sprites["axe"]["attack_spritesheet_axe_1"].get_sprite(  1, 2, 14, 28, config.size["enemies"]["axe"]),
+                                      self.enemy_attack_sprites["axe"]["attack_spritesheet_axe_2"].get_sprite(  2, 1, 28, 14, config.size["enemies"]["axe"]/2),
+                                      self.enemy_attack_sprites["axe"]["attack_spritesheet_axe_3"].get_sprite(  1, 2, 14, 28, config.size["enemies"]["axe"]),
+                                      self.enemy_attack_sprites["axe"]["attack_spritesheet_axe_4"].get_sprite(  2, 1, 28, 14, config.size["enemies"]["axe"]/2),
+                                      self.enemy_attack_sprites["axe"]["attack_spritesheet_axe_1"].get_sprite(  1, 2, 14, 28, config.size["enemies"]["axe"]),
+                                      self.enemy_attack_sprites["axe"]["attack_spritesheet_axe_2"].get_sprite(  2, 1, 28, 14, config.size["enemies"]["axe"]/2),
+                                      self.enemy_attack_sprites["axe"]["attack_spritesheet_axe_3"].get_sprite(  1, 2, 14, 28, config.size["enemies"]["axe"]),
+                                      self.enemy_attack_sprites["axe"]["attack_spritesheet_axe_4"].get_sprite(  2, 1, 28, 14, config.size["enemies"]["axe"]/2),
+                                      ]
+                },
+            "fire_ball": {
+                "attack_animations": [self.enemy_attack_sprites["fire_ball"]["attack_spritesheet_fire_ball_1"].get_sprite(  6, 11, 17, 32, config.size["enemies"]["fire_ball"]),
+                                      self.enemy_attack_sprites["fire_ball"]["attack_spritesheet_fire_ball_2"].get_sprite(  6, 11, 17, 31, config.size["enemies"]["fire_ball"]),
+                                      self.enemy_attack_sprites["fire_ball"]["attack_spritesheet_fire_ball_3"].get_sprite(  6, 11, 17, 35, config.size["enemies"]["fire_ball"]),
+                                      self.enemy_attack_sprites["fire_ball"]["attack_spritesheet_fire_ball_4"].get_sprite(  6, 11, 17, 33, config.size["enemies"]["fire_ball"]),
+                                      self.enemy_attack_sprites["fire_ball"]["attack_spritesheet_fire_ball_5"].get_sprite(  6, 11, 17, 29, config.size["enemies"]["fire_ball"])
+                                      ]
+                },
+            "sword": {
+                "attack_animations": [self.enemy_attack_sprites["sword"]["attack_spritesheet_sword"].get_sprite(  52, 0, 25, 43, config.size["enemies"]["sword"]),
+                                      self.enemy_attack_sprites["sword"]["attack_spritesheet_sword"].get_sprite(  52, 0, 25, 43, config.size["enemies"]["sword"]),
+                                      self.enemy_attack_sprites["sword"]["attack_spritesheet_sword"].get_sprite(  52, 0, 25, 43, config.size["enemies"]["sword"]),
+                                      self.enemy_attack_sprites["sword"]["attack_spritesheet_sword"].get_sprite(  52, 0, 25, 43, config.size["enemies"]["sword"]),
+                                      self.enemy_attack_sprites["sword"]["attack_spritesheet_sword"].get_sprite(  52, 0, 25, 43, config.size["enemies"]["sword"]),
+                                      self.enemy_attack_sprites["sword"]["attack_spritesheet_sword"].get_sprite(  52, 0, 25, 43, config.size["enemies"]["sword"])
+                                      ]
+                },
+            "sword_slash": {
+                "attack_animations": [self.enemy_attack_sprites["sword_slash"]["attack_spritesheet_sword_slash"].get_sprite(  0, 25, 64, 16, config.size["enemies"]["sword_slash"]),
+                                      self.enemy_attack_sprites["sword_slash"]["attack_spritesheet_sword_slash"].get_sprite(  66, 12, 60, 9, config.size["enemies"]["sword_slash"]),
+                                      self.enemy_attack_sprites["sword_slash"]["attack_spritesheet_sword_slash"].get_sprite(  139, 0, 42, 4, config.size["enemies"]["sword_slash"])
+                                      ]
+                },
+            "acid": {
+                "attack_animations": [self.enemy_attack_sprites["acid"]["attack_spritesheet_acid"].get_sprite(  11, 1, 11, 55, config.size["enemies"]["acid"]),
+                                      self.enemy_attack_sprites["acid"]["attack_spritesheet_acid"].get_sprite(  45, 1, 9, 55, config.size["enemies"]["acid"]),
+                                      self.enemy_attack_sprites["acid"]["attack_spritesheet_acid"].get_sprite(  78, 19, 7, 37, config.size["enemies"]["acid"]),
+                                      self.enemy_attack_sprites["acid"]["attack_spritesheet_acid"].get_sprite(  107, 12, 11, 44, config.size["enemies"]["acid"]),
+                                      self.enemy_attack_sprites["acid"]["attack_spritesheet_acid"].get_sprite(  139, 8, 14, 48, config.size["enemies"]["acid"]),
+                                      self.enemy_attack_sprites["acid"]["attack_spritesheet_acid"].get_sprite(  171, 7, 14, 49, config.size["enemies"]["acid"]),
+                                      self.enemy_attack_sprites["acid"]["attack_spritesheet_acid"].get_sprite(  204, 6, 8, 50, config.size["enemies"]["acid"]),
+                                      self.enemy_attack_sprites["acid"]["attack_spritesheet_acid"].get_sprite(  233, 6, 11, 50, config.size["enemies"]["acid"]),
+                                      self.enemy_attack_sprites["acid"]["attack_spritesheet_acid"].get_sprite(  263, 2, 11, 54, config.size["enemies"]["acid"]),
+                                      self.enemy_attack_sprites["acid"]["attack_spritesheet_acid"].get_sprite(  294, 1, 13, 55, config.size["enemies"]["acid"]),
+                                      self.enemy_attack_sprites["acid"]["attack_spritesheet_acid"].get_sprite(  327, 1, 14, 55, config.size["enemies"]["acid"]),
+                                      self.enemy_attack_sprites["acid"]["attack_spritesheet_acid"].get_sprite(  361, 1, 13, 55, config.size["enemies"]["acid"]),
                                       ]
                 }
             }

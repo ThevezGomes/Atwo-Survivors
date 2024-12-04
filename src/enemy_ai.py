@@ -7,6 +7,7 @@ import math
 class Enemy_AI:
 
     def __init__(self, enemy):
+        # Define propriedades da IA dos inimigos
         self.enemy = enemy
         self.game = enemy.game
         self.player = self.game.player
@@ -46,7 +47,8 @@ class Enemy_AI:
         if self.distance_vector(self.player) <= self.seach_distance and self.distance_vector(self.player) > config.enemy_range[self.enemy.kind]:
                 self.track_player = True
                 return self.player
-        elif self.distance_vector(self.player) > self.seach_distance: 
+        elif self.distance_vector(self.player) > self.seach_distance:
+            # Verifica se o inimigo está longe, se estiver, coleta o tempo para despawnar inimigos parados e distantes
             if self.track_player:
                 self.time_untracked = pygame.time.get_ticks()
                 self.track_player = False
@@ -71,10 +73,11 @@ class Enemy_AI:
 
 class Boss_IA(Enemy_AI):
     def __init__(self, enemy):
+        # Define as mesmas propriedades da IA de um inimigo
         super().__init__(enemy)
         
-    def target_detector(self): # Verifica se o player está próximo para liberar perseguição
-
+    def target_detector(self):
+        # Verifica se o player está longe o bastante para liberar a perseguição, sem parar o boss caso esteja distante
         if self.distance_vector(self.player) > 40:
             self.track_player = True
             return self.player
