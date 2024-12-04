@@ -112,7 +112,7 @@ class Game:
         self.item_sprites = pygame.sprite.Group() 
         #Grupo do sprites de colisão
         self.collidable_sprites = pygame.sprite.Group()
-        
+        self.blocked_rects = []     # Lista de retângulos bloqueados
         # Define uma lista aleatória de itens que podem aparecer no menu de Level Up
         self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
 
@@ -309,7 +309,7 @@ class Game:
         """
 
         # Coordenadas do centro do mapa e da tela
-        target_x, target_y = 1250, 1589
+        target_x, target_y = 1260, 1610
         
         #Coordenadas do centro da tela
         screen_center_x, screen_center_y = 460, 454
@@ -338,7 +338,7 @@ class Game:
                         tile = Tile(pos, tile_image, [self.all_sprites])
 
                         # Adiciona ao grupo de colisões se for colidível
-                        if layer.name == "Colidivel":
+                        if layer.name in ("Objetos", "Fundo"):
                             self.collidable_sprites.add(tile)
 
         # Itera pelos objetos do mapa
@@ -346,7 +346,7 @@ class Game:
             pos = (obj.x - offset_x, obj.y - offset_y)
 
             # Objetos com imagens (vegetação, pedras, etc.)
-            if obj.type in ("Vegetacao", "Pedras", "Lapide", "Cerca", "Poligono", "Montanha") and obj.image:
+            if obj.type in ("Vegetacao", "Pedras", "Lapide", "Cerca", "Montanha") and obj.image:
                 image = obj.image
 
                 if hasattr(obj, 'gid') and obj.gid:
@@ -362,34 +362,98 @@ class Game:
         #Para os itens não nascerem na posição de um objeto 
         self.blocked_rects = []  # Lista de áreas bloqueadas como retângulos
         for obj in self.tmx_data.objects:
-            if obj.type in ("Vegetacao", "Pedras", "Lapide", "Cerca", "Poligono", "Montanha"):
+            if obj.type in ("Montanha", "Vegetacao", "Pedras", "Lapide", "Cerca"):
                 # Cria um retângulo bloqueado baseado na posição e dimensões do objeto
                 rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
                 self.blocked_rects.append(rect)
+    
+    def draw_blocked_areas(self, screen):
+        for rect in self.blocked_rects:
+            pygame.draw.rect(screen, (255, 0, 0), rect, 1)  # Vermelho para debug
 
     def spawn_item(self):
-        #Quantidade de tentativas para o item encontra o local ideal para nascer
-        spawn_attempts = 8
-        spawn_probability = 0.8
+        # Quantidade de tentativas para encontrar uma posição válida
+        spawn_attempts = 9
+        spawn_probability = 0.6
 
+        # Controla a probabilidade de spawn
         if random.random() > spawn_probability:
             return
 
         for _ in range(spawn_attempts):
-            spawn_x = random.randint(5,3080)
-            spawn_y = random.randint(5,3080)
-            spawn_pos = pygame.Rect(spawn_x, spawn_y, 1, 1)
+            # Gera coordenadas aleatórias dentro de um intervalo adequado (ajuste conforme necessário)
+            spawn_x = random.randint(0, 5)
+            spawn_y = random.randint(0, 5)
 
-        #Verifica se a posição gerada não bate com a de um objeto
-        if not any(spawn_pos.colliderect(rect) for rect in self.blocked_rects):
+
+            # Cria um retângulo representando a posição do item
+            item_rect = pygame.Rect(spawn_x, spawn_y, 1, 1)
+
+            if any(item_rect.colliderect(rect) for rect in self.blocked_rects):
+                pass
+
+            # Define o tipo de item a ser spawnado
             item_type = random.choice(["Baconseed", "Baconfruit", "Starpotion", "Hugepotion"])
-            item = ItemDrop(spawn_x, spawn_y, item_type, self)
-            
-            #Adciona os itens no grupo de sprites
+
+            # Cria e posiciona o item
+            item = ItemDrop(spawn_x, spawn_y, item_type)
+
+            # Adiciona o item aos grupos de sprites
             self.item_sprites.add(item)
             self.all_sprites.add(item)
-            return  
-        
+
+            # Sai do loop após posicionar o item
+            break    
+            # Verifica se a posição gerada não colide com os objetos bloqueados
+            """if not any(item_rect.colliderect(rect) for rect in self.blocked_rects):
+                # Certifica-se de que não está dentro de objetos typados
+                colliding_objects = [
+                    obj for obj in self.tmx_data.objects
+                    if obj.type in ("Montanha", "Vegetacao", "Pedras", "Lapide", "Cerca")
+                    and pygame.Rect(obj.x, obj.y, obj.width, obj.height).colliderect(item_rect)
+                ]
+                if colliding_objects:
+                    continue  # Tenta outra posição se estiver colidindo com objetos typados
+
+                # Define o tipo de item a ser spawnado
+                item_type = random.choice(["Baconseed", "Baconfruit", "Starpotion", "Hugepotion"])
+
+                # Cria e posiciona o item
+                item = ItemDrop(spawn_x, spawn_y, item_type)
+
+                # Adiciona o item aos grupos de sprites
+                self.item_sprites.add(item)
+                self.all_sprites.add(item)
+
+                # Sai do loop após posicionar o item
+                break"""
+
+    """def spawn_item(self):
+        #Quantidade de tentativas para o item encontra o local ideal para nascer
+        spawn_attempts = 8
+        spawn_probability = 0.8
+            
+        if random.random() > spawn_probability:
+            return
+
+        for _ in range(spawn_attempts):
+            spawn_x = random.randint(-5, 5)
+            spawn_y = random.randint(-5, 5)
+           
+            item_rect = pygame.Rect(spawn_x, spawn_y, 1, 1)
+            #spawn_pos = pygame.Rect(spawn_x, spawn_y, 1, 1)
+
+            #Verifica se a posição gerada não bate com a de um objeto
+            if not any(item_rect.colliderect(rect) for rect in self.blocked_rects):
+                item_type = random.choice(["Baconseed", "Baconfruit", "Starpotion", "Hugepotion"])
+                item = ItemDrop(spawn_x, spawn_y, item_type)
+
+                #Adciona os itens no grupo de sprites
+                self.item_sprites.add(item)
+                self.all_sprites.add(item)
+                break"""
+              
+    
     def intro_screen(self):
         """
         Exibe a tela de introdução do jogo com opções para iniciar ou sair.
