@@ -128,11 +128,20 @@ class Game:
             # Despawna todos os inimigos e spawna o boss
             self.despawn_all_enemies()
             boss_kind = random.choice(self.boss_list)
-            self.boss = Boss(self, boss_kind, (self.screen.get_width()) // 2, (self.screen.get_height()) // 2, boss_name[boss_kind], final_boss)
+            while not self.spawned_boss:
+                angle = random.uniform(0, 2 * math.pi)
+                radius = (self.screen.get_height() ** 2 + self.screen.get_width() ** 2) ** 0.5 / 8
+                x = radius * math.cos(angle)
+                y = radius * math.sin(angle)
+                
+                spawn_pos = pygame.Rect((x + self.player.rect.x + self.player.rect.width / 2), 
+                (y + self.player.rect.y + self.player.rect.height / 2), char_size_colision[0], char_size_colision[1])
+                
+                if not any(spawn_pos.colliderect(rect) for rect in self.blocked_rects):
+                    self.spawned_boss = True
+            self.boss = Boss(self, boss_kind, (x + self.player.rect.x + self.player.rect.width / 2), (y + self.player.rect.y + self.player.rect.height / 2), boss_name[boss_kind], final_boss)
             # Barra de vida do Boss
             self.boss_bar = BossBar(max=config.max_health["enemies"][boss_kind], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=75, boss_name=self.boss.name)
-            self.spawned_boss = True
-            
         return Spawnar_Boss   
 
     def new(self):
@@ -206,8 +215,6 @@ class Game:
         for item in collided_items:
             # Aplica o efeito do item
             item.apply_effect(self.player)  
-            
-        print(len(self.enemies_list))
 
     def run(self):
         for event in pygame.event.get():
@@ -724,13 +731,18 @@ class Game:
                 radius = (self.screen.get_height() ** 2 + self.screen.get_width() ** 2) ** 0.5 / 2
                 x = radius * math.cos(angle)
                 y = radius * math.sin(angle)
-                # Spawna o inimigo
-                self.enemies_list.append(Enemy(self,
-                                          enemy_kind,
-                                          (x + self.player.rect.x + self.player.rect.width / 2), 
-                                          (y + self.player.rect.y + self.player.rect.height / 2)))
-
-                self.spawn_time = pygame.time.get_ticks()
+                
+                spawn_pos = pygame.Rect((x + self.player.rect.x + self.player.rect.width / 2), 
+                (y + self.player.rect.y + self.player.rect.height / 2), char_size_colision[0], char_size_colision[1])
+                
+                if not any(spawn_pos.colliderect(rect) for rect in self.blocked_rects):
+                    # Spawna o inimigo
+                    self.enemies_list.append(Enemy(self,
+                                              enemy_kind,
+                                              (x + self.player.rect.x + self.player.rect.width / 2), 
+                                              (y + self.player.rect.y + self.player.rect.height / 2)))
+    
+                    self.spawn_time = pygame.time.get_ticks()
             # Adiciona um delay entre cada spawn de inimigo
             else:
                 current_time = pygame.time.get_ticks()

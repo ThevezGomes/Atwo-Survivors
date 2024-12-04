@@ -285,12 +285,16 @@ class Enemy(pygame.sprite.Sprite):
                 radius = (self.rect.height ** 2 + self.rect.width ** 2) ** 0.5
                 x = radius * math.cos(angle)
                 y = radius * math.sin(angle)
-                # Spawna o inimigo
-                self.minions_list.append(Minion(self.game,
-                                          enemy_kind,
-                                          (x + self.rect.x + self.rect.width/2), 
-                                          (y + self.rect.y + self.rect.height/2), self))
-                self.spawn_minions_time = pygame.time.get_ticks()
+                spawn_pos = pygame.Rect((x + self.rect.x + self.rect.width/2), (y + self.rect.y + self.rect.height/2), config.char_size_colision[0], config.char_size_colision[1])
+                
+                if not any(spawn_pos.colliderect(rect) for rect in self.game.blocked_rects):
+                
+                    # Spawna o inimigo
+                    self.minions_list.append(Minion(self.game,
+                                              enemy_kind,
+                                              (x + self.rect.x + self.rect.width/2), 
+                                              (y + self.rect.y + self.rect.height/2), self))
+                    self.spawn_minions_time = pygame.time.get_ticks()
         else:
             current_time = pygame.time.get_ticks()
             if current_time - self.spawn_minions_time > config.enemy_attack_delay[self.kind]:

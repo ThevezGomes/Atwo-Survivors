@@ -189,12 +189,12 @@ enemy_damage_animation_speed = {
 
 # Variavel que define o xp dos inimigos
 enemy_xp = {
-    "skeleton": 150,
+    "skeleton": 100,
     "skeleton_boss": 1000,
-    "skeleton_hunter": 200,
+    "skeleton_hunter": 150,
     "cultist": 250,
-    "goblin": 250,
-    "envoy_of_the_divine_beast": 2000,
+    "goblin": 300,
+    "envoy_of_the_divine_beast": 1000,
     "cockroach": 50
     }
 
@@ -287,6 +287,9 @@ width = 60
 
 # Tamanho do personagem principal
 char_size = (width, (width*32)/22)
+
+# Tamanho do personagem principal
+char_size_colision = (200, 200)
 
 # Tmanho base para os personagens
 size = {"player": 60,

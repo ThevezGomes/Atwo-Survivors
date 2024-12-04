@@ -1,6 +1,7 @@
 import pygame
 from abc import ABC, abstractmethod
 import config
+import math
 
 class Button:
     def __init__(self, x, y, width, height, fg, content, fontsize, image_path='../assets\img\GenericButton.png', image_path_hover='../assets\img\GenericButtonActive.png'):
@@ -222,13 +223,10 @@ class ExperienceBar(Bar):
         screen.blit(level_text, (text_x, text_y))
         
     def levels(self, level):
-        xp_level_1 = 100
+        # Define a experiência necessária para subir de nível
+        xp_level_1 = 200
         
-        #return int(xp_level_1*(1.5)**level)
-        if level <= 50:
-            return 100
-        elif level > 50:
-            return 1000000
+        return int(xp_level_1*math.log(level + 1, 2))
 
 class BossBar(Bar):
     def __init__(self, max, border_color, background_color, color, width, height, x, y, boss_name):

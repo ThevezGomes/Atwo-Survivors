@@ -395,13 +395,9 @@ class Player(pygame.sprite.Sprite):
             
     def levels(self, level):
         # Define a experiência necessária para subir de nível
-        xp_level_1 = 100
+        xp_level_1 = 200
         
-        #return int(xp_level_1*(1.5)**level)
-        if level <= 50:
-            return 100
-        elif level > 50:
-            return 1000000
+        return int(xp_level_1*math.log(level + 1, 2))
         
     def check_low_life(self):
         # Verifica se a vida do jogador está baixa
