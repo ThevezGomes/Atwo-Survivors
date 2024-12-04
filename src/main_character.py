@@ -1,3 +1,5 @@
+"""Módulo que define a classe Player, representando o personagem principal do jogo."""
+
 import pygame
 import math
 import random
@@ -6,8 +8,18 @@ import repositorio_sprites as rs
 from items_abilities import *
 
 class Player(pygame.sprite.Sprite):
+    """
+    Representa o personagem principal do jogo, e todos os seus métodos
+    """
     def __init__(self, game, x, y):
-
+        """
+        Inicializa uma nova instância da classe `Player`.
+        
+        Args:
+        game (object): Referência à instância do jogo que contém informações sobre o estado do jogo e gerencia os elementos do mundo.
+        x (int): Coordenada x de posição inicial do jogador.
+        y (int): Coordenada y de posição inicial do jogador.
+        """
         # Define propriedades do jogador, como camada e grupo de sprites
         self.game= game
         self._layer = config.layers["player_layer"]
@@ -58,6 +70,8 @@ class Player(pygame.sprite.Sprite):
 
     # Atualiza todas as propriedades do jogador, como movimento, animacao, mudanca de posicao e colisao
     def update(self):
+        """Atualiza o estado do jogador a cada ciclo do jogo."""
+
         # Se tiver morto ou receber dano, ativa as animações
         if self.death:
             self.death_animation()
@@ -93,6 +107,8 @@ class Player(pygame.sprite.Sprite):
 
     # Cria o movimento do jogador
     def movement(self):
+        """Gerencia a movimentação do jogador com base nas entradas de controle."""
+
         # Para cada tecla que ele pressiona, define para onde o personagem vai olhar e a variacao da posicao, além de mover tudo na direção oposta para criar a câmera
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
@@ -143,6 +159,12 @@ class Player(pygame.sprite.Sprite):
 
     # Ajusta a colisao
     def collide_blocks(self, direction):
+        """
+        Verifica colisões do jogador com blocos em uma direção específica.
+
+        Args:
+        direction (str): A direção em que a colisão deve ser verificada. Pode ser 'up', 'down', 'left' ou 'right', correspondendo às direções de movimento.
+        """
         # Para cada direcao, se o personagem colide com o cenario, entao ajusta a posicao do jogador para fora do objeto colidido
         if direction == "x":
             hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
@@ -174,6 +196,8 @@ class Player(pygame.sprite.Sprite):
         
                     
     def animate(self):
+         """Atualiza a animação do jogador com base no estado atual do movimento."""
+
         # Colecao de todas as imagens de animacao do personagem principal
          [walk_down_animations, walk_up_animations, walk_right_animations, walk_left_animations] = self.game.sprites.warrior_animations["walk_animations"].values()
 
@@ -223,6 +247,11 @@ class Player(pygame.sprite.Sprite):
                      self.animation_loop = 1
             
     def collide_enemy(self):
+        """Verifica e trata colisões do jogador com inimigos.
+        
+         Este método interage com os sprites de inimigos no jogo para determinar se houve uma colisão e causar o dano no jogador.
+        """
+
         # Verifica se o personagem colidiu com um inimigo
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
         if hits:
@@ -237,6 +266,12 @@ class Player(pygame.sprite.Sprite):
                 self.enemies = list(hits)
                 
     def collide_enemy_attacks(self):
+        """
+        Verifica e trata colisões do jogador com ataques de inimigos.
+        
+        Este método interage com os sprites de ataques inimigos no jogo para determinar se houve uma colisão e causar o dano no jogador.
+        """
+
         # Verifica se o personagem colidiu com um ataque inimigo
         hits = pygame.sprite.spritecollide(self, self.game.enemy_attacks, False)
         if hits:
@@ -251,6 +286,11 @@ class Player(pygame.sprite.Sprite):
                 self.enemies = list(hits)
                 
     def damage_animation(self):
+        """
+        Executa a animação de dano do jogador.
+        
+        Este método deve ser chamado quando o jogador colide com um inimigo ou um ataque inimigo, como uma forma de fornecer feedback visual sobre a vida do jogador.
+        """
         # Para cada inimigo ou ataque colidido, remove da vida do jogador o dano do ataque, considerando os buffs
         for enemy in self.enemies:
             if enemy.class_ == "EnemyAttack":
@@ -305,6 +345,12 @@ class Player(pygame.sprite.Sprite):
                     self.damage = False
 
     def death_animation(self):
+        """
+        Executa a animação de morte do jogador.
+        
+        Este método é chamado para fornecer um feedback visual claro de que o jogador morreu, antes de iniciar o processo de reinício ou exibição de uma tela de game over.
+        """
+
         # Aplica o som de morte
         self.game.play_sound("game_over_sound", self.game_over_sound)
         self.game_over_sound = False
@@ -360,6 +406,17 @@ class Player(pygame.sprite.Sprite):
                     self.game.game_over()
                     
     def atacar(self, game, x, y, item, position, level=1):
+        """
+        Executa um ataque do jogador.
+        
+        Args:
+            game (object): Referência à instância do jogo que gerencia o estado do jogo e os elementos do mundo.
+            x (int): Coordenada x da posição de ataque.
+            y (int): Coordenada y da posição de ataque.
+            item (object): O item ou alvo que o jogador está atacando.
+            position (str): A posição ou direção do ataque, como "frente", "trás", "esquerda", "direita".
+            level (int, opcional): O nível do ataque, com um valor padrão de 1.
+        """
         # Invoca o ataque do jogador, considerando os buffs e delay
         if not self.attacking:
             self.attacking = True
@@ -387,6 +444,7 @@ class Player(pygame.sprite.Sprite):
             """
 
     def check_xp_level(self):
+        """Verifica e atualiza o nível do jogador com base na experiência acumulada."""
         # Verifica se o personagem subiu de nível
         if self.xp >= self.levels(self.level):
             self.xp = self.xp - self.levels(self.level)
@@ -394,12 +452,21 @@ class Player(pygame.sprite.Sprite):
             self.game.level_up = True
             
     def levels(self, level):
-        # Define a experiência necessária para subir de nível
+        """Define a experiência necessária para subir de nível.
+        
+        Args:
+            level (int): O nível desejado para o jogador.
+
+        Returns:
+            int: Quantidade de xp para o level.
+        """
+
         xp_level_1 = 200
         
         return int(xp_level_1*math.log(level + 1, 2))
         
     def check_low_life(self):
+        """Verifica se a vida do jogador está abaixo de um determinado nível e realiza ações específicas."""
         # Verifica se a vida do jogador está baixa
         if (self.health / self.max_health) <= 0.2:
             self.low_life = True
@@ -418,7 +485,20 @@ class Player(pygame.sprite.Sprite):
         
                 
 class Attack(pygame.sprite.Sprite):
+    """Representa um ataque no jogo, que pode ser disparado pelo jogador."""
+
     def __init__(self, game, x, y, item, position, level):
+        """
+        Inicializa uma nova instância da classe `Attack`.
+
+        Args:
+            game (object): Referência à instância do jogo que contém informações sobre o estado do jogo e gerencia os elementos do mundo.
+            x (int): Coordenada x da posição inicial do ataque.
+            y (int): Coordenada y da posição inicial do ataque.
+            item (str): Tipo de item que está sendo usado para o ataque (por exemplo, 'demon_sword', 'energy_ball').
+            position (str): Direção em que o ataque é disparado, seguindo a direção do mouse.
+            level (int): Nível do ataque, que pode determinar sua força ou características adicionais.
+        """
         
         # Define propriedades do ataque
         self.game = game
@@ -460,6 +540,9 @@ class Attack(pygame.sprite.Sprite):
         
         
     def update(self):
+        """
+        Atualiza o estado do ataque a cada quadro.
+        """
         # Atualiza o movimento do ataque
         self.movement()
         # Atualiza a animação do ataque
@@ -477,11 +560,13 @@ class Attack(pygame.sprite.Sprite):
         self.y_change = 0
         
     def movement(self):
+        """Atualiza a posição do ataque com base na direção e velocidade definidas."""
         # Calcula o descolamento nos eixos do ataque
         self.x_change = self.velocity[0]
         self.y_change = self.velocity[1]
         
-    def animate(self):        
+    def animate(self):
+        """Atualiza a animação do ataque."""        
         [self.attack_animations] = self.game.sprites.attack_animations[self.item].values()
         # Aplica o som do ataque
         self.game.play_sound(self.item, self.attack_sound)
@@ -498,6 +583,12 @@ class Attack(pygame.sprite.Sprite):
             self.kill()
             
     def collide_enemy(self):
+        """
+        Verifica a colisão do ataque com inimigos.
+        
+        Este método percorre todos os inimigos presentes no jogo e verifica se o ataque colidiu com algum deles. Se uma colisão for detectada, ele aplica o dano apropriado ao inimigo e, se necessário, trata outras consequências, como a remoção do ataque.
+        """
+
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
         # Verifica se o ataque acertou algum inimigo
         if hits:
@@ -510,9 +601,8 @@ class Attack(pygame.sprite.Sprite):
                     sprite.damage_time = pygame.time.get_ticks()
                     self.count_enemies += 1
                 
-                
-                
     def collide_blocks(self):
+        """Verifica a colisão do ataque com blocos do cenário."""
         # Verifica se o ataque colidiu com o cenário, se colidir, destroi o ataque
         hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
         if hits:
