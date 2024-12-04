@@ -19,7 +19,13 @@ import math
 from drop_item import * 
 
 class Game:
+    """
+    Classe central do jogo.
+    """
     def __init__(self):
+        """
+        Inicializa os principais componentes do jogo, incluindo tela, sons, mapas, sprites e inventários.
+        """
         # Inicia o pygame, o mixer de sons e a tela
         pygame.init()
         pygame.mixer.init()
@@ -27,19 +33,19 @@ class Game:
 
         # Define propriedades essenciais para o jogo
         self.clock = pygame.time.Clock()
-        self.running = True
-        self.paused = False
-        self.level_up = False
-        self.restart =False
-        self.sprites = rs.Sprites()
-        self.sounds = rsound.Sound()
-        self.spawn_time = 0
-        self.spawning = False
-        self.allow_spawn_enemies = True
-        self.spawned_boss = False
-        self.show_message = False
-        self.enemies_list = []
-        self.difficulty_ratio = 1
+        self.running = True # Indica se o jogo está em execução.
+        self.paused = False # Indica se o jogo está pausado.
+        self.level_up = False # Indica se o jogador atingiu o próximo nível.
+        self.restart =False # Indica se o jogo deve ser reiniciado.
+        self.sprites = rs.Sprites() # Gerencia os sprites do jogo.
+        self.sounds = rsound.Sound() # Gerencia os sons do jogo.
+        self.spawn_time = 0 # Tempo para spawn de inimigos.
+        self.spawning = False # Indica se novos inimigos estão sendo gerados.
+        self.allow_spawn_enemies = True # Permite ou bloqueia a geração de inimigos.
+        self.spawned_boss = False # Indica se o chefe foi gerado.
+        self.show_message = False # Exibe mensagens temporárias na tela.
+        self.enemies_list = [] # Lista de inimigos ativos no jogo.
+        self.difficulty_ratio = 1 # Multiplicador de dificuldade do jogo.
         
         # Define os buffs das habilidades
         self.buffs = {
@@ -52,7 +58,6 @@ class Game:
             "regeneration": 0
             }
         
-
         # Carrega o mapa .tmx
         self.tmx_data = load_pygame("../assets/Tiled/tmx/Map2.tmx")
 
@@ -89,22 +94,10 @@ class Game:
         self.boss_list = boss_list
 
         #Criação do inventário (posição, tamanho do slot e número de slots)
-        self.inventory = Inventory(x=10, y=self.screen.get_height() - 60, slot_size=50, max_slots=5)
-        # self.energy_ball = self.all_itens["energy_ball"]
-        # self.inventory.add_item(self.energy_ball)
-        # self.inventory.add_item(self.espada)
-        # self.pocao = Item("Poção", "Cura 5 de vida", "../assets/img/staff36.png")
-        # self.inventory.add_item(self.pocao)
-        # self.escudo = Item("Escudo", "Um escudo resistente.", "../assets\img\Sorceress Green Skill 07.png")
+        self.inventory = Inventory(x=10, y=self.screen.get_height() - 60, slot_size=50, max_slots=5) # Inventário do jogador com slots para itens.
 
         #Criação do hub de habilidades (posição, tamanho do slot e número de slots)
-        self.skills_hub = Skills_hub(x=10, y=10, slot_size=40, max_slots=5)
-        # self.resistencia = Ability("Resistencia", "Aumenta 50% na resistencia", "../assets\img\Sorceress Green Skill 07.png")
-        # self.skills_hub.add_item(self.resistencia)
-        # self.skills_hub.add_item(self.resistencia)
-        # self.cura = Ability("Cura", "Cura 5 de vida ada 5s", "../assets\img\Sorceress Icon 10.png")
-        # self.skills_hub.add_item(self.cura)
-        # self.vida = Ability("Vida", "Cura 5 de vida ada 5s", "../assets\img\Sorceress Icon 10.png")
+        self.skills_hub = Skills_hub(x=10, y=10, slot_size=40, max_slots=5) # Hub para exibição de habilidades disponíveis.
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
@@ -124,7 +117,13 @@ class Game:
         self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
 
     def SpawnBoss(self, final_boss):
+        """
+        Decora a função Spawnar_Boss()
+        """
         def Spawnar_Boss():
+            """
+            Remove todos os inimigos e gera o chefe no centro da tela.
+            """
             # Despawna todos os inimigos e spawna o boss
             self.despawn_all_enemies()
             boss_kind = random.choice(self.boss_list)
@@ -145,22 +144,26 @@ class Game:
         return Spawnar_Boss   
 
     def new(self):
-        self.playing = True
+        """
+        Inicializa um novo estado de jogo, configurando grupos de sprites, o jogador, e as barras de status.
+        """
+
+        self.playing = True # Define como True para indicar que o jogo está em execução.
 
         # Define grupos de sprites com propriedades que serao utilizadas
-        self.all_sprites = pygame.sprite.LayeredUpdates()
-        self.blocks = pygame.sprite.LayeredUpdates()
-        self.enemies = pygame.sprite.LayeredUpdates()
-        self.enemy_attacks = pygame.sprite.LayeredUpdates()
-        self.attacks = pygame.sprite.LayeredUpdates()
+        self.all_sprites = pygame.sprite.LayeredUpdates() # Grupo de todos os sprites no jogo.
+        self.blocks = pygame.sprite.LayeredUpdates() # Grupo de blocos do mapa com propriedades de colisão.
+        self.enemies = pygame.sprite.LayeredUpdates() # Grupo de sprites de inimigos.
+        self.enemy_attacks = pygame.sprite.LayeredUpdates() # Grupo de sprites de ataques inimigos.
+        self.attacks = pygame.sprite.LayeredUpdates() # Grupo de sprites dos ataques do jogador.
 
-        #Carrega os tiles e define colisões com base nas camadas
+        # Carrega os tiles e define colisões com base nas camadas
         self.load_map()
 
         # Cria o jogador na posicao central da tela
-        self.player = Player(self, (self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2)
+        self.player = Player(self, (self.screen.get_width() - config.char_size[0]) // 2, (self.screen.get_height() - config.char_size[1]) // 2) # Instância do jogador posicionada no centro da tela.
         
-        # Barra de vida
+        # Barra de vida do jogador
         self.health_bar = HealthBar(max=self.player.max_health, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(163, 31, 13), base_width=250, height=20, x=self.screen.get_width() - 310, y=self.screen.get_height() - 45, character_icon="../assets/img/WarriorIcon.png")
         self.health_bar.amount = self.player.health
         
@@ -187,6 +190,10 @@ class Game:
         pygame.display.update()
 
     def update(self):
+        """
+        Renderiza todos os elementos visuais do jogo na tela.
+        """
+
         #Atualiza todos os sprites e suas propriedades
         self.all_sprites.update()
         
@@ -199,7 +206,7 @@ class Game:
         self.experience_bar.amount = self.player.xp
         # Atualiza os itens que apareceram no menu de Level Up
         self.items_list_choice()
-        self.game_timer.update() # Atualisa o timer
+        self.game_timer.update() # Atualiza o timer
         
         # Spawna os inimigos
         if self.allow_spawn_enemies:
@@ -217,6 +224,17 @@ class Game:
             item.apply_effect(self.player)  
 
     def run(self):
+        """
+        Executa o loop principal do jogo, processando eventos, atualizando estados e chamando métodos de atualização e draw.
+
+        Changed Attributes:
+        running (bool): Atualizado para False quando o jogo deve ser encerrado.
+        paused (bool): Alternado para pausar ou retomar o jogo.
+        level_up (bool): Verificado para exibir o menu de level up.
+        player.death (bool): Definido como True se a saúde do jogador for zero.
+        player.game_over_sound (bool): Ativado quando o jogador morre.
+        spawned_boss (bool): Verificado para pausar o temporizador quando um chefe está presente.
+        """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False  # Define running como False para encerrar o loop principal
@@ -230,7 +248,7 @@ class Game:
                 if event.key == pygame.K_e:
                     self.buffs["life"] += 0.2
             
-            # Cria o ataque do jogador quando é apertado o botao direito do mouse        
+            # Cria o ataque do jogador quando é apertado o botao direito do mouse
             elif pygame.mouse.get_pressed()[0]:
                 # Ataca com o ataque base se nada tiver selecionado
                 if self.inventory.selected_item_index != None:
@@ -285,9 +303,11 @@ class Game:
 
         return tile_image
 
-
-
     def load_map(self):
+        """
+        Carrega e inicializa o mapa do jogo a partir de um arquivo TMX, incluindo a adição de tiles, objetos e áreas de colisão.
+        """
+
         # Coordenadas do centro do mapa e da tela
         target_x, target_y = 1250, 1589
         
@@ -347,7 +367,6 @@ class Game:
                 rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
                 self.blocked_rects.append(rect)
 
-
     def spawn_item(self):
         #Quantidade de tentativas para o item encontra o local ideal para nascer
         spawn_attempts = 8
@@ -372,6 +391,11 @@ class Game:
             return  
         
     def intro_screen(self):
+        """
+        Exibe a tela de introdução do jogo com opções para iniciar ou sair.
+        """
+
+        # Define que a tela de intro deve aparecer
         intro = True
         title = self.font_title.render('Nexus', True, pygame.Color('white'))
         title_rect = title.get_rect(topleft=(10, 10))
@@ -393,6 +417,7 @@ class Game:
         play_button = Button(button_x, button_y, button_width, button_height, pygame.Color('white'), 'Jogar', 32)
         quit_button = Button(button_x, button_y + button_height + 20, button_width, button_height, pygame.Color('white'), 'Sair', 32)
 
+        # Loop da tela de introção, espera que uma das opções seja escolida para iniciar o jogo ou fechar ele
         while intro:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -440,6 +465,11 @@ class Game:
             pygame.display.flip()
 
     def game_over(self, mensage="Fim de jogo"):
+        """
+        Exibe a tela de 'Game Over' quando o jogo termina, oferecendo opções para reiniciar ou sair.
+        """
+        
+        # Define que a tela de Game Over deve aparecer
         over = True
 
         paused_surface = self.screen.copy()  # Captura o estado atual do jogo
@@ -461,6 +491,7 @@ class Game:
         restart_button = Button(screen_width//2 - button_width -10, button_y, button_width, button_height, pygame.Color('white'), 'Resetar', 32)
         quit_button = Button(screen_width//2 +10, button_y, button_width, button_height, pygame.Color('white'), 'Sair', 32)
 
+        # Loop da tela de Game Over, espera que um dos botões seja apertado para fechar o jogo ou iniciar uma nova partida
         while over:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -498,12 +529,20 @@ class Game:
             pygame.display.flip()
 
     def blur(self, surface, n):
+        """
+        Aplica um efeito de desfoque (blur) em uma superfície, sendo usado para escurecer a tela do jogo quando ele esta pausado.
+        """
+
         # Aplica  um efeito de blur na tela
         blur_overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
         blur_overlay.fill((0, 0, 0, n))  # Opacidade a 180
         surface.blit(blur_overlay, (0, 0))
 
     def pause_menu(self):
+        """
+        Exibe o menu de pausa, permitindo que o jogador retome o jogo, reinicie ou saia.
+        """
+
         # Congela o jogo e exibe o menu de pausa
         paused_surface = self.screen.copy()  # Captura o estado atual do jogo
         self.blur(paused_surface, 180)
@@ -526,7 +565,7 @@ class Game:
         restart_button = Button(menu_rect.centerx - button_width // 2, resume_button.rect.bottom + button_spacing, button_width, button_height, pygame.Color('white'), 'Resetar', 24)
         exit_button = Button(menu_rect.centerx - button_width // 2, restart_button.rect.bottom + button_spacing, button_width, button_height, pygame.Color('white'), 'Sair', 24)
         
-        # Loop de pausa
+        # Loop de pausa: substitui temporariamente o loop principal do jogo, impedindo qualquer atualização.
         while self.paused:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -570,6 +609,13 @@ class Game:
             self.clock.tick(60)
            
     def level_up_menu(self, itens):
+        """
+        Exibe o menu de level up para o jogador, permitindo a seleção de uma habilidade ou item.
+
+        Args:
+        itens (list): Uma lista de três itens ou habilidades que o jogador pode escolher.
+        """
+
         # Congela o jogo e exibe o menu de level up
         paused_surface = self.screen.copy()  # Captura o estado atual do jogo
         self.blur(paused_surface, 180)
@@ -596,7 +642,7 @@ class Game:
         
         self.play_sound("level_up")
         
-        # Loop de pausa
+        # Loop de level up, interrope o jogo até qua uma opção seja selecionada
         while self.level_up:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -670,7 +716,7 @@ class Game:
                                         self.player.health += (self.player.max_health // 2)
                                 elif itens[1].kind == "Starpotion":
                                     self.player.xp += 10
-                    # Terceiro Item Selecionado                
+                    # Terceiro Item Selecionado
                     elif item3.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         # Aplica o som de botao
                         self.play_sound("button_sound")
@@ -720,6 +766,10 @@ class Game:
             self.clock.tick(60)
             
     def spawn_enemies(self):
+        """
+        Gerencia a criação e adição de inimigos à lista de inimigos no jogo.
+        """
+
         # Enquanto tiver menos que o limite de inimigos
         if len(self.enemies_list) < 20:
             if not self.spawning:
@@ -748,14 +798,19 @@ class Game:
                 current_time = pygame.time.get_ticks()
                 if current_time - self.spawn_time > config.spawn_delay:
                     self.spawning = False
-                    
-                    
+
     def buffs_apply(self):
+        """
+        Aplica os buffs ativos ao jogador com base no nível de suas habilidades.
+        """
         # Altera o valor dos buffs conforme o nível da habilidade
         for ability in self.skills_hub.items:
             self.buffs[ability[0].buff] = config.buff[ability[0].kind][ability[0].level]
 
     def MessageSpawnBoss(self):
+        """
+        Exibe uma mensagem de alerta no início do aparecimento de um chefe.
+        """
          # Exibir a mensagem no centro superior da tela
         self.message = "Prepare-se"
         self.play_sound("boss_coming")
@@ -764,6 +819,10 @@ class Game:
         self.message_duration = 3000 # Define o tempo que a menssagem fica na tela
 
     def draw_message(self):
+        """
+        Desenha uma mensagem na tela se a variável `show_message` estiver ativada.
+        """
+
         # Se show_message for True, exibe a mensagem
         if self.show_message:
             # Posiciona a menssagem na tela
@@ -779,6 +838,16 @@ class Game:
             self.screen.blit(text_surface, text_rect)
             
     def cheats(self):
+        """
+        Aplica cheats no jogo quando teclas específicas são pressionadas.
+
+        Este método verifica se certas combinações de teclas são pressionadas para conceder benefícios ao jogador. 
+        Atualmente, existem dois cheats disponíveis:
+        
+        1. Pressionar 'Q' aumenta a experiência do jogador.
+        2. Pressionar 'R' e 'I' simultaneamente restaura a saúde do jogador ao máximo.
+        """
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_q]:
             self.player.xp += 2100
@@ -786,6 +855,14 @@ class Game:
             self.player.health = self.player.max_health
             
     def items_list_choice(self):
+        """
+        Seleciona e atualiza a lista de itens disponíveis para o menu de Level Up.
+
+        Este método é responsável por escolher os itens que serão exibidos no menu de Level Up com base na condição do inventário 
+        e das habilidades do jogador. Ele também gerencia quais itens devem ser removidos ou atualizados, de acordo com a capacidade máxima
+        do inventário e das habilidades.
+        """
+
         # Se o inventario de armas tiver cheio, coloca apenas os itens que já estão no inventário para aparecerem
         if len(self.inventory.items) >= self.inventory.max_slots:
             if self.update_items:
@@ -822,6 +899,9 @@ class Game:
             self.itens = [random.choice(list(self.all_itens_max.values())), random.choice(list(self.all_itens_max.values())), random.choice(list(self.all_itens_max.values()))]
            
     def despawn_all_enemies(self):
+        """
+        Despawn de todos os inimigos presentes na lista de inimigos.
+        """
         # Impede o nascimento de inimigos
         self.allow_spawn_enemies = False
         # Remove todos os inimigos
@@ -834,6 +914,9 @@ class Game:
         self.enemies_list = []
         
     def play_sound(self, sound, checker=True):
+        """
+        Toca um som específico se o parâmetro `checker` for True.
+        """
         # Caso seja validado, toca o som recebido
         if checker:
             self.sounds.all_sounds[sound].play()
