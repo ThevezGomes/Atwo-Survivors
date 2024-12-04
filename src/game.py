@@ -302,11 +302,15 @@ class Game:
                 # Cria um retângulo bloqueado baseado na posição e dimensões do objeto
                 rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
                 self.blocked_rects.append(rect)
-     
+    
+    def draw_blocked_areas(self, screen):
+        for rect in self.blocked_rects:
+            pygame.draw.rect(screen, (255, 0, 0), rect, 1)  # Vermelho para debug
+
     def spawn_item(self):
         # Quantidade de tentativas para encontrar uma posição válida
-        spawn_attempts = 8
-        spawn_probability = 0.8
+        spawn_attempts = 9
+        spawn_probability = 0.6
 
         # Controla a probabilidade de spawn
         if random.random() > spawn_probability:
@@ -314,14 +318,30 @@ class Game:
 
         for _ in range(spawn_attempts):
             # Gera coordenadas aleatórias dentro de um intervalo adequado (ajuste conforme necessário)
-            spawn_x = random.randint(0, 5)  # Substitua `self.map_width` pelo tamanho do mapa em pixels
-            spawn_y = random.randint(0, 5)  # Substitua `self.map_height` pelo tamanho do mapa em pixels
+            spawn_x = random.randint(0, 5)
+            spawn_y = random.randint(0, 5)
+
 
             # Cria um retângulo representando a posição do item
             item_rect = pygame.Rect(spawn_x, spawn_y, 1, 1)
 
+            if any(item_rect.colliderect(rect) for rect in self.blocked_rects):
+                pass
+
+            # Define o tipo de item a ser spawnado
+            item_type = random.choice(["Baconseed", "Baconfruit", "Starpotion", "Hugepotion"])
+
+            # Cria e posiciona o item
+            item = ItemDrop(spawn_x, spawn_y, item_type)
+
+            # Adiciona o item aos grupos de sprites
+            self.item_sprites.add(item)
+            self.all_sprites.add(item)
+
+            # Sai do loop após posicionar o item
+            break    
             # Verifica se a posição gerada não colide com os objetos bloqueados
-            if not any(item_rect.colliderect(rect) for rect in self.blocked_rects):
+            """if not any(item_rect.colliderect(rect) for rect in self.blocked_rects):
                 # Certifica-se de que não está dentro de objetos typados
                 colliding_objects = [
                     obj for obj in self.tmx_data.objects
@@ -342,7 +362,7 @@ class Game:
                 self.all_sprites.add(item)
 
                 # Sai do loop após posicionar o item
-                break
+                break"""
 
     """def spawn_item(self):
         #Quantidade de tentativas para o item encontra o local ideal para nascer
