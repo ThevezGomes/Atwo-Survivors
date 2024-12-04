@@ -21,7 +21,7 @@ class ItemDrop(pygame.sprite.Sprite):
         image (pygame.Surface): Imagem que representa o item.
         rect (pygame.Rect): Retângulo delimitador para posicionamento e colisão do item.
     """
-    def __init__(self, x, y, item_type):
+    def __init__(self, x, y, item_type, game):
         
         super().__init__()
         self.game = game

@@ -396,7 +396,7 @@ class Game:
             item_type = random.choice(["Baconseed", "Baconfruit", "Starpotion", "Hugepotion"])
 
             # Cria e posiciona o item
-            item = ItemDrop(spawn_x, spawn_y, item_type)
+            item = ItemDrop(spawn_x, spawn_y, item_type, self)
 
             # Adiciona o item aos grupos de sprites
             self.item_sprites.add(item)
