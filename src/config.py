@@ -1,3 +1,5 @@
+"""Configurações do jogo"""
+
 # Variavel que armazena o tamanho de certos objetos
 tilesize = 1
 

@@ -1,3 +1,5 @@
+"""Módulo que define a classe `Game`, que é responsável por gerenciar a lógica do jogo, a criação de elementos do jogo e a execução da mecânica do jogo em si."""
+
 import pygame
 import sys
 import random
