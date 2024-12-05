@@ -99,6 +99,7 @@ class ItemDrop(pygame.sprite.Sprite):
             self.game.play_sound("xp_potion_sound")
             player.xp += 60   
         elif self.item_type == 'Hugepotion':
+            self.game.play_sound("xp_potion_sound")
             player.xp += player.xp +player.xp *0.6 
        
         
