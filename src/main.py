@@ -1,4 +1,4 @@
-"""Módulo principal do jogo, que inicializa e executa a aplicação do jogo."""
+"""Módulo principal do jogo, que inicializa e executa a aplicação do jogo.aaaaaaaaa"""
 
 import pygame
 from game import *
@@ -18,4 +18,4 @@ while g.running:
 
 # Finaliza o Pygame e sai do programa
 pygame.quit()
-sys.exit()
+sys.exit()  

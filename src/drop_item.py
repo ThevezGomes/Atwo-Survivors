@@ -1,20 +1,18 @@
 import pygame
 from main_character import *
 from config import *
-from main_character import *
-import math
 
 class ItemDrop(pygame.sprite.Sprite):
     """
     Classe para representar um item dropado no jogo. 
     Cada item possui um tipo, uma imagem associada, um tempo de vida e pode aplicar efeitos no jogador.
 
-    Args:
+    Argumentoss:
         x (int): Coordenada x da posição inicial do item.
         y (int): Coordenada y da posição inicial do item.
         item_type (str): Tipo do item (e.g., 'Baconseed', 'Baconfruit', 'Starpotion', 'Hugepotion').
 
-    Attributes:
+    Atributos:
         item_type (str): Tipo do item.
         spawn_time (int): Momento (em milissegundos) em que o item foi criado.
         lifetime (int): Tempo de vida total do item, em milissegundos.
@@ -71,7 +69,7 @@ class ItemDrop(pygame.sprite.Sprite):
         """
         Aplica o efeito do item no jogador.
         
-        Args:
+        Argumento:
             player (Player): Objeto do jogador que coletou o item.
 
         Efeitos:
@@ -99,7 +97,10 @@ class ItemDrop(pygame.sprite.Sprite):
             self.game.play_sound("xp_potion_sound")
             player.xp += 60   
         elif self.item_type == 'Hugepotion':
-            self.game.play_sound("xp_potion_sound")
-            player.xp += player.xp +player.xp *0.6 
+            player.xp += 400
        
+            self.game.play_sound("xp_potion_sound")
+            player.xp += 200
+
+
         

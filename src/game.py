@@ -20,6 +20,7 @@ import numpy as np
 import math
 from drop_item import * 
 
+
 class Game:
     """
     Classe central do jogo.
@@ -125,7 +126,10 @@ class Game:
         self.item_sprites = pygame.sprite.Group() 
         #Grupo do sprites de colisão
         self.collidable_sprites = pygame.sprite.Group()
-        self.blocked_rects = []     # Lista de retângulos bloqueados
+
+        self.map_width = self.tmx_data.width * self.tmx_data.tilewidth
+        self.map_height = self.tmx_data.height * self.tmx_data.tileheight
+
         # Define uma lista aleatória de itens que podem aparecer no menu de Level Up
         self.itens = [random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values())), random.choice(list(self.all_itens.values()))]
 
@@ -187,6 +191,8 @@ class Game:
         
         # Barra de experiência
         self.experience_bar = ExperienceBar(border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=45, level=self.player.level, xp=self.player.xp)
+
+        self.blocked_polygons = [obj for obj in self.tmx_data.objects if obj.name == "Poligono"]
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -364,7 +370,7 @@ class Game:
             pos = (obj.x - offset_x, obj.y - offset_y)
 
             # Objetos com imagens (vegetação, pedras, etc.)
-            if obj.type in ("Vegetacao", "Pedras", "Lapide", "Cerca", "Montanha") and obj.image:
+            if obj.type in ("Montanha", "Vegetacao", "Pedras", "Lapide", "Cerca") and obj.image:
                 image = obj.image
 
                 if hasattr(obj, 'gid') and obj.gid:
@@ -384,93 +390,109 @@ class Game:
                 # Cria um retângulo bloqueado baseado na posição e dimensões do objeto
                 rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
                 self.blocked_rects.append(rect)
-    
-    def draw_blocked_areas(self, screen):
-        for rect in self.blocked_rects:
-            pygame.draw.rect(screen, (255, 0, 0), rect, 1)  # Vermelho para debug
 
     def spawn_item(self):
-        # Quantidade de tentativas para encontrar uma posição válida
-        spawn_attempts = 9
-        spawn_probability = 0.6
+        spawn_attempts = 8  # Número máximo de tentativas
+        spawn_probability = 0.6  # Probabilidade de spawn
 
         # Controla a probabilidade de spawn
         if random.random() > spawn_probability:
             return
 
-        for _ in range(spawn_attempts):
-            # Gera coordenadas aleatórias dentro de um intervalo adequado (ajuste conforme necessário)
-            spawn_x = random.randint(0, 5)
-            spawn_y = random.randint(0, 5)
+        # Dimensões do mapa
+        map_width = self.tmx_data.width * self.tmx_data.tilewidth
+        map_height = self.tmx_data.height * self.tmx_data.tileheight
 
+        # Calcula o deslocamento da câmera
+        offset_x, offset_y = self.calculate_camera_offset()
+
+        for _ in range(spawn_attempts):
+            # Gera coordenadas aleatórias dentro dos limites do mapa
+            spawn_x = random.randint(offset_x, map_width - offset_x)
+            spawn_y = random.randint(offset_y, map_height - offset_y)
 
             # Cria um retângulo representando a posição do item
             item_rect = pygame.Rect(spawn_x, spawn_y, 1, 1)
 
-            if any(item_rect.colliderect(rect) for rect in self.blocked_rects):
-                pass
-
-            # Define o tipo de item a ser spawnado
-            item_type = random.choice(["Baconseed", "Baconfruit", "Starpotion", "Hugepotion"])
-
-            # Cria e posiciona o item
-            item = ItemDrop(spawn_x, spawn_y, item_type, self)
-
-            # Adiciona o item aos grupos de sprites
-            self.item_sprites.add(item)
-            self.all_sprites.add(item)
-
-            # Sai do loop após posicionar o item
-            break    
-            # Verifica se a posição gerada não colide com os objetos bloqueados
-            """if not any(item_rect.colliderect(rect) for rect in self.blocked_rects):
-                # Certifica-se de que não está dentro de objetos typados
-                colliding_objects = [
-                    obj for obj in self.tmx_data.objects
-                    if obj.type in ("Montanha", "Vegetacao", "Pedras", "Lapide", "Cerca")
-                    and pygame.Rect(obj.x, obj.y, obj.width, obj.height).colliderect(item_rect)
-                ]
-                if colliding_objects:
-                    continue  # Tenta outra posição se estiver colidindo com objetos typados
-
+            # Verifica se a posição gerada não colide com objetos bloqueados
+            if not self.is_position_blocked(item_rect):
                 # Define o tipo de item a ser spawnado
                 item_type = random.choice(["Baconseed", "Baconfruit", "Starpotion", "Hugepotion"])
 
                 # Cria e posiciona o item
-                item = ItemDrop(spawn_x, spawn_y, item_type)
+                item = ItemDrop(spawn_x, spawn_y, item_type, self)
 
                 # Adiciona o item aos grupos de sprites
                 self.item_sprites.add(item)
                 self.all_sprites.add(item)
 
                 # Sai do loop após posicionar o item
-                break"""
+                break
 
-    """def spawn_item(self):
-        #Quantidade de tentativas para o item encontra o local ideal para nascer
-        spawn_attempts = 8
-        spawn_probability = 0.8
-            
-        if random.random() > spawn_probability:
-            return
 
-        for _ in range(spawn_attempts):
-            spawn_x = random.randint(-5, 5)
-            spawn_y = random.randint(-5, 5)
-           
-            item_rect = pygame.Rect(spawn_x, spawn_y, 1, 1)
-            #spawn_pos = pygame.Rect(spawn_x, spawn_y, 1, 1)
+    def is_position_blocked(self, item_rect):
+        # Verifica colisão com retângulos bloqueados
+        if any(item_rect.colliderect(rect) for rect in self.blocked_rects):
+            return True
 
-            #Verifica se a posição gerada não bate com a de um objeto
-            if not any(item_rect.colliderect(rect) for rect in self.blocked_rects):
-                item_type = random.choice(["Baconseed", "Baconfruit", "Starpotion", "Hugepotion"])
-                item = ItemDrop(spawn_x, spawn_y, item_type)
+        # Verifica colisão com polígonos bloqueados
+        for polygon in self.blocked_polygons:
+            if self.check_polygon_collision(item_rect, polygon):
+                return True
 
-                #Adciona os itens no grupo de sprites
-                self.item_sprites.add(item)
-                self.all_sprites.add(item)
-                break"""
-              
+        return False
+
+
+    def check_polygon_collision(self, item_rect, polygon):
+        # Certifica-se de que o objeto tem o atributo 'as_points'
+        if not hasattr(polygon, "as_points"):
+            return False
+
+        # Obtém os pontos do polígono como uma lista de tuplas
+        polygon_points = polygon.as_points  # Sem os parênteses
+
+        # Verifica se algum vértice do polígono está dentro do retângulo
+        if any(item_rect.collidepoint(point) for point in polygon_points):
+            return True
+
+        # Verifica se o centro do retângulo está dentro do polígono
+        center_x = item_rect.x + item_rect.width // 2
+        center_y = item_rect.y + item_rect.height // 2
+        if self.is_point_in_polygon((center_x, center_y), polygon_points):
+            return True
+
+        return False
+
+
+    def is_point_in_polygon(self, point, polygon_points):
+        # Algoritmo de Ponto no Polígono (Ray Casting)
+        x, y = point
+        n = len(polygon_points)
+        inside = False
+
+        p1x, p1y = polygon_points[0]
+        for i in range(n + 1):
+            p2x, p2y = polygon_points[i % n]
+            if y > min(p1y, p2y):
+                if y <= max(p1y, p2y):
+                    if x <= max(p1x, p2x):
+                        if p1y != p2y:
+                            xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                        if p1x == p2x or x <= xinters:
+                            inside = not inside
+            p1x, p1y = p2x, p2y
+
+        return inside
+
+
+    def calculate_camera_offset(self):
+        # Calcula o deslocamento da câmera com base nas coordenadas do alvo e da tela
+        target_x, target_y = 1260, 1610  # Coordenadas do alvo no mapa
+        screen_center_x, screen_center_y = 460, 454  # Centro da tela
+        offset_x = target_x - screen_center_x
+        offset_y = target_y - screen_center_y
+        return offset_x, offset_y
+
     
     def intro_screen(self):
         """
