@@ -14,8 +14,8 @@ max_health = {"player": 1000,
                   "skeleton": 1000,
                   "skeleton_boss": 10000,
                   "skeleton_hunter": 1000,
-                  "cultist": 2000,
-                  "goblin": 1500,
+                  "cultist": 2500,
+                  "goblin": 3000,
                   "envoy_of_the_divine_beast": 10000,
                   "cockroach": 500
                   }

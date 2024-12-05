@@ -111,13 +111,13 @@ class Game:
         self.game_timer.add_event(180, self.increase_number_of_enemies)
         self.game_timer.add_event(240, self.increase_number_of_enemies)
         self.game_timer.add_event(295, self.MessageSpawnBoss)
-        self.game_timer.add_event(300, self.SpawnBoss(False))
+        self.game_timer.add_event(30, self.SpawnBoss(False))
         self.game_timer.add_event(360, self.increase_number_of_enemies)
         self.game_timer.add_event(420, self.increase_number_of_enemies)
         self.game_timer.add_event(480, self.increase_number_of_enemies)
         self.game_timer.add_event(540, self.increase_number_of_enemies)
         self.game_timer.add_event(595, self.MessageSpawnBoss)
-        self.game_timer.add_event(600, self.SpawnBoss(True))
+        self.game_timer.add_event(45, self.SpawnBoss(True))
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()
