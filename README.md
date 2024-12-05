@@ -1,7 +1,14 @@
-# Jogo da A2
+# Jogo da A2: Atwo Survivors
 
 ## Visão Geral do Projeto
-Este é um jogo RPG em 2D desenvolvido em Python utilizando a biblioteca Pygame. O jogo apresenta mecânicas de combate, exploração, sistema de níveis, inventário, habilidades e spawn de inimigos e itens. 
+Neste trabalho foi elaborado um jogo de aventura, ação e RPG, utilizando a linguagem Python e a biblioteca Pygame. Nomeado "Atwo Survivors", foi inspirado no conceito de Vampire Survivors, a partir do qual recebeu suas modificações na mecânica de jogo e funcionalidades. O presente relatório visa apresentar como o jogo foi elaborado, com a divisão das tarefas do grupo, principais características do processo de desenvolvimento e dificuldades observadas.
+
+## Controles do jogo
+Utilize as teclas `A`, `W`, `S` e `D` para locomover o personagem na tela, ou os direcionais.
+Utilize o botão esquerdo do mouse para realizar ataques, ajustando a posição do mouse na direção do ataque.
+O scroll do mouse ou as teclas numéricas superiores podem ser utilizadas para alternar entre itens do inventário.
+A tecla `ESC` pausa o jogo.
+
 
 ## Estrutura do Projeto
 
@@ -49,9 +56,11 @@ O código fonte principal do jogo.
 ### 5. **`tests/`**
 Contém scripts de teste para garantir a funcionalidade do código.
 - **`gameTest.py`**: Testes unitários para a lógica principal do jogo.
-- **`test_player.py`**: Testes para as funcionalidades do personagem do jogador.
-- **`test_tile.py`**: Testes relacionados aos elementos e escalas do mapa
+- **`main_chrTest.py`**: Testes para as funcionalidades do personagem do jogador.
+- **`mapTest.py`**: Testes relacionados aos elementos e escalas do mapa
 - **`UITest.py`**: Testes relacionados aos elementos da interface do usuário.
+- **`enemiesTest.py`**: Testes relacionados aos inimigos do jogo.
+- **`enemy_aiTeste.py`**: Testes relacionados à inteligência artifical de movimentação dos inimigos.
 
 
 ## Instruções de Instalação
