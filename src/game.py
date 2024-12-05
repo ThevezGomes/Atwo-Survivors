@@ -310,9 +310,13 @@ class Game:
         self.clock.tick(60)  # Controle de FPS
    
     def transform_tile_image(self, tile_image, gid):
-        flipped_horizontally = bool(gid & (1 << 31))  # Verifica o flip horizontal
-        flipped_vertically = bool(gid & (1 << 30))    # Verifica o flip vertical
-        flipped_diagonally = bool(gid & (1 << 29))    # Verifica o flip diagonal (rotação de 90 graus)
+        """
+        Recebe os tiles do mapa e verifica se recebem o flip dentro do tmx
+        """
+        
+        flipped_horizontally = bool(gid & (1 << 31))  # Verifica o rotação horizontal
+        flipped_vertically = bool(gid & (1 << 30))    # Verifica o rotação vertical
+        flipped_diagonally = bool(gid & (1 << 29))    # Verifica o rotação diagonal (rotação de 90 graus)
 
         # Limpa os bits de transformação para obter o GID base
         gid &= 0x1FFFFFFF
@@ -392,6 +396,10 @@ class Game:
                 self.blocked_rects.append(rect)
 
     def spawn_item(self):
+        """
+        Carrega e spawna os itens do ItemDrop
+        """
+        
         spawn_attempts = 8  # Número máximo de tentativas
         spawn_probability = 0.6  # Probabilidade de spawn
 
@@ -431,7 +439,10 @@ class Game:
 
 
     def is_position_blocked(self, item_rect):
-        # Verifica colisão com retângulos bloqueados
+        """
+        Verifica colisão com retângulos bloqueados inseridos no mapa
+        """
+
         if any(item_rect.colliderect(rect) for rect in self.blocked_rects):
             return True
 
@@ -444,7 +455,10 @@ class Game:
 
 
     def check_polygon_collision(self, item_rect, polygon):
-        # Certifica-se de que o objeto tem o atributo 'as_points'
+        """
+        Certifica-se de que o objeto tem o atributo 'as_points'
+        """
+
         if not hasattr(polygon, "as_points"):
             return False
 
@@ -465,7 +479,10 @@ class Game:
 
 
     def is_point_in_polygon(self, point, polygon_points):
-        # Algoritmo de Ponto no Polígono (Ray Casting)
+        """
+        Algoritmo de Ponto no Polígono (Ray Casting)
+        """
+
         x, y = point
         n = len(polygon_points)
         inside = False
@@ -483,16 +500,6 @@ class Game:
             p1x, p1y = p2x, p2y
 
         return inside
-
-
-    def calculate_camera_offset(self):
-        # Calcula o deslocamento da câmera com base nas coordenadas do alvo e da tela
-        target_x, target_y = 1260, 1610  # Coordenadas do alvo no mapa
-        screen_center_x, screen_center_y = 460, 454  # Centro da tela
-        offset_x = target_x - screen_center_x
-        offset_y = target_y - screen_center_y
-        return offset_x, offset_y
-
     
     def intro_screen(self):
         """

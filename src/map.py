@@ -1,7 +1,9 @@
+"""Modulo para importação do mapa"""
+
 import pygame as pg
 import sys
 from pytmx.util_pygame import load_pygame
-from pytmx import pytmx  # Certifique-se de que a importação de pytmx está correta
+from pytmx import pytmx  
 
 class Tile(pg.sprite.Sprite):
     """
