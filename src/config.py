@@ -41,7 +41,7 @@ damage = {
         },
     "itens": {
         "wave": {
-            1: 10
+            1: 30
             },
         "energy_ball": {
             1: 30,
@@ -142,11 +142,11 @@ itens_delay = {
     }
 
 # Variavel que armazena todos os inimigos
-enemy_list = ["skeleton",
-              "skeleton_hunter",
-              "cultist",
+enemy_list = [["skeleton",
+              "skeleton_hunter"],
+              ["cultist",
               "goblin"
-              ]
+              ]]
 
 boss_list = ["skeleton_boss",
              "envoy_of_the_divine_beast"]

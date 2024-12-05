@@ -517,3 +517,4 @@ class Attack(pygame.sprite.Sprite):
         hits = pygame.sprite.spritecollide(self, self.game.collidable_sprites, False)
         if hits:
             self.kill()
+            
