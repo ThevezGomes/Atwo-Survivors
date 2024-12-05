@@ -1,7 +1,7 @@
 # Jogo da A2: Atwo Survivors
 
 ## Visão Geral do Projeto
-Neste trabalho foi elaborado um jogo de aventura, ação e RPG, utilizando a linguagem Python e a biblioteca Pygame. Nomeado "Atwo Survivors", foi inspirado no conceito de Vampire Survivors, a partir do qual recebeu suas modificações na mecânica de jogo e funcionalidades. O presente relatório visa apresentar como o jogo foi elaborado, com a divisão das tarefas do grupo, principais características do processo de desenvolvimento e dificuldades observadas.
+Neste trabalho foi elaborado um jogo de aventura, ação e RPG, utilizando a linguagem Python e a biblioteca Pygame. Nomeado "Atwo Survivors", foi inspirado no conceito de Vampire Survivors, a partir do qual recebeu suas modificações na mecânica de jogo e funcionalidades. 
 
 ## Controles do jogo
 Utilize as teclas `A`, `W`, `S` e `D` para locomover o personagem na tela, ou os direcionais.
