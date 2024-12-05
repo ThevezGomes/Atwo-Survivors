@@ -75,6 +75,13 @@ Neste trabalho foi elaborado um jogo de aventura, ação e RPG, utilizando a lin
 
 O Atwo Survivors se inspirou nas mecânicas principais do jogo Vampire Survivors, consistindo em um jogo de visão periférica (semelhante aos jogos de RPG tradicionais) em que um personagem principal deve combater diversos inimigos que aparecem de forma aleatória no mapa e sobreviver, até que, após um certo intervalo de tempo, o jogador deve enfrentar um \textit{boss}. Na versão apresentada do jogo, o personagem principal deve vencer dois \textit{bosses} para vencer. Ao longo do jogo, ao combater inimigos, o jogador coleta pontos de experiência, que evoluem seu nível e o permitem aprimorar suas habilidades, adquirir novas armas e evoluí-las.
 
+\begin{figure}[h!]
+    \centering
+    \caption{Captura de tela de Atwo Survivors}
+    \includegraphics[width=0.7\linewidth]{imgs/gp1.jpeg}\\
+    {Fonte: Autoria própria}
+\end{figure}
+
 A diferença central entre o Atwo Survivors e o jogo no qual se inspirou é a mecânica de combate: originalmente o ataque é automático, onde o jogador controla somente os movimentos do personagem e gerencia suas habilidades. No Atwo Survivors, o jogador também é responsável pelos ataques a serem utilizados, selecionando a arma a ser utilizada e em que momento e direção serão feitos os ataques. Tal recurso aumenta consideravelmente a dificuldade do jogo.
 
 
@@ -83,9 +90,26 @@ A diferença central entre o Atwo Survivors e o jogo no qual se inspirou é a me
 
 A princípio o jogo possui uma temática medieval, uma vez que o personagem principal utiliza uma armadura. Da mesma forma, as primeiras criaturas e os cenários reforçam essa primeira impressão. No entanto, ao decorrer do jogo, a presença de alguns itens como uma escopeta e o segundo \textit{boss} revelam a escolha de design inusitada que foi adotada para o Atwo Survivors, que mistura elementos medievais com outros de diferentes temáticas. O jogador poderá lidar com ataques mágicos, armas de fogo ou uma simples espada.
 
+\begin{figure}[h!]
+    \centering
+    \caption{Captura de tela de Atwo Survivors}
+    \includegraphics[width=0.7\linewidth]{imgs/gp2.jpeg}\\
+    {Fonte: Autoria própria}
+\end{figure}
+
 Os \textit{sprites} principais\footnote{Os demais sprites podem ser encontrados em \href{https://c1aymor3.itch.io/basic-gun-asset-pack}{https://c1aymor3.itch.io/basic-gun-asset-pack} e \href{https://pixelcreations.itch.io/rpg-items-16x16}{https://pixelcreations.itch.io/rpg-items-16x16}} do jogo foram obtidos na plataforma \textit{Itch.io} e produzidos pelo artista Foozle\footnote{Os arquivos podem ser encontrados no pacote "Lucifer" \space disponível em: \href{https://foozlecc.itch.io/}{https://foozlecc.itch.io/}}. 
 
 A sonoplastia do jogo foi elaborada a partir de efeitos sonoros gratuitos de uso livre, e a trilha sonora foi criada com inteligência artificial. 
+
+\begin{figure}[h!]
+    \centering
+    \caption{Menu inicial de Atwo Survivors}
+    \includegraphics[width=0.7\linewidth]{imgs/menu.jpeg}\\
+    {Fonte: Autoria própria}
+\end{figure}
+
+\newpage
+
 
 
 \section{Processo de desenvolvimento}
@@ -93,21 +117,22 @@ A sonoplastia do jogo foi elaborada a partir de efeitos sonoros gratuitos de uso
 O jogo foi desenvolvido sob a lógica de orientação a objetos, em que o código fonte esteve subdividido em arquivos que contêm as classes e seus respectivos métodos, implementando as funcionalidades do jogo. A pasta \texttt{/src} está organizada nos seguintes módulos:
 
 \begin{itemize}
-    \item \texttt{config.py}: Configurações do jogo (ex.: tamanho da janela, parâmetros do jogo).
-    \item \texttt{drop\_item.py}: Código relacionado à lógica de queda de itens.
+    \item \texttt{main.py}: Inicia o loop principal do jogo.
+    \item \texttt{config.py}: Configurações do jogo (ex.: parâmetros do jogo).
+    \item \texttt{drop\_item.py}: Lógica relacionada à drop de itens.
     \item \texttt{enemies.py}: Definições e propriedades das classes de inimigos.
-    \item \texttt{enemy\_ai.py}: Lógica para a inteligência artificial para a movimentação dos inimigos.
-    \item \texttt{game.py}: Lógica principal do jogo e código de inicialização.
-    \item \texttt{items\_abilities.py}: Lógica para gerenciamento de itens e habilidades do jogo.
-    \item \texttt{main.py}: Ponto de entrada do jogo, iniciando o loop principal.
+    \item \texttt{enemy\_ai.py}: Inteligência artificial dos inimigos.
+    \item \texttt{game.py}: Lógica principal do jogo e inicialização.
+    \item \texttt{items\_abilities.py}: Gerenciamento de itens e habilidades do jogo.
     \item \texttt{main\_character.py}: Código para o personagem do jogador (ex.: movimento, interações).
-    \item \texttt{map.py}: Lógica para gerenciamento de mapas e tiles.
-    \item \texttt{props.py}: Código para lidar com objetos interativos no ambiente do jogo.
-    \item \texttt{repositorio\_sons.py}: Módulo para gerenciamento de recursos de áudio e reprodução de sons.
-    \item \texttt{repositorio\_sprites.py}: Módulo para carregar e gerenciar recursos de sprite.
-    \item \texttt{sprites.py}: Lógica geral de manipulação e renderização de sprites.
-    \item \texttt{ui.py}: Componentes da interface do usuário e sua renderização.
+    \item \texttt{map.py}: Gerenciamento de mapas e tiles.
+    \item \texttt{props.py}: Manipulação de objetos interativos no ambiente do jogo.
+    \item \texttt{repositorio\_sons.py}: Gerenciamento de recursos de áudio e reprodução de sons.
+    \item \texttt{repositorio\_sprites.py}: Carregamento e gerenciamento de recursos de sprite.
+    \item \texttt{sprites.py}: Manipulação e renderização de sprites.
+    \item \texttt{ui.py}: Componentes da interface do usuário e renderização.
 \end{itemize}
+
 
 \section{Dificuldades encontradas}
 
@@ -126,7 +151,7 @@ A solução adotada, portanto, utiliza um pouco de álgebra linear: é traçado 
 Naturalmente, em um trabalho de dimensões como esse, as tarefas tiveram de ser divididas entre os membros do grupo para que o projeto saísse conforme esperado. As divisões não foram seguidas perfeitamente à risca pois diferentes demandas surgiram ao longo do desenvolvimento, além de que em certos momentos do projeto, nem todos os membros puderam se dedicar integralmente. A divisão fundamental das tarefas ficou da seguinte forma:
 
 \begin{itemize}
-    \item \textbf{Henrique Gasparelo:} Interface de usuário, Arquivo principal do jogo, correção de \textit{bugs}, arquivo \texttt{README}, sonoplastia, design.
+    \item \textbf{Henrique Gasparelo:} Interface de usuário, Arquivo principal do jogo, correção de \textit{bugs}, sonoplastia, design.
     \item \textbf{José Thevez:} Personagem principal, movimentação, mecânicas de combate, inimigos, mecânicas dos \textit{bosses}, sonoplastia, mecânicas de animação.
     \item \textbf{Davi França:} Cenário do jogo, \textit{spawn} de itens coletáveis no mapa.
     \item \textbf{Isaías Gonçalves:} Inimigos, animações, sistema de inteligência artificial de perseguição, relatório.
