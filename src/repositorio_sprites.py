@@ -1,7 +1,11 @@
+"""Módulo para armazenar e gerenciar sprites de personagens em um jogo."""
+
 from sprites import *
 
 class Sprites:
+    """Classe que armazena os sprites do personagem principal em diferentes estados de animação."""
     def __init__(self):
+        """Inicializa uma nova instância da classe `Sprites` e carrega os sprites."""
         # Armazena a localização dos sprites
         self.warrior_sprites = {
             "walk":{

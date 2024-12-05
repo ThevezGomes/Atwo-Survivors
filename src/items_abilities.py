@@ -3,8 +3,20 @@ from props import *
 from game import *
         
 class ItemsArmazenamento:
+    """
+    Gerencia todos os itens e habilidades do jogo, incluindo os itens que podem ser usados pelo jogador e os de nível máximo.
+    
+    A classe armazena os itens e habilidades em dicionários organizados por tipo, permitindo fácil acesso e manipulação.
+    
+    Atributos:
+        itens (dict): Um dicionário contendo itens e habilidades disponíveis, organizados por categorias como "attacks" e "abilities".
+        itens_player_max (dict): Um dicionário contendo itens que podem ser consumidos pelo jogador e que representam os itens de nível máximo.
+    """
     # Armazena todos os itens que podem aparecer e os itens de nivel maximo
     def __init__(self):
+        """
+        Inicializa a classe com os itens e habilidades pré-definidos.
+        """
         self.itens = {"attacks": {"energy_ball": Item("energy_ball","Bola de energia", "Destroi tudo no caminho.", max_level=5),
                       "demon_sword": Item("demon_sword", "Espada Demoníaca", "O poder do inferno", max_level=5),
                       "shotgun": Item("shotgun", "Escopeta", "Tiro em área", max_level=5)},

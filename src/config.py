@@ -1,3 +1,5 @@
+"""Configurações do jogo"""
+
 # Variavel que armazena o tamanho de certos objetos
 tilesize = 1
 
@@ -41,7 +43,7 @@ damage = {
         },
     "itens": {
         "wave": {
-            1: 10
+            1: 30
             },
         "energy_ball": {
             1: 30,
@@ -142,11 +144,11 @@ itens_delay = {
     }
 
 # Variavel que armazena todos os inimigos
-enemy_list = ["skeleton",
-              "skeleton_hunter",
-              "cultist",
+enemy_list = [["skeleton",
+              "skeleton_hunter"],
+              ["cultist",
               "goblin"
-              ]
+              ]]
 
 boss_list = ["skeleton_boss",
              "envoy_of_the_divine_beast"]
@@ -277,6 +279,11 @@ enemy_attack_delay = {
 
 minions_list = {
     "envoy_of_the_divine_beast": ["cockroach"]
+    }
+
+music_theme = {
+    "skeleton_boss": "../assets/sounds/skeleton_boss_theme.mp3",
+    "envoy_of_the_divine_beast": "../assets/sounds/main_theme.mp3"
     }
 
 # Cor vermelha em rgb

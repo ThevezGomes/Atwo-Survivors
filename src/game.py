@@ -1,3 +1,5 @@
+"""Módulo que define a classe `Game`, que é responsável por gerenciar a lógica do jogo, a criação de elementos do jogo e a execução da mecânica do jogo em si."""
+
 import pygame
 import sys
 import random
@@ -46,6 +48,9 @@ class Game:
         self.show_message = False # Exibe mensagens temporárias na tela.
         self.enemies_list = [] # Lista de inimigos ativos no jogo.
         self.difficulty_ratio = 1 # Multiplicador de dificuldade do jogo.
+        self.phase = 1
+        self.enemy_number = 20
+        self.enemies_alive = 0
         
         # Define os buffs das habilidades
         self.buffs = {
@@ -101,10 +106,18 @@ class Game:
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
-        self.game_timer.add_event(25, self.MessageSpawnBoss)
-        self.game_timer.add_event(30, self.SpawnBoss(False))
-        self.game_timer.add_event(55, self.MessageSpawnBoss)
-        self.game_timer.add_event(60, self.SpawnBoss(True))
+        self.game_timer.add_event(60, self.increase_number_of_enemies)
+        self.game_timer.add_event(120, self.increase_number_of_enemies)
+        self.game_timer.add_event(180, self.increase_number_of_enemies)
+        self.game_timer.add_event(240, self.increase_number_of_enemies)
+        self.game_timer.add_event(295, self.MessageSpawnBoss)
+        self.game_timer.add_event(300, self.SpawnBoss(False))
+        self.game_timer.add_event(360, self.increase_number_of_enemies)
+        self.game_timer.add_event(420, self.increase_number_of_enemies)
+        self.game_timer.add_event(480, self.increase_number_of_enemies)
+        self.game_timer.add_event(540, self.increase_number_of_enemies)
+        self.game_timer.add_event(595, self.MessageSpawnBoss)
+        self.game_timer.add_event(600, self.SpawnBoss(True))
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()
@@ -125,6 +138,7 @@ class Game:
             Remove todos os inimigos e gera o chefe no centro da tela.
             """
             # Despawna todos os inimigos e spawna o boss
+            pygame.mixer.music.stop()
             self.despawn_all_enemies()
             boss_kind = random.choice(self.boss_list)
             while not self.spawned_boss:
@@ -141,6 +155,8 @@ class Game:
             self.boss = Boss(self, boss_kind, (x + self.player.rect.x + self.player.rect.width / 2), (y + self.player.rect.y + self.player.rect.height / 2), boss_name[boss_kind], final_boss)
             # Barra de vida do Boss
             self.boss_bar = BossBar(max=config.max_health["enemies"][boss_kind], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=75, boss_name=self.boss.name)
+            pygame.mixer.music.load(music_theme[boss_kind])
+            pygame.mixer.music.play(loops=-1)
         return Spawnar_Boss   
 
     def new(self):
@@ -149,6 +165,8 @@ class Game:
         """
 
         self.playing = True # Define como True para indicar que o jogo está em execução.
+        pygame.mixer.music.load("../assets/sounds/ambient_theme.mp3")
+        pygame.mixer.music.play(loops=-1)
 
         # Define grupos de sprites com propriedades que serao utilizadas
         self.all_sprites = pygame.sprite.LayeredUpdates() # Grupo de todos os sprites no jogo.
@@ -461,7 +479,7 @@ class Game:
 
         # Define que a tela de intro deve aparecer
         intro = True
-        title = self.font_title.render('Nexus', True, pygame.Color('white'))
+        title = self.font_title.render('Atwo Survivors', True, pygame.Color('white'))
         title_rect = title.get_rect(topleft=(10, 10))
 
         # Dimensoes da tela
@@ -480,6 +498,9 @@ class Game:
         # Cria o botao Play centralizado
         play_button = Button(button_x, button_y, button_width, button_height, pygame.Color('white'), 'Jogar', 32)
         quit_button = Button(button_x, button_y + button_height + 20, button_width, button_height, pygame.Color('white'), 'Sair', 32)
+        
+        pygame.mixer.music.load("../assets/sounds/main_theme.mp3")
+        pygame.mixer.music.play(loops=-1)
 
         # Loop da tela de introção, espera que uma das opções seja escolida para iniciar o jogo ou fechar ele
         while intro:
@@ -495,6 +516,7 @@ class Game:
             play_button.update(mouse_pos)
             if play_button.is_pressed(mouse_pos, mouse_pressed):
                 self.play_sound("button_sound")
+                pygame.mixer.music.stop()
                 intro = False
                 self.new() # Inicia o jogo
                 self.game_timer.start() # Inicia o timer do jogo 
@@ -535,6 +557,7 @@ class Game:
         
         # Define que a tela de Game Over deve aparecer
         over = True
+        pygame.mixer.music.stop()
 
         paused_surface = self.screen.copy()  # Captura o estado atual do jogo
         self.blur(paused_surface, 200)
@@ -629,6 +652,9 @@ class Game:
         restart_button = Button(menu_rect.centerx - button_width // 2, resume_button.rect.bottom + button_spacing, button_width, button_height, pygame.Color('white'), 'Resetar', 24)
         exit_button = Button(menu_rect.centerx - button_width // 2, restart_button.rect.bottom + button_spacing, button_width, button_height, pygame.Color('white'), 'Sair', 24)
         
+        pygame.mixer.music.pause()
+        pygame.mixer.stop()
+        
         # Loop de pausa: substitui temporariamente o loop principal do jogo, impedindo qualquer atualização.
         while self.paused:
             for event in pygame.event.get():
@@ -639,16 +665,19 @@ class Game:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.paused = False  # Retomar o jogo
+                        pygame.mixer.music.unpause()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if resume_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         # Aplica o som de botao
                         self.play_sound("button_sound")
                         self.paused = False  # Retomar o jogo
+                        pygame.mixer.music.unpause()
                     if restart_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         # Aplica o som de botao
                         self.play_sound("button_sound")
                         self.paused = False  # Retomar o jogo
                         self.restart = True
+                        pygame.mixer.music.stop()
                     elif exit_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         # Aplica o som de botao
                         self.play_sound("button_sound")
@@ -835,10 +864,10 @@ class Game:
         """
 
         # Enquanto tiver menos que o limite de inimigos
-        if len(self.enemies_list) < 20:
+        if len(self.enemies_list) < self.enemy_number:
             if not self.spawning:
                 self.spawning = True
-                enemies_to_spawn = config.enemy_list
+                enemies_to_spawn = config.enemy_list[self.phase-1]
                 # Escolhe aleatoriamente o inimigo para spawn
                 enemy_kind = random.choice(enemies_to_spawn)
                 angle = random.uniform(0, 2 * math.pi)
@@ -855,6 +884,7 @@ class Game:
                                               enemy_kind,
                                               (x + self.player.rect.x + self.player.rect.width / 2), 
                                               (y + self.player.rect.y + self.player.rect.height / 2)))
+                    self.enemies_alive += 1
     
                     self.spawn_time = pygame.time.get_ticks()
             # Adiciona um delay entre cada spawn de inimigo
@@ -976,6 +1006,7 @@ class Game:
             #     pass
             enemy.kill()
         self.enemies_list = []
+        self.enemies_alive = 0
         
     def play_sound(self, sound, checker=True):
         """
@@ -984,3 +1015,6 @@ class Game:
         # Caso seja validado, toca o som recebido
         if checker:
             self.sounds.all_sounds[sound].play()
+           
+    def increase_number_of_enemies(self):
+        self.enemy_number += 5

@@ -283,6 +283,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.health <= 0:
             try:
                 self.game.enemies_list.remove(self)
+                self.game.enemies_alive -= 1
             except ValueError:
                 pass
             self.kill()
@@ -303,6 +304,7 @@ class Enemy(pygame.sprite.Sprite):
             if current_time - self.ai.time_untracked > config.despawn_delay:
                 try:
                     self.game.enemies_list.remove(self)
+                    self.game.enemies_alive -= 1
                 except ValueError:
                     pass
                 self.kill()
@@ -430,8 +432,12 @@ class Boss(Enemy):
                 self.minions_list = []
                 self.game.player.xp += config.enemy_xp[self.kind]
                 self.game.spawned_boss = False
+                self.game.phase += 1
                 self.game.allow_spawn_enemies = True
                 self.game.game_timer.resume()
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load("../assets/sounds/ambient_theme.mp3")
+                pygame.mixer.music.play(loops=-1)
                 self.game.boss_list.remove(self.kind)
                
     def despawn(self):
