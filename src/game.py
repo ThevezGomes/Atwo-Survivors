@@ -653,6 +653,7 @@ class Game:
         exit_button = Button(menu_rect.centerx - button_width // 2, restart_button.rect.bottom + button_spacing, button_width, button_height, pygame.Color('white'), 'Sair', 24)
         
         pygame.mixer.music.pause()
+        pygame.mixer.stop()
         
         # Loop de pausa: substitui temporariamente o loop principal do jogo, impedindo qualquer atualização.
         while self.paused:
