@@ -31,7 +31,7 @@ Contém todos os recursos visuais e de áudio usados no jogo.
 ### 3. **`docs/`**
 Contém documentação e anotações relacionadas ao projeto.
 
-- **`relatorios/`**: Pasta contendo relatório.
+- **`relatorio/`**: Pasta contendo relatório.
   - **`Rel_A2_LP_2024.pdf`**: Relatório detalhado sobre a etapa A2 do projeto de 2024.
   - **`main.tex`**: Arquivo fonte em LaTeX para a criação do relatório principal.
 
