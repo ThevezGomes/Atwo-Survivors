@@ -29,4 +29,4 @@ class ItemsArmazenamento:
                       "Apollo_maestry": Ability("Apollo_maestry", "Mastria de Apolo", "Aumenta a velocidade de disparo", "firing_speed", max_level=5)}
                       }
         self.itens_player_max = {"Baconseed": Consumible("Baconseed", "Semente de Bacon", "Cura metade da vida."),
-                                 "Starpotion": Consumible("Starpotion", "Estrela da Sabedoria", "Aumenta a experiência.")}
+                                 "Baconfruit": Consumible("Baconfruit", "Bacon maduro", "Cura a vida inteira.")}
