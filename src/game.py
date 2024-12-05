@@ -16,7 +16,7 @@ import repositorio_sons as rsound
 import random
 import numpy as np
 from drop_item import * 
-from Camera import *
+
 
 class Game:
     def __init__(self):
