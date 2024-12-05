@@ -74,5 +74,5 @@ Contém scripts de teste para garantir a funcionalidade do código.
 
 ## Captura de Tela
 <div style="text-align: center;">
-  <img src="assets\img\tela-jogo.jpeg" alt="Gráfico de Linhas" width="500"/>
+  <img src="assets\img\tela-jogo.jpeg" alt="Captura de Tela do jogo" width="900"/>
 </div> 
