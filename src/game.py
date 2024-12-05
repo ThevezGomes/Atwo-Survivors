@@ -812,8 +812,8 @@ class Game:
                                         self.player.health = self.player.max_health
                                     else:
                                         self.player.health += (self.player.max_health // 2)
-                                elif itens[0].kind == "Starpotion":
-                                    self.player.xp += 10
+                                elif itens[0].kind == "Baconfruit":
+                                    self.player.health = self.player.max_health
                     # Segundo Item Selecionado
                     elif item2.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         # Aplica o som de botao
@@ -845,8 +845,8 @@ class Game:
                                         self.player.health = self.player.max_health
                                     else:
                                         self.player.health += (self.player.max_health // 2)
-                                elif itens[1].kind == "Starpotion":
-                                    self.player.xp += 10
+                                elif itens[1].kind == "Baconfruit":
+                                    self.player.health = self.player.max_health
                     # Terceiro Item Selecionado
                     elif item3.is_pressed(event.pos, pygame.mouse.get_pressed()):
                         # Aplica o som de botao
@@ -878,8 +878,8 @@ class Game:
                                         self.player.health = self.player.max_health
                                     else:
                                         self.player.health += (self.player.max_health // 2)
-                                elif itens[2].kind == "Starpotion":
-                                    self.player.xp += 10
+                                elif itens[2].kind == "Baconfruit":
+                                    self.player.health = self.player.max_health
 
             # Desenha a tela de pausa
             self.screen.blit(paused_surface, (0, 0))
