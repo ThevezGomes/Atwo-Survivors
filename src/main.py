@@ -1,4 +1,4 @@
-"""Módulo principal do jogo, que inicializa e executa a aplicação do jogo.aaaaaaaaa"""
+"""Módulo principal do jogo, que inicializa e executa a aplicação do jogo."""
 
 import pygame
 from game import *
