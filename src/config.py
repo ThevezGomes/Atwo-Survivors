@@ -271,8 +271,8 @@ enemy_attack_delay = {
     "skeleton": 5000,
     "skeleton_boss": 2000,
     "skeleton_hunter": 5000,
-    "cultist": 5000,
-    "goblin": 5000,
+    "cultist": 10000,
+    "goblin": 10000,
     "envoy_of_the_divine_beast": 2000,
     "cockroach": 5000
     }
