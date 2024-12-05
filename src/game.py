@@ -12,6 +12,7 @@ from props import *
 from items_abilities import *
 from map import *
 import repositorio_sprites as rs
+import repositorio_sons as rsound
 import random
 import numpy as np
 from drop_item import * 
@@ -20,6 +21,7 @@ from Camera import *
 class Game:
     def __init__(self):
         pygame.init()
+        pygame.mixer.init()
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
         self.clock = pygame.time.Clock()
@@ -28,11 +30,14 @@ class Game:
         self.level_up = False
         self.restart =False
         self.sprites = rs.Sprites()
+        self.sounds = rsound.Sound()
         self.spawn_time = 0
         self.spawning = False
+        self.allow_spawn_enemies = True
         self.spawned_boss = False
         self.show_message = False
         self.enemies_list = []
+        self.difficulty_ratio = 1
         
         self.buffs = {
             "attack": 0,
@@ -97,8 +102,8 @@ class Game:
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
-        self.game_timer.add_event(3, self.MessageSpawnBoss)
-        #self.game_timer.add_event(5, self.SpawnBoss)
+        self.game_timer.add_event(5, self.MessageSpawnBoss)
+        self.game_timer.add_event(10, self.SpawnBoss)
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()
@@ -118,9 +123,12 @@ class Game:
 
         self.blocked_polygons = [obj for obj in self.tmx_data.objects if obj.name == "Poligono"]
 
-    #Teste de eventos
-    #def SpawnBoss(self):
-    #    self.spawned_boss = True
+    def SpawnBoss(self):
+        self.despawn_all_enemies()
+        self.boss = Boss(self, "skeleton_boss", (self.screen.get_width()) // 2, (self.screen.get_height()) // 2, "Puro Osso", True)
+        # Barra de vida do Boss
+        self.boss_bar = BossBar(max=config.max_health["enemies"]["skeleton_boss"], border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=75, boss_name=self.boss.name)
+        self.spawned_boss = True
 
     def new(self):
         self.playing = True
@@ -129,6 +137,7 @@ class Game:
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.blocks = pygame.sprite.LayeredUpdates()
         self.enemies = pygame.sprite.LayeredUpdates()
+        self.enemy_attacks = pygame.sprite.LayeredUpdates()
         self.attacks = pygame.sprite.LayeredUpdates()
 
         #Carrega os tiles e define colisões com base nas camadas
@@ -143,9 +152,6 @@ class Game:
         
         # Barra de experiência
         self.experience_bar = ExperienceBar(border_color =(40, 34, 31),  background_color=(255, 255, 255, 50), color=(0, 255, 0), width=200, height=25, x=self.screen.get_width() /2 , y=45, level=self.player.level, xp=self.player.xp)
-
-        # Barra de vida do Boss
-        self.boss_bar = BossBar(max=100, border_color =(40, 34, 31), background_color=(255, 255, 255, 50), color=(138, 11, 10), width=300, height=20, x=self.screen.get_width() /2, y=75, boss_name="Grande Esqueleto")
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -172,14 +178,18 @@ class Game:
         
         #Atualiza a barra de vida do jogador
         self.health_bar.amount = self.player.health 
-        self.health_bar.max = self.player.max_health
+        self.health_bar.max = self.player.max_health 
         self.experience_bar.level = self.player.level
         self.experience_bar.max = self.experience_bar.levels(self.player.level)
         self.experience_bar.amount = self.player.xp
         self.items_list_choice()
         self.game_timer.update() # Atualisa o timer
-        self.spawn_enemies()
+        if self.allow_spawn_enemies:
+            self.spawn_enemies()
         self.cheats()
+        
+        if self.spawned_boss:
+            self.boss_bar.amount = self.boss.health
         
         # Detecta colisão com itens
         collided_items = pygame.sprite.spritecollide(self.player, self.item_sprites, True)
@@ -218,6 +228,7 @@ class Game:
         
         if self.player.health <= 0:
             self.player.death = True
+            self.player.game_over_sound = True
         
         # Chance contínua de spawnar itens durante o jogo
         if random.random() < 0.01:  
@@ -449,12 +460,14 @@ class Game:
             # Atualiza o botão e verifica se foi clicado
             play_button.update(mouse_pos)
             if play_button.is_pressed(mouse_pos, mouse_pressed):
+                self.play_sound("button_sound")
                 intro = False
                 self.new() # Inicia o jogo
                 self.game_timer.start() # Inicia o timer do jogo 
             
             quit_button.update(mouse_pos)
             if quit_button.is_pressed(mouse_pos, mouse_pressed):
+                self.play_sound("button_sound")
                 intro = False
                 self.running = False
             
@@ -481,7 +494,7 @@ class Game:
             self.clock.tick(60)
             pygame.display.flip()
 
-    def game_over(self):
+    def game_over(self, mensage="Fim de jogo"):
         over = True
 
         paused_surface = self.screen.copy()  # Captura o estado atual do jogo
@@ -490,7 +503,7 @@ class Game:
         # Dimensoes da tela
         screen_width, screen_height = self.screen.get_size()
 
-        title = self.font_title.render('Fim de jogo', True, pygame.Color('white'))
+        title = self.font_title.render(mensage, True, pygame.Color('white'))
         title_rect = title.get_rect(center=(screen_width // 2, ((screen_height - title.get_height()) // 2) -50))
 
         # Dimensoes do botão
@@ -515,11 +528,13 @@ class Game:
             # Atualiza o botão e verifica se foi clicado
             restart_button.update(mouse_pos)
             if restart_button.is_pressed(mouse_pos, mouse_pressed):
+                self.play_sound("button_sound")
                 over = False
                 self.restart = True
             
             quit_button.update(mouse_pos)
             if quit_button.is_pressed(mouse_pos, mouse_pressed):
+                self.play_sound("button_sound")
                 over = False
                 self.running = False
             
@@ -578,11 +593,14 @@ class Game:
                         self.paused = False  # Retomar o jogo
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if resume_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.play_sound("button_sound")
                         self.paused = False  # Retomar o jogo
                     if restart_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.play_sound("button_sound")
                         self.paused = False  # Retomar o jogo
                         self.restart = True
                     elif exit_button.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.play_sound("button_sound")
                         self.running = False
                         pygame.quit()
                         sys.exit()
@@ -628,6 +646,8 @@ class Game:
         item1 = SelectionItem(item2.rect.left - button_spacing - button_width, y_pos, button_width, button_height, pygame.Color('black'), itens[0], 24)
         item3 = SelectionItem(item2.rect.right + button_spacing, y_pos, button_width, button_height, pygame.Color('black'), itens[2], 24)
         
+        self.play_sound("level_up")
+        
         # Loop de pausa
         while self.level_up:
             for event in pygame.event.get():
@@ -637,6 +657,7 @@ class Game:
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if item1.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.play_sound("button_sound")
                         if self.level_up:
                             self.level_up = False  # Retomar o jogo
                             # TESTES PARA NIVEL MAXIMO
@@ -663,6 +684,7 @@ class Game:
                                 elif itens[0].kind == "Starpotion":
                                     self.player.xp += 10
                     elif item2.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.play_sound("button_sound")
                         if self.level_up:
                             self.level_up = False  # Retomar o jogo
                             if isinstance(itens[1], Item):
@@ -688,6 +710,7 @@ class Game:
                                 elif itens[1].kind == "Starpotion":
                                     self.player.xp += 10
                     elif item3.is_pressed(event.pos, pygame.mouse.get_pressed()):
+                        self.play_sound("button_sound")
                         if self.level_up:
                             self.level_up = False  # Retomar o jogo
                             if isinstance(itens[2], Item):
@@ -729,31 +752,16 @@ class Game:
             self.clock.tick(60)
             
     def spawn_enemies(self):
-        if len(self.enemies_list) <= 20:
+        if len(self.enemies_list) < 20:
             if not self.spawning:
                 self.spawning = True
-                spawn_attempts = 10
+                enemies_to_spawn = config.enemy_list
+                enemy_kind = random.choice(enemies_to_spawn)
+                self.enemies_list.append(Enemy(self,
+                                          enemy_kind,
+                                          (self.screen.get_width() - config.char_size[0]) * random.random(), 
+                                          (self.screen.get_height() - config.char_size[1]) * random.random()))
 
-                for _ in range(spawn_attempts):
-                    spawn_x = (self.screen.get_width() - config.char_size[0]) * random.random()
-                    spawn_y = (self.screen.get_height() - config.char_size[1]) * random.random()
-                    
-                    # Define um retângulo representando a área do inimigo
-                    spawn_pos = pygame.Rect(
-                        spawn_x,  # Posição x
-                        spawn_y,  # Posição y
-                        config.char_size[0],  # Largura do inimigo
-                        config.char_size[1]   # Altura do inimigo
-                    )
-
-
-                    if not any(spawn_pos.colliderect(rect) for rect in self.blocked_rects):
-                        enemy = Enemy(self, "skeleton", spawn_x, spawn_y)  
-                        self.enemies_list.append(enemy)
-                        break
-
-                #self.enemies_list.append(Enemy(self,"skeleton" ,(self.screen.get_width() - config.char_size[0]) * random.random(), (self.screen.get_height() - config.char_size[1]) * random.random()))
-                
                 self.spawn_time = pygame.time.get_ticks()
             else:
                 current_time = pygame.time.get_ticks()
@@ -768,9 +776,10 @@ class Game:
     def MessageSpawnBoss(self):
          # Exibir a mensagem no centro superior da tela
         self.message = "Prepare-se"
+        self.play_sound("boss_coming")
         self.show_message = True # Faz a messagem aparecer usando a função draw_message que está no loop do jogo
         self.message_time = pygame.time.get_ticks()  # Registra o tempo em que a mensagem foi exibida
-        self.message_duration = 1000 # Define o tempo que a menssagem fica na tela
+        self.message_duration = 3000 # Define o tempo que a menssagem fica na tela
 
     def draw_message(self):
         # Se show_message for True, exibe a mensagem
@@ -821,3 +830,16 @@ class Game:
             self.itens = [random.choice(list(self.all_itens[random.choice(self.all_itens_classes)].values())), random.choice(list(self.all_itens[random.choice(self.all_itens_classes)].values())), random.choice(list(self.all_itens[random.choice(self.all_itens_classes)].values()))]
         else:
             self.itens = [random.choice(list(self.all_itens_max.values())), random.choice(list(self.all_itens_max.values())), random.choice(list(self.all_itens_max.values()))]
+           
+    def despawn_all_enemies(self):
+        self.allow_spawn_enemies = False
+        for enemy in self.enemies_list:
+            try:
+                self.enemies_list.remove(self)
+            except ValueError:
+                pass
+            enemy.kill()
+        
+    def play_sound(self, sound, checker=True):
+        if checker:
+            self.sounds.all_sounds[sound].play()
