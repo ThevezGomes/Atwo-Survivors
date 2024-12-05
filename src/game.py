@@ -399,7 +399,7 @@ class Game:
         """
         
         spawn_attempts = 8  # Número máximo de tentativas
-        spawn_probability = 0.6  # Probabilidade de spawn
+        spawn_probability = 0.7  # Probabilidade de spawn
 
         # Controla a probabilidade de spawn
         if random.random() > spawn_probability:
@@ -500,7 +500,10 @@ class Game:
         return inside
     
     def calculate_camera_offset(self):
-        # Calcula o deslocamento da câmera com base nas coordenadas do alvo e da tela
+        """ 
+        Calcula o deslocamento da câmera com base nas coordenadas do alvo e da tela
+        """
+
         target_x, target_y = 1260, 1610  # Coordenadas do alvo no mapa
         screen_center_x, screen_center_y = 460, 454  # Centro da tela
         offset_x = target_x - screen_center_x

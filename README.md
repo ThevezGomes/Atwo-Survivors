@@ -50,7 +50,9 @@ O código fonte principal do jogo.
 Contém scripts de teste para garantir a funcionalidade do código.
 - **`gameTest.py`**: Testes unitários para a lógica principal do jogo.
 - **`test_player.py`**: Testes para as funcionalidades do personagem do jogador.
+- **`test_tile.py`**: Testes relacionados aos elementos e escalas do mapa
 - **`UITest.py`**: Testes relacionados aos elementos da interface do usuário.
+
 
 ## Instruções de Instalação
 1. Clone o repositório:
