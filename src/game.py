@@ -499,6 +499,14 @@ class Game:
 
         return inside
     
+    def calculate_camera_offset(self):
+        # Calcula o deslocamento da câmera com base nas coordenadas do alvo e da tela
+        target_x, target_y = 1260, 1610  # Coordenadas do alvo no mapa
+        screen_center_x, screen_center_y = 460, 454  # Centro da tela
+        offset_x = target_x - screen_center_x
+        offset_y = target_y - screen_center_y
+        return offset_x, offset_y
+
     def intro_screen(self):
         """
         Exibe a tela de introdução do jogo com opções para iniciar ou sair.
