@@ -84,15 +84,11 @@ class Enemy(pygame.sprite.Sprite):
         # self.death = False
         # self.death_time = 0
         # self.death_index = 0
-        
-        
-
 
         # Invocar IA
 
         self.ai = Enemy_AI(self)
-        
-        
+     
         
         self.minions_list = []
   
