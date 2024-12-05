@@ -73,4 +73,6 @@ Contém scripts de teste para garantir a funcionalidade do código.
    ```
 
 ## Captura de Tela
-*Insira aqui uma captura de tela do jogo.*
+<div style="text-align: center;">
+  <img src="assets\img\tela-jogo.jpeg" alt="Gráfico de Linhas" width="500"/>
+</div> 
