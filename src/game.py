@@ -99,10 +99,10 @@ class Game:
         self.boss_list = boss_list
 
         #Criação do inventário (posição, tamanho do slot e número de slots)
-        self.inventory = Inventory(x=10, y=self.screen.get_height() - 60, slot_size=50, max_slots=5) # Inventário do jogador com slots para itens.
+        self.inventory = Inventory(x=10, y=self.screen.get_height() - 60, slot_size=50, max_slots=2) # Inventário do jogador com slots para itens.
 
         #Criação do hub de habilidades (posição, tamanho do slot e número de slots)
-        self.skills_hub = Skills_hub(x=10, y=10, slot_size=40, max_slots=5) # Hub para exibição de habilidades disponíveis.
+        self.skills_hub = Skills_hub(x=10, y=10, slot_size=40, max_slots=3) # Hub para exibição de habilidades disponíveis.
 
         #Timer do jogo
         self.game_timer = TimeGame(x=self.screen.get_width() /2, y=5)
@@ -111,13 +111,13 @@ class Game:
         self.game_timer.add_event(180, self.increase_number_of_enemies)
         self.game_timer.add_event(240, self.increase_number_of_enemies)
         self.game_timer.add_event(295, self.MessageSpawnBoss)
-        self.game_timer.add_event(30, self.SpawnBoss(False))
+        self.game_timer.add_event(300, self.SpawnBoss(False))
         self.game_timer.add_event(360, self.increase_number_of_enemies)
         self.game_timer.add_event(420, self.increase_number_of_enemies)
         self.game_timer.add_event(480, self.increase_number_of_enemies)
         self.game_timer.add_event(540, self.increase_number_of_enemies)
         self.game_timer.add_event(595, self.MessageSpawnBoss)
-        self.game_timer.add_event(45, self.SpawnBoss(True))
+        self.game_timer.add_event(600, self.SpawnBoss(True))
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()
