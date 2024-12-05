@@ -1,3 +1,5 @@
+"""Modulo para os itens dropavéis"""
+
 import pygame
 from main_character import *
 from config import *
