@@ -263,8 +263,6 @@ class Game:
                         self.game_timer.pause() # Pausa o relogio
                         self.pause_menu()  # Chama o menu de pausa
                         self.game_timer.resume() # Retorna o relogio
-                if event.key == pygame.K_e:
-                    self.buffs["life"] += 0.2
             
             # Cria o ataque do jogador quando é apertado o botao direito do mouse
             elif pygame.mouse.get_pressed()[0]:
@@ -943,7 +941,7 @@ class Game:
         """
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_q]:
+        if keys[pygame.K_y] and keys[pygame.K_u]:
             self.player.xp += 2100
         if keys[pygame.K_r] and keys[pygame.K_i]:
             self.player.health = self.player.max_health
