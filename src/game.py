@@ -112,13 +112,13 @@ class Game:
         self.game_timer.add_event(180, self.increase_number_of_enemies)
         self.game_timer.add_event(240, self.increase_number_of_enemies)
         self.game_timer.add_event(295, self.MessageSpawnBoss)
-        self.game_timer.add_event(300, self.SpawnBoss(False))
+        self.game_timer.add_event(30, self.SpawnBoss(False))
         self.game_timer.add_event(360, self.increase_number_of_enemies)
         self.game_timer.add_event(420, self.increase_number_of_enemies)
         self.game_timer.add_event(480, self.increase_number_of_enemies)
         self.game_timer.add_event(540, self.increase_number_of_enemies)
         self.game_timer.add_event(595, self.MessageSpawnBoss)
-        self.game_timer.add_event(600, self.SpawnBoss(True))
+        self.game_timer.add_event(45, self.SpawnBoss(True))
 
         #Grupo de sprites 
         self.all_sprites = pygame.sprite.LayeredUpdates()
@@ -269,8 +269,6 @@ class Game:
                         self.game_timer.pause() # Pausa o relogio
                         self.pause_menu()  # Chama o menu de pausa
                         self.game_timer.resume() # Retorna o relogio
-                if event.key == pygame.K_e:
-                    self.buffs["life"] += 0.2
             
             # Cria o ataque do jogador quando é apertado o botao direito do mouse
             elif pygame.mouse.get_pressed()[0]:
@@ -972,7 +970,7 @@ class Game:
         """
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_q]:
+        if keys[pygame.K_y] and keys[pygame.K_u]:
             self.player.xp += 2100
         if keys[pygame.K_r] and keys[pygame.K_i]:
             self.player.health = self.player.max_health

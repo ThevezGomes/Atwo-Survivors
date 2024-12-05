@@ -405,10 +405,17 @@ class Boss(Enemy):
             name (str): Nome do Boss.
             last_boss (bool): Indica se este é o último Boss do jogo (padrão: False).
         """
+        if last_boss:
+            config.max_health["enemies"][kind] *= 2
+            config.damage["enemies"][kind] *= 2
+            for attack in config.enemies_attack_list[kind]:
+                if not attack == "spawn_minions":
+                    config.damage["enemies_attack"][attack] *= 2
         super().__init__(game, kind, x, y)
         self.name = name
         self.last_boss = last_boss
         self.ai = Boss_IA(self)
+        
         
     def check_health(self):
             

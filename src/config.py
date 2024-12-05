@@ -14,8 +14,8 @@ max_health = {"player": 1000,
                   "skeleton": 1000,
                   "skeleton_boss": 10000,
                   "skeleton_hunter": 1000,
-                  "cultist": 2000,
-                  "goblin": 1500,
+                  "cultist": 2500,
+                  "goblin": 3000,
                   "envoy_of_the_divine_beast": 10000,
                   "cockroach": 500
                   }
@@ -25,44 +25,44 @@ max_health = {"player": 1000,
 damage = {
     "enemies": {
         "skeleton": 10,
-        "skeleton_boss": 30,
+        "skeleton_boss": 40,
         "skeleton_hunter": 10,
-        "cultist": 15,
-        "goblin": 20,
-        "envoy_of_the_divine_beast": 30,
+        "cultist": 20,
+        "goblin": 30,
+        "envoy_of_the_divine_beast": 40,
         "cockroach": 10
         },
     "enemies_attack": {
-        "knife": 20,
+        "knife": 30,
         "arrow": 20,
-        "axe": 40,
-        "fire_ball": 30,
+        "axe": 30,
+        "fire_ball": 40,
         "sword": 50,
-        "sword_slash": 30,
-        "acid": 30
+        "sword_slash": 40,
+        "acid": 50
         },
     "itens": {
         "wave": {
             1: 30
             },
         "energy_ball": {
-            1: 30,
-            2: 50,
-            3: 100,
-            4: 150,
-            5: 200
+            1: 10,
+            2: 30,
+            3: 50,
+            4: 70,
+            5: 100
             },
         "demon_sword": {
-            1: 30,
-            2: 50,
+            1: 50,
+            2: 75,
             3: 100,
             4: 150,
             5: 200
             },
         "shotgun": {
-            1: 50,
-            2: 75,
-            3: 100,
+            1: 75,
+            2: 100,
+            3: 150,
             4: 200,
             5: 250
             }
@@ -129,7 +129,7 @@ itens_speed = {
 
 # Define a velocidade de animação dos itens
 item_animation_speed = {
-    "wave": 0.1,
+    "wave": 0.2,
     "energy_ball": 0.1,
     "demon_sword": 0.5,
     "shotgun": 0.6
@@ -191,11 +191,11 @@ enemy_damage_animation_speed = {
 
 # Variavel que define o xp dos inimigos
 enemy_xp = {
-    "skeleton": 100,
+    "skeleton": 50,
     "skeleton_boss": 1000,
-    "skeleton_hunter": 150,
-    "cultist": 250,
-    "goblin": 300,
+    "skeleton_hunter": 75,
+    "cultist": 125,
+    "goblin": 150,
     "envoy_of_the_divine_beast": 1000,
     "cockroach": 50
     }
@@ -270,7 +270,7 @@ enemy_attack_animation_speed = {
 enemy_attack_delay = {
     "skeleton": 5000,
     "skeleton_boss": 2000,
-    "skeleton_hunter": 15000,
+    "skeleton_hunter": 5000,
     "cultist": 5000,
     "goblin": 5000,
     "envoy_of_the_divine_beast": 2000,
