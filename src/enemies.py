@@ -86,7 +86,6 @@ class Enemy(pygame.sprite.Sprite):
         # self.death_index = 0
 
         # Invocar IA
-
         self.ai = Enemy_AI(self)
      
         
