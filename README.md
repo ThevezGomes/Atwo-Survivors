@@ -12,7 +12,7 @@ Este é um jogo RPG em 2D desenvolvido em Python utilizando a biblioteca Pygame.
 
 ### 2. **`assets/`**
 Contém todos os recursos visuais e de áudio usados no jogo.
-- **`drop_itens_sprites/`**: Imagens de sprites para vários itens colecionáveis do jogo (ex.: poções, árvores, etc.).
+- **`drop_itens_sprites/`**: Imagens de sprites para vários itens do jogo (ex.: poções, árvores, etc.).
 - **`enemy_sprites/`**: Folhas de sprites para vários inimigos, incluindo animações de diferentes movimentos e ataques.
 - **`fonts/`**: Arquivos de fonte usados para renderização de texto no jogo.
 - **`img/`**: Recursos gerais de IU, como botões, planos de fundo e ícones.
@@ -23,36 +23,34 @@ Contém todos os recursos visuais e de áudio usados no jogo.
 
 ### 3. **`docs/`**
 Contém documentação e anotações relacionadas ao projeto.
-- **`none.txt`**: Espaço reservado ou arquivo vazio para fins de documentação.
+
+- **`relatorios/`**: Pasta contendo relatório.
+  - **`Rel_A2_LP_2024.pdf`**: Relatório detalhado sobre a etapa A2 do projeto de 2024.
+  - **`main.tex`**: Arquivo fonte em LaTeX para a criação do relatório principal.
 
 ### 4. **`src/`**
 O código fonte principal do jogo.
-- **`main.py`**: Ponto de entrada do jogo, iniciando o loop principal.
-- **`config.py`**: Configurações do jogo (ex.: tamanho da janela, parâmetros do jogo).
-- **`drop_item.py`**: Código relacionado à lógica de queda de itens.
+
+- **`main.py`**: Inicia o loop principal do jogo.
+- **`config.py`**: Configurações do jogo (ex.: parâmetros do jogo).
+- **`drop_item.py`**: Lógica relacionada à drop de itens.
 - **`enemies.py`**: Definições e propriedades das classes de inimigos.
-- **`enemy_ai.py`**: Lógica para a inteligência artificial dos inimigos.
-- **`game.py`**: Lógica principal do jogo e código de inicialização.
-- **`items_abilities.py`**: Lógica para gerenciamento de itens e habilidades do jogo.
+- **`enemy_ai.py`**: Inteligência artificial dos inimigos.
+- **`game.py`**: Lógica principal do jogo e inicialização.
+- **`items_abilities.py`**: Gerenciamento de itens e habilidades do jogo.
 - **`main_character.py`**: Código para o personagem do jogador (ex.: movimento, interações).
-- **`map.py`**: Lógica para gerenciamento de mapas e tiles.
-- **`props.py`**: Código para lidar com objetos interativos no ambiente do jogo.
-- **`repositorio_sons.py`**: Módulo para gerenciamento de recursos de áudio e reprodução de sons.
-- **`repositorio_sprites.py`**: Módulo para carregar e gerenciar recursos de sprite.
-- **`sprites.py`**: Lógica geral de manipulação e renderização de sprites.
-- **`ui.py`**: Componentes da interface do usuário e sua renderização.
+- **`map.py`**: Gerenciamento de mapas e tiles.
+- **`props.py`**: Manipulação de objetos interativos no ambiente do jogo.
+- **`repositorio_sons.py`**: Gerenciamento de recursos de áudio e reprodução de sons.
+- **`repositorio_sprites.py`**: Carregamento e gerenciamento de recursos de sprite.
+- **`sprites.py`**: Manipulação e renderização de sprites.
+- **`ui.py`**: Componentes da interface do usuário e renderização.
 
 ### 5. **`tests/`**
 Contém scripts de teste para garantir a funcionalidade do código.
 - **`gameTest.py`**: Testes unitários para a lógica principal do jogo.
 - **`test_player.py`**: Testes para as funcionalidades do personagem do jogador.
 - **`UITest.py`**: Testes relacionados aos elementos da interface do usuário.
-
-## Instruções de Instalação
-Para instalar as dependências do projeto, utilize o seguinte comando:
-```bash
-pip install pygame
-```
 
 ## Instruções de Instalação
 1. Clone o repositório:
