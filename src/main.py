@@ -18,4 +18,4 @@ while g.running:
 
 # Finaliza o Pygame e sai do programa
 pygame.quit()
-sys.exit()
+sys.exit()  
