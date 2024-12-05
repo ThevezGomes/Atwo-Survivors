@@ -3,21 +3,55 @@ import sys
 from pytmx.util_pygame import load_pygame
 from pytmx import pytmx  # Certifique-se de que a importação de pytmx está correta
 
-# Classe para representar cada tile no mapa
 class Tile(pg.sprite.Sprite):
+    """
+    Classe que representa cada tile no mapa.
+
+    Atributos:
+        image (pygame.Surface): Superfície gráfica do tile.
+        rect (pygame.Rect): Retângulo delimitador da superfície, usado para posicionamento e colisão.
+    """
+
     def __init__(self, pos, surf, groups):
+        """
+        Inicia um novo tile.
+
+        Argumentos:
+            pos (tuple): Posição do canto superior esquerdo do tile no mapa (x, y).
+            surf (pygame.Surface): Superfície gráfica a ser usada para o tile.
+            groups (list): Lista de grupos onde o tile será adicionado.
+        """
         super().__init__(groups)
         self.image = surf
         self.rect = self.image.get_rect(topleft=pos)
 
     def scale(self, width, height):
-        """Escala o tile para as dimensões fornecidas"""
+        """
+        Redimensiona o tile para uma nova largura e altura.
+
+        Args:
+            width (int): Nova largura do tile.
+            height (int): Nova altura do tile.
+        """
         self.image = pg.transform.scale(self.image, (width, height))
         self.rect = self.image.get_rect(topleft=self.rect.topleft)
 
-    # Função para aplicar transformações nos tiles
     def transform_tile_image(tile_image, gid):
-   
+        """
+        Aplica transformações na imagem do tile com base no GID (Global ID).
+
+        As transformações incluem:
+        - Virar horizontalmente.
+        - Virar verticalmente.
+        - Rotação diagonal (90 graus).
+
+        Argumentos:
+            tile_image (pygame.Surface): Superfície gráfica do tile.
+            gid (int): Global ID do tile, contendo informações de transformação.
+
+        Retorna:
+            pygame.Surface: Imagem transformada.
+        """
         # Extraindo as flags de transformação dos bits do GID
         flipped_horizontally = bool(gid & 0x80000000)  # Verifica o bit mais à esquerda (flip horizontal)
         flipped_vertically = bool(gid & 0x40000000)    # Verifica o bit para flip vertical
@@ -36,13 +70,26 @@ class Tile(pg.sprite.Sprite):
         return tile_image
 
     def transform_object_image(obj, gid, offset_x, offset_y):
+        """
+        Aplica transformações na imagem associada a um objeto do mapa.
+
+        As transformações incluem ajustes de posição e rotação com base nas flags do GID.
+
+        Argumentoss:
+            obj (pytmx.TiledObject): Objeto do mapa contendo a imagem e informações de posicionamento.
+            gid (int): Global ID do objeto, contendo informações de transformação.
+            offset_x (int): Deslocamento horizontal para centralizar o objeto no mapa.
+            offset_y (int): Deslocamento vertical para centralizar o objeto no mapa.
+
+        Retorna:
+            Tile: atribuição do Tile representando o objeto transformado.
+        """
         # Aplica transformações na imagem associada ao objeto
-        obj_image = transform_object_image(obj.image, gid)
+        obj_image = Tile.transform_tile_image(obj.image, gid)
 
         # Calcula a posição do objeto com o offset
         pos = (obj.x - offset_x, obj.y - offset_y)
 
         # Cria o sprite de objeto
         tiled_obj_sprite = Tile(pos, obj_image, [self.all_sprites])
-
-        
+        return tiled_obj_sprite
